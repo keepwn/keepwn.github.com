@@ -1,0 +1,670 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+    <meta name="description" content="呵呵" />
+
+
+
+  <meta name="keywords" content="configure," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: 'UA-52738842-1'
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+
+
+  <title> ubuntu安装mono环境(二) // KeePwn's Notes </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">KeePwn's Notes</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            <i class="menu-item-icon icon-about"></i> <br />
+            关于
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              ubuntu安装mono环境(二)
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2014-03-28
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/defalut/">defalut</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/defalut/ubuntu-installed-mono-environment-2/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="defalut/ubuntu-installed-mono-environment-2/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。<br>这篇主要是配置安装libgdiplus。</p>
+<h2 id="0×00准备工作">0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FormsTest</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 应用程序的主入口点。</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span></span></span><br><span class="line">[STAThread]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">Application.EnableVisualStyles();</span><br><span class="line">Application.SetCompatibleTextRenderingDefault(<span class="keyword">false</span>);</span><br><span class="line">Application.Run(<span class="keyword">new</span> Form());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>尝试在ubuntu上用mono运行：</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">nike@<span class="type">NIKE</span>-<span class="type">PC</span>:~$ cd <span class="type">Desktop</span>/</span><br><span class="line">nike@<span class="type">NIKE</span>-<span class="type">PC</span>:~/<span class="type">Desktop</span>$ ls</span><br><span class="line"><span class="type">FormsTest</span>.exe</span><br><span class="line">nike@<span class="type">NIKE</span>-<span class="type">PC</span>:~/<span class="type">Desktop</span>$ mono <span class="type">FormsTest</span>.exe</span><br><span class="line"><span class="type">Unhandled</span> <span class="type">Exception</span>:</span><br><span class="line"><span class="type">System</span>.<span class="type">TypeInitializationException</span>: <span class="type">An</span> <span class="keyword">exception</span> was thrown by the <span class="keyword">type</span> <span class="keyword">initializer</span> <span class="keyword">for</span> <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUI</span> ---&gt; <span class="type">System</span>.<span class="type">TypeInitializationException</span>: <span class="type">An</span> <span class="keyword">exception</span> was thrown by the <span class="keyword">type</span> <span class="keyword">initializer</span> <span class="keyword">for</span> <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span> ---&gt; <span class="type">System</span>.<span class="type">DllNotFoundException</span>: /opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/lib/libgdiplus.so</span><br><span class="line">at (wrapper managed-<span class="keyword">to</span>-native) <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span>:<span class="type">GdiplusStartup</span> (ulong&amp;,<span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GdiplusStartupInput</span>&amp;,<span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GdiplusStartupOutput</span>&amp;)</span><br><span class="line">at <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span>..cctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">--- <span class="type">End</span> <span class="keyword">of</span> inner <span class="keyword">exception</span> stack trace ---</span><br><span class="line">at <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">Graphics</span>.<span class="type">FromHdcInternal</span> (<span class="type">IntPtr</span> hdc) [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>.<span class="type">SetDisplay</span> (<span class="type">IntPtr</span> display_handle) [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>..ctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>.<span class="type">GetInstance</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUI</span>..cctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">--- <span class="type">End</span> <span class="keyword">of</span> inner <span class="keyword">exception</span> stack trace ---</span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">Application</span>.<span class="type">EnableVisualStyles</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">FormsTest</span>.<span class="type">Program</span>.<span class="type">Main</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">[<span class="type">ERROR</span>] <span class="type">FATAL</span> <span class="type">UNHANDLED</span> <span class="type">EXCEPTION</span>: <span class="type">System</span>.<span class="type">TypeInitializationException</span>: <span class="type">An</span> <span class="keyword">exception</span> was thrown by the <span class="keyword">type</span> <span class="keyword">initializer</span> <span class="keyword">for</span> <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUI</span> ---&gt; <span class="type">System</span>.<span class="type">TypeInitializationException</span>: <span class="type">An</span> <span class="keyword">exception</span> was thrown by the <span class="keyword">type</span> <span class="keyword">initializer</span> <span class="keyword">for</span> <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span> ---&gt; <span class="type">System</span>.<span class="type">DllNotFoundException</span>: /opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/lib/libgdiplus.so</span><br><span class="line">at (wrapper managed-<span class="keyword">to</span>-native) <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span>:<span class="type">GdiplusStartup</span> (ulong&amp;,<span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GdiplusStartupInput</span>&amp;,<span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GdiplusStartupOutput</span>&amp;)</span><br><span class="line">at <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">GDIPlus</span>..cctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">--- <span class="type">End</span> <span class="keyword">of</span> inner <span class="keyword">exception</span> stack trace ---</span><br><span class="line">at <span class="type">System</span>.<span class="type">Drawing</span>.<span class="type">Graphics</span>.<span class="type">FromHdcInternal</span> (<span class="type">IntPtr</span> hdc) [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>.<span class="type">SetDisplay</span> (<span class="type">IntPtr</span> display_handle) [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>..ctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUIX11</span>.<span class="type">GetInstance</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">XplatUI</span>..cctor <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">--- <span class="type">End</span> <span class="keyword">of</span> inner <span class="keyword">exception</span> stack trace ---</span><br><span class="line">at <span class="type">System</span>.<span class="type">Windows</span>.<span class="type">Forms</span>.<span class="type">Application</span>.<span class="type">EnableVisualStyles</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br><span class="line">at <span class="type">FormsTest</span>.<span class="type">Program</span>.<span class="type">Main</span> <span class="literal">()</span> [<span class="number">0x00000</span>] <span class="keyword">in</span> &lt;filename unknown&gt;:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>遇到错误了System.DllNotFoundException: /opt/mono-3.2.8/lib/libgdiplus.so，原因是如果要在ubuntu运行winform，那么必须要安装libgdiplus。</p>
+<h2 id="0×01下载libgdiplus并编译">0×01下载libgdiplus并编译</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$ cd src</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src$ wget http:/</span><span class="regexp">/download.mono-project.com/</span>sources<span class="regexp">/libgdiplus/</span>libgdiplus-<span class="number">2.10</span>.9.tar.bz2</span><br><span class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">22</span>:<span class="number">46</span>:<span class="number">40</span>-- <span class="string">http:</span><span class="comment">//download.mono-project.com/sources/libgdiplus/libgdiplus-2.10.9.tar.bz2</span></span><br><span class="line">Resolving download.mono-project.com (download.mono-project.com)... <span class="number">54.230</span>.157.116, <span class="number">54.230</span>.157.204, <span class="number">54.230</span>.158.216, ...</span><br><span class="line">Connecting to download.mono-project.com (download.mono-project.com)|<span class="number">54.230</span>.157.116|:<span class="number">80.</span>.. connected.</span><br><span class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</span><br><span class="line"><span class="string">Length:</span> <span class="number">2074317</span> (<span class="number">2.0</span>M) [application/x-bzip2]</span><br><span class="line">Saving <span class="string">to:</span> ‘libgdiplus-<span class="number">2.10</span>.9.tar.bz2’</span><br><span class="line"> </span><br><span class="line"><span class="number">100</span>%[======================================&gt;] <span class="number">2</span>,<span class="number">074</span>,<span class="number">317</span> <span class="number">224</span>KB/s <span class="keyword">in</span> <span class="number">9.5</span>s</span><br><span class="line"> </span><br><span class="line"><span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">22</span>:<span class="number">46</span>:<span class="number">54</span> (<span class="number">213</span> KB<span class="regexp">/s) - ‘libgdiplus-2.10.9.tar.bz2’ saved [2074317/</span><span class="number">2074317</span>]</span><br><span class="line"> </span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~/src$ ls</span><br><span class="line">libgdiplus-<span class="number">2.10</span>.9.tar.bz2 mono-<span class="number">3.2</span>.8 mono-<span class="number">3.2</span>.8.tar.bz2</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~/src$ tar -xvjf libgdiplus-<span class="number">2.10</span>.9.tar.bz2</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src$ cd libgdiplus-2.10.9/</span></span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src/</span>libgdiplus-<span class="number">2.10</span>.9$ .<span class="regexp">/configure --prefix=/</span>opt/mono-<span class="number">3.2</span>.8</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line">checking pkg-config is at least version <span class="number">0.9</span>.0... yes</span><br><span class="line">checking <span class="keyword">for</span> BASE_DEPENDENCIES... no</span><br><span class="line"><span class="string">configure:</span> <span class="string">error:</span> Package requirements (glib-<span class="number">2.0</span> &amp;gt;= <span class="number">2.2</span>.3) were not <span class="string">met:</span></span><br><span class="line">No <span class="keyword">package</span> <span class="string">'glib-2.0'</span> found</span><br><span class="line">Consider adjusting the PKG_CONFIG_PATH environment variable <span class="keyword">if</span> you</span><br><span class="line">installed software <span class="keyword">in</span> a non-standard prefix.</span><br><span class="line"> </span><br><span class="line">Alternatively, you may set the environment variables BASE_DEPENDENCIES_CFLAGS</span><br><span class="line">and BASE_DEPENDENCIES_LIBS to avoid the need to call pkg-config.</span><br><span class="line">See the pkg-config man page <span class="keyword">for</span> more details.</span><br></pre></td></tr></table></figure>
+<p>遇到错误了，需要安装libglib2.0-dev：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get <span class="operator"><span class="keyword">install</span> libglib2.0-dev</span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following extra packages will be installed:</span><br><span class="line">libglib2.0-<span class="number">0</span> libglib2.0-<span class="keyword">bin</span> libpcre3-dev libpcrecpp0 zlib1g-dev</span><br><span class="line">Suggested packages:</span><br><span class="line">libglib2.0-doc</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">libglib2.0-dev libpcre3-dev libpcrecpp0 zlib1g-dev</span><br><span class="line">The following packages will be upgraded:</span><br><span class="line">libglib2.0-<span class="number">0</span> libglib2.0-<span class="keyword">bin</span></span><br><span class="line"><span class="number">2</span> upgraded, <span class="number">4</span> newly installed, <span class="number">0</span> <span class="keyword">to</span> remove <span class="keyword">and</span> <span class="number">273</span> <span class="keyword">not</span> upgraded.</span><br><span class="line">Need <span class="keyword">to</span> <span class="keyword">get</span> <span class="number">2</span>,<span class="number">728</span> kB <span class="keyword">of</span> archives.</span><br><span class="line"><span class="keyword">After</span> this operation, <span class="number">9</span>,<span class="number">208</span> kB <span class="keyword">of</span> additional disk <span class="keyword">space</span> will be used.</span><br><span class="line"><span class="keyword">Do</span> you want <span class="keyword">to</span> <span class="keyword">continue</span> [Y/n]?</span><br><span class="line">==============&gt;省略了很多&lt;==============</span></span><br></pre></td></tr></table></figure>
+<p>重新初始化libgdiplus安装配置文件：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line">checking <span class="keyword">for</span> libpng14... checking <span class="keyword">for</span> libpng12... no</span><br><span class="line">checking <span class="keyword">for</span> png_read_info <span class="keyword">in</span> -lpng... no</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> *** libpng12 <span class="keyword">not</span> found. <span class="constant">See</span> <span class="symbol">http:</span>/<span class="regexp">/www.libpng.org/pub</span><span class="regexp">/png/libpng</span>.html.</span><br></pre></td></tr></table></figure>
+<p>又遇到错误了，需要安装libpng-dev：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo apt-get install libpng-dev</span><br></pre></td></tr></table></figure>
+<p>重新初始化libgdiplus安装配置文件：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line">./<span class="symbol">configure:</span> line <span class="number">13371</span><span class="symbol">:</span> <span class="symbol">test:</span> too many arguments</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> <span class="string">"Failed to compile with X11/Xlib.h include. You must fix your compiler paths"</span></span><br></pre></td></tr></table></figure>
+<p>提示错误，需要安装libx11-dev：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo apt-get install libx11-dev</span><br></pre></td></tr></table></figure>
+<p>重新初始化libgdiplus安装配置文件：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> <span class="constant">Cairo</span> requires at least one font backend.</span><br><span class="line"><span class="constant">Please</span> install freetype <span class="keyword">and</span> fontconfig, <span class="keyword">then</span> try <span class="symbol">again:</span></span><br><span class="line"><span class="symbol">http:</span>/<span class="regexp">/freetype.org/</span> <span class="symbol">http:</span>/<span class="regexp">/fontconfig.org/</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> ./configure failed <span class="keyword">for</span> cairo</span><br></pre></td></tr></table></figure>
+<p>需要安装freetype和fontconfig：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo apt-get install libfreetype6-dev</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo apt-get install fontconfig</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo apt-get install libfontconfig1-dev</span><br></pre></td></tr></table></figure>
+<p>重新初始化libgdiplus安装配置文件：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src/</span>libgdiplus-<span class="number">2.10</span>.9$ .<span class="regexp">/configure --prefix=/</span>opt/mono-<span class="number">3.2</span>.8</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line">Configuration summary</span><br><span class="line"></span><br><span class="line">* Installation prefix = <span class="regexp">/opt/</span>mono-<span class="number">3.2</span>.8</span><br><span class="line">* Cairo = <span class="number">1.6</span>.4 (internal)</span><br><span class="line">* Text = cairo</span><br><span class="line">* EXIF tags = No. Get it from <span class="string">http:</span><span class="comment">//libexif.sourceforge.net/</span></span><br><span class="line">* Codecs <span class="string">supported:</span></span><br><span class="line"></span><br><span class="line">- <span class="string">TIFF:</span> no (Get it from <span class="string">http:</span><span class="comment">//www.libtiff.org/)</span></span><br><span class="line">- <span class="string">JPEG:</span> no (Get it from <span class="string">http:</span><span class="comment">//freshmeat.net/projects/libjpeg)</span></span><br><span class="line">- <span class="string">GIF:</span> no (See <span class="string">http:</span><span class="comment">//sourceforge.net/projects/libgif)</span></span><br><span class="line">- <span class="string">PNG:</span> yes</span><br><span class="line"><span class="label"></span><br><span class="line">NOTE:</span> <span class="keyword">if</span> any of the above say <span class="string">'no'</span> you may install the</span><br><span class="line">corresponding development packages <span class="keyword">for</span> them, rerun</span><br><span class="line">autogen.sh to include them <span class="keyword">in</span> the build.</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span></span><br></pre></td></tr></table></figure>
+<p>./configure通过。</p>
+<h2 id="0×02编译安装源代码">0×02编译安装源代码</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>make</span><br><span class="line">make all-recursive</span><br><span class="line">make[<span class="number">1</span>]<span class="symbol">:</span> <span class="constant">Entering</span> directory <span class="string">`/home/nike/src/libgdiplus-2.10.9'</span><br><span class="line">Making all in pixman</span><br><span class="line">make[2]: Entering directory `</span>/home/nike/src/libgdiplus-<span class="number">2.10</span>.<span class="number">9</span>/pixman<span class="string">'</span><br><span class="line">make all-recursive</span><br><span class="line">make[3]: Entering directory `/home/nike/src/libgdiplus-2.10.9/pixman'</span></span><br><span class="line"><span class="constant">Making</span> all <span class="keyword">in</span> pixman</span><br><span class="line">make[<span class="number">4</span>]<span class="symbol">:</span> <span class="constant">Entering</span> directory <span class="string">`/home/nike/src/libgdiplus-2.10.9/pixman/pixman'</span><br><span class="line">/bin/bash ../libtool --tag=CC --mode=compile gcc -DHAVE_CONFIG_H -I. -I.. -g -O2 -Wall -fvisibility=hidden -MT pixman-access.lo -MD -MP -MF .deps/pixman-access.Tpo -c -o pixman-access.lo pixman-access.c</span><br><span class="line">../libtool: line 852: X--tag=CC: command not found</span></span><br></pre></td></tr></table></figure>
+<p>遇到错误了，通过google搜索，可能是因为在项目目录下生成的libtool脚本中定义了<code>$ECHO</code>变量，但是在脚本文件ltmain.sh中，使用的却是<code>$echo</code>（生成的libtool版本太旧）<br>解决方法很简单<code>export echo=echo</code>即可：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>export echo=echo</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>make</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line">make[<span class="number">2</span>]<span class="symbol">:</span> <span class="constant">Entering</span> directory <span class="string">`/home/nike/src/libgdiplus-2.10.9/tests'</span><br><span class="line">/bin/bash ../libtool --tag=CC --mode=link gcc -g -O2 -pthread -o testgdi testgdi.o ../src/libgdiplus.la -lpthread -lfontconfig</span><br><span class="line">libtool: link: gcc -g -O2 -pthread -o .libs/testgdi testgdi.o ../src/.libs/libgdiplus.so -lpthread -lfontconfig -pthread -Wl,-rpath -Wl,/opt/mono-3.2.8/lib</span><br><span class="line">/usr/bin/ld: testgdi.o: undefined reference to symbol 'g_print'</span><br><span class="line">/lib/i386-linux-gnu/libglib-2.0.so.0: error adding symbols: DSO missing from command line</span><br><span class="line">collect2: error: ld returned 1 exit status</span><br><span class="line">make[2]: *** [testgdi] Error 1</span><br><span class="line">make[2]: Leaving directory `</span>/home/nike/src/libgdiplus-<span class="number">2.10</span>.<span class="number">9</span>/tests<span class="string">'</span><br><span class="line">make[1]: *** [all-recursive] Error 1</span><br><span class="line">make[1]: Leaving directory `/home/nike/src/libgdiplus-2.10.9'</span></span><br><span class="line"><span class="symbol">make:</span> *** [all] <span class="constant">Error</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>编译时又出错了，解决办法为：<br>1.运行<code>./configure</code>后，编辑<code>tests/Makefile</code>文件<br>2.在Makefile文件130行位置，将<code>LIBS = -lpthread -lfontconfig</code>改为<code>LIBS = -lpthread -lfontconfig -lglib-2.0 -lX11</code><br>3.再次运行<code>make</code>即可</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>vim tests/<span class="constant">Makefile</span></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>make</span><br><span class="line">==============&gt;编译很快&lt;==============</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/libgdiplus-</span><span class="number">2.10</span>.<span class="number">9</span><span class="variable">$ </span>sudo make install</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br></pre></td></tr></table></figure>
+<p>安装完成。</p>
+<h2 id="0×03设置PATH环境变量">0×03设置PATH环境变量</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>cd ~</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>vim .bashrc</span><br></pre></td></tr></table></figure>
+<p>在该文件末尾追加以下语句：<br><code>export LD_LIBRARY_PATH=/opt/mono-3.2.8/lib</code><br>然后：</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>. .bashrc</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>echo <span class="variable">$LD_LIBRARY_PATH</span></span><br><span class="line">/opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/lib</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span>$</span><br></pre></td></tr></table></figure>
+<h2 id="0×04验证libgdiplus是否安装成功">0×04验证libgdiplus是否安装成功</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>cd <span class="constant">Desktop</span>/</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/Desktop</span><span class="variable">$ </span>mono <span class="constant">FormsTest</span>.exe</span><br></pre></td></tr></table></figure>
+<p><img src="/img/mono-in-ubuntu-formtest.png" alt="mono in ubuntu"></p>
+<p>运行成功。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/configure/"> #configure </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/defalut/ubuntu-installed-mono-environment-1/">ubuntu安装mono环境(一)</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+      
+    </div>
+
+    
+      <div class="comments" id="comments">
+        
+          <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460" alt="keepwn" />
+          <p class="site-author-name">keepwn</p>
+        </div>
+        <p class="site-description motion-element">呵呵</p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/keepwn" target="_blank">GitHub</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+        
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#0×00准备工作"><span class="nav-number">1.</span> <span class="nav-text">0×00准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0×01下载libgdiplus并编译"><span class="nav-number">2.</span> <span class="nav-text">0×01下载libgdiplus并编译</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0×02编译安装源代码"><span class="nav-number">3.</span> <span class="nav-text">0×02编译安装源代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0×03设置PATH环境变量"><span class="nav-number">4.</span> <span class="nav-text">0×03设置PATH环境变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0×04验证libgdiplus是否安装成功"><span class="nav-number">5.</span> <span class="nav-text">0×04验证libgdiplus是否安装成功</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2014 - 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">keepwn</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+  
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'kee';
+      var disqus_identifier = 'defalut/ubuntu-installed-mono-environment-2/';
+      var disqus_title = 'ubuntu安装mono环境(二)';
+      var disqus_url = 'http://www.keepwn.com/defalut/ubuntu-installed-mono-environment-2/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+  <script type="text/javascript" src="/js/analytics_google-analytics.js?v=0.4.3"></script>
+
+
+  
+  <!-- lazyload -->
+  <script type="text/javascript" src="/js/lazyload.js"></script>
+      <script type="text/javascript">
+        jQuery(function() {          
+            jQuery("#posts img").lazyload({
+              placeholder:"http://www.arao.me/loading.gif",  
+                effect:"fadeIn"
+              });
+            });
+    </script>   
+</body>
+</html>
