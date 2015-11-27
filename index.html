@@ -249,6 +249,95 @@
           
           
             
+              <a class="post-title-link" href="/howto/howto-connect-iscsi-on-ubuntu/">
+                Ubuntu14.04下连接ISCSI存储
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-11-10
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/howto/">howto</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/howto/howto-connect-iscsi-on-ubuntu/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/howto-connect-iscsi-on-ubuntu/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="总体步骤">总体步骤</h2><ul>
+<li>安装iscsi</li>
+<li>查找iscsi存储</li>
+<li>设置开机自动映射</li>
+<li>对映射的磁盘进行分区</li>
+<li>分区之后进行格式化</li>
+<li>设置开机自动加载分区</li>
+</ul>
+<h2 id="配置过程">配置过程</h2><h3 id="安装程序open-iscsi">安装程序<code>open-iscsi</code></h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>apt-get install open-iscsi</span><br><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>service open-iscsi status</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/howto/howto-connect-iscsi-on-ubuntu/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
               <a class="post-title-link" href="/technology/run-app-based-on-mef-from-web/">
                 Altman不能成功的加载插件
               </a>
@@ -334,7 +423,7 @@
           
           
             
-              <a class="post-title-link" href="/defalut/osx-installed-mono-environment/">
+              <a class="post-title-link" href="/howto/osx-installed-mono-environment/">
                 Mac安装mono环境
               </a>
             
@@ -351,7 +440,7 @@
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/defalut/">defalut</a>
+              <a href="/categories/howto/">howto</a>
 
               
               
@@ -364,8 +453,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/defalut/osx-installed-mono-environment/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="defalut/osx-installed-mono-environment/"></span>
+            <a href="/howto/osx-installed-mono-environment/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/osx-installed-mono-environment/"></span>
             </a>
           </span>
           
@@ -382,13 +471,15 @@
         
           <h2 id="0x00准备工作">0x00准备工作</h2><p>一个全新安装的MacOs X10.9系统</p>
 <h2 id="0×01下载Mono和MonoDevelop并安装">0×01下载Mono和MonoDevelop并安装</h2><ol>
-<li><a href="http://download.mono-project.com/archive/3.4.0/macos-10-x86/MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg" title="下载" target="_blank" rel="external">MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg</a></li>
-<li><a href="http://download.xamarin.com/studio/Mac/XamarinStudio-5.0.1.3-0.dmg" target="_blank" rel="external">XamarinStudio-5.0.1.3-0.dmg</a></li>
+<li><a href="http://download.mono-project.com/archive/3.4.0/macos-10-x86/MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg" title="下载">MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg</a></li>
+<li><a href="http://download.xamarin.com/studio/Mac/XamarinStudio-5.0.1.3-0.dmg">XamarinStudio-5.0.1.3-0.dmg</a></li>
 </ol>
 <p>然后默认安装即可。</p>
-<h2 id="0×02验证Mono是否安装正确">0×02验证Mono是否安装正确</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">TestAdeMac:~ testa$ mono -V</span><br><span class="line">Mono JIT compiler version <span class="number">3.4</span>.<span class="number">0</span> ((no/d4511ef Tue Mar <span class="number">25</span> <span class="number">14</span>:<span class="number">35</span>:<span class="number">52</span> EDT <span class="number">2014</span>)</span><br><span class="line">Copyright (C) <span class="number">2002</span>-<span class="number">2014</span> Novell, Inc, Xamarin Inc and Contributors. www<span class="class">.mono-project</span><span class="class">.com</span></span><br><span class="line">trueTLS:           <span class="attribute">normal</span></span><br><span class="line">trueSIGSEGV:       altstack</span><br><span class="line">trueNotification:  kqueue</span><br><span class="line">trueArchitecture:  x86</span><br><span class="line">trueDisabled:      <span class="attribute">none</span></span><br><span class="line">trueMisc:          softdebug </span><br><span class="line">trueLLVM:          <span class="function"><span class="title">yes</span><span class="params">(<span class="number">3.4s</span>vn-mono-(no/e656cac)</span></span></span><br><span class="line">trueGC:            sgen</span><br></pre></td></tr></table></figure>
-<p>安装成功。</p>
-
+          <div class="post-more-link text-center">
+            <a class="btn" href="/howto/osx-installed-mono-environment/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -586,7 +677,7 @@
           
           
             
-              <a class="post-title-link" href="/defalut/ubuntu-installed-mono-environment-2/">
+              <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-2/">
                 ubuntu安装mono环境(二)
               </a>
             
@@ -603,7 +694,7 @@
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/defalut/">defalut</a>
+              <a href="/categories/howto/">howto</a>
 
               
               
@@ -616,8 +707,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/defalut/ubuntu-installed-mono-environment-2/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="defalut/ubuntu-installed-mono-environment-2/"></span>
+            <a href="/howto/ubuntu-installed-mono-environment-2/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-2/"></span>
             </a>
           </span>
           
@@ -635,7 +726,7 @@
           <p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。<br>这篇主要是配置安装libgdiplus。</p>
 <h2 id="0×00准备工作">0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FormsTest</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 应用程序的主入口点。</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span></span></span><br><span class="line">[STAThread]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">Application.EnableVisualStyles();</span><br><span class="line">Application.SetCompatibleTextRenderingDefault(<span class="keyword">false</span>);</span><br><span class="line">Application.Run(<span class="keyword">new</span> Form());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/defalut/ubuntu-installed-mono-environment-2/#more">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more">
               阅读全文 &raquo;
             </a>
           </div>
@@ -668,7 +759,7 @@
           
           
             
-              <a class="post-title-link" href="/defalut/ubuntu-installed-mono-environment-1/">
+              <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-1/">
                 ubuntu安装mono环境(一)
               </a>
             
@@ -685,7 +776,7 @@
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/defalut/">defalut</a>
+              <a href="/categories/howto/">howto</a>
 
               
               
@@ -698,8 +789,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/defalut/ubuntu-installed-mono-environment-1/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="defalut/ubuntu-installed-mono-environment-1/"></span>
+            <a href="/howto/ubuntu-installed-mono-environment-1/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-1/"></span>
             </a>
           </span>
           
@@ -715,21 +806,12 @@
       
         
           <h2 id="0x00准备工作">0x00准备工作</h2><p>一个全新安装的ubuntu13.10系统</p>
-<h2 id="0×01下载Mono源代码并编译">0×01下载Mono源代码并编译</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>ls</span><br><span class="line"><span class="constant">Desktop</span> <span class="constant">Downloads</span> <span class="constant">Music</span> <span class="constant">Public</span> <span class="constant">Videos</span></span><br><span class="line"><span class="constant">Documents</span> examples.desktop <span class="constant">Pictures</span> <span class="constant">Templates</span></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>mkdir src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>cd src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>wget <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span><span class="symbol">:</span><span class="number">24</span><span class="symbol">:</span><span class="number">30</span>-- <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line"><span class="constant">Resolving</span> download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</span><br><span class="line"><span class="constant">Connecting</span> to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|<span class="symbol">:</span><span class="number">80</span>... connected.</span><br><span class="line"><span class="constant">HTTP</span> request sent, awaiting response... <span class="number">200</span> <span class="constant">OK</span></span><br><span class="line"><span class="constant">Length</span><span class="symbol">:</span> <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</span><br><span class="line"><span class="constant">Saving</span> <span class="symbol">to:</span> ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</span><br><span class="line"></span><br><span class="line">&lt;!-- more --&gt;</span><br><span class="line"></span><br><span class="line"><span class="number">100</span><span class="string">%[======================================&gt;]</span> <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s <span class="keyword">in</span> <span class="number">10</span>m <span class="number">50</span>s</span><br><span class="line"></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>ls</span><br><span class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">checking build system type... i686-pc-linux-gnu</span><br><span class="line">checking host system type... i686-pc-linux-gnu</span><br><span class="line">checking target system type... i686-pc-linux-gnu</span><br><span class="line">checking <span class="keyword">for</span> a <span class="constant">BSD</span>-compatible install... /usr/bin/install -c</span><br><span class="line">checking whether build environment is sane... yes</span><br><span class="line">checking <span class="keyword">for</span> a thread-safe mkdir -p... /bin/mkdir -p</span><br><span class="line">checking <span class="keyword">for</span> gawk... no</span><br><span class="line">checking <span class="keyword">for</span> mawk... mawk</span><br><span class="line">checking whether make sets <span class="variable">$(</span><span class="constant">MAKE</span>)... yes</span><br><span class="line">checking how to create a ustar tar archive... gnutar</span><br><span class="line">checking whether to enable maintainer-specific portions of <span class="constant">Makefiles</span>... no</span><br><span class="line">checking whether ln -s works... yes</span><br><span class="line">checking whether make supports nested variables... yes</span><br><span class="line">checking host platform characteristics... ok</span><br><span class="line">checking <span class="keyword">for</span> gcc... gcc</span><br><span class="line">checking <span class="keyword">for</span> gcc... (cached) gcc</span><br><span class="line">checking whether the <span class="constant">C</span> compiler works... yes</span><br><span class="line">checking <span class="keyword">for</span> <span class="constant">C</span> compiler default output file name... a.out</span><br><span class="line">checking <span class="keyword">for</span> suffix of executables...</span><br><span class="line">checking whether we are cross compiling... no</span><br><span class="line">checking <span class="keyword">for</span> suffix of object files... o</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span> compiler... yes</span><br><span class="line">checking whether gcc accepts -g... yes</span><br><span class="line">checking <span class="keyword">for</span> gcc option to accept <span class="constant">ISO</span> <span class="constant">C89</span>... none needed</span><br><span class="line">checking <span class="keyword">for</span> style of <span class="keyword">include</span> used by make... <span class="constant">GNU</span></span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> g++... no</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span>++ compiler... no</span><br><span class="line">checking whether g++ accepts -g... no</span><br><span class="line">checking dependency style of g++... none</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> gawk... (cached) mawk</span><br><span class="line">checking whether gcc <span class="keyword">and</span> cc understand -c <span class="keyword">and</span> -o together... yes</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> <span class="constant">You</span> need to install g++</span><br></pre></td></tr></table></figure>
-<p>因为没有安装g++而无法继续：</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="label">nike</span><span class="comment">@NIKE-PC:~/src/mono-3.2.8$ sudo apt-get install g++</span></span><br><span class="line">[sudo] password for nike:</span><br><span class="line"><span class="label">Reading</span> package lists... Done</span><br><span class="line"><span class="keyword">Building </span>dependency tree</span><br><span class="line"><span class="label">Reading</span> state information... Done</span><br><span class="line"><span class="label">The</span> following extra packages will <span class="keyword">be </span>installed:</span><br><span class="line"><span class="label">cpp</span>-<span class="number">4</span>.<span class="number">8</span> g++-<span class="number">4</span>.<span class="number">8</span> gcc-<span class="number">4</span>.<span class="number">8</span> gcc-<span class="number">4</span>.<span class="number">8</span>-<span class="keyword">base </span>libasan0 libatomic1 libgcc-<span class="number">4</span>.<span class="number">8</span>-dev</span><br><span class="line"><span class="label">libgcc1</span> libgomp1 libitm1 libquadmath0 libstdc++-<span class="number">4</span>.<span class="number">8</span>-dev libstdc++<span class="number">6</span></span><br><span class="line"><span class="label">Suggested</span> packages:</span><br><span class="line"><span class="label">gcc</span>-<span class="number">4</span>.<span class="number">8</span>-locales g++-<span class="keyword">multilib </span>g++-<span class="number">4</span>.<span class="number">8</span>-<span class="keyword">multilib </span>gcc-<span class="number">4</span>.<span class="number">8</span>-doc libstdc++<span class="number">6</span>-<span class="number">4</span>.<span class="number">8</span>-<span class="keyword">dbg</span><br><span class="line"></span><span class="label">gcc</span>-<span class="number">4</span>.<span class="number">8</span>-<span class="keyword">multilib </span>libmudflap0-<span class="number">4</span>.<span class="number">8</span>-dev libgcc1-<span class="keyword">dbg </span>libgomp1-<span class="keyword">dbg </span>libitm1-<span class="keyword">dbg</span><br><span class="line"></span><span class="label">libatomic1</span>-<span class="keyword">dbg </span>libasan0-<span class="keyword">dbg </span>libtsan0-<span class="keyword">dbg </span>libbacktrace1-<span class="keyword">dbg </span>libquadmath0-<span class="keyword">dbg</span><br><span class="line"></span><span class="label">libmudflap0</span>-<span class="keyword">dbg </span>libstdc++-<span class="number">4</span>.<span class="number">8</span>-doc</span><br><span class="line"><span class="label">The</span> following NEW packages will <span class="keyword">be </span>installed:</span><br><span class="line">g++ g++-<span class="number">4</span>.<span class="number">8</span> libstdc++-<span class="number">4</span>.<span class="number">8</span>-dev</span><br><span class="line"><span class="label">The</span> following packages will <span class="keyword">be </span>upgraded:</span><br><span class="line"><span class="label">cpp</span>-<span class="number">4</span>.<span class="number">8</span> gcc-<span class="number">4</span>.<span class="number">8</span> gcc-<span class="number">4</span>.<span class="number">8</span>-<span class="keyword">base </span>libasan0 libatomic1 libgcc-<span class="number">4</span>.<span class="number">8</span>-dev libgcc1</span><br><span class="line"><span class="label">libgomp1</span> libitm1 libquadmath0 libstdc++<span class="number">6</span></span><br><span class="line"><span class="number">11</span> upgraded, <span class="number">3</span> newly installed, <span class="number">0</span> to remove <span class="keyword">and </span><span class="number">275</span> not upgraded.</span><br><span class="line"><span class="label">Need</span> to <span class="preprocessor">get</span> <span class="number">25</span>.<span class="number">9</span> MB of archives.</span><br><span class="line"><span class="label">After</span> this operation, <span class="number">28</span>.<span class="number">2</span> MB of <span class="keyword">additional </span>disk <span class="preprocessor">space</span> will <span class="keyword">be </span>used.</span><br><span class="line"><span class="label">Do</span> you want to continue [Y/n]?</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br></pre></td></tr></table></figure>
-<p>重新初始化mono安装配置文件：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src/</span>mono-<span class="number">3.2</span>.8$ .<span class="regexp">/configure --prefix=/</span>opt/mono-<span class="number">3.2</span>.8</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br><span class="line"><span class="string">Engine:</span></span><br><span class="line"><span class="string">GC:</span> sgen and bundled Boehm GC with typed GC and parallel mark</span><br><span class="line"><span class="string">TLS:</span> __thread</span><br><span class="line"><span class="string">SIGALTSTACK:</span> yes</span><br><span class="line"><span class="string">Engine:</span> Building and using the JIT</span><br><span class="line"><span class="string">oprofile:</span> no</span><br><span class="line"><span class="string">BigArrays:</span> no</span><br><span class="line"><span class="string">DTrace:</span> no</span><br><span class="line">LLVM Back <span class="string">End:</span> no (dynamically <span class="string">loaded:</span> no)</span><br><span class="line"><span class="label"> </span><br><span class="line">Libraries:</span></span><br><span class="line">.NET <span class="number">2.0</span>/<span class="number">3.5</span>: yes</span><br><span class="line">.NET <span class="number">4.0</span>: yes</span><br><span class="line">.NET <span class="number">4.5</span>: yes</span><br><span class="line"><span class="string">MonoDroid:</span> no</span><br><span class="line"><span class="string">MonoTouch:</span> no</span><br><span class="line">JNI <span class="string">support:</span> IKVM Native</span><br><span class="line"><span class="string">libgdiplus:</span> assumed to be installed</span><br><span class="line"><span class="string">zlib:</span></span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span><span class="regexp">~/src/</span>mono-<span class="number">3.2</span>.8$</span><br></pre></td></tr></table></figure>
-<p>./configure通过。</p>
-<h2 id="0×02编译Mono源代码">0×02编译Mono源代码</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>make</span><br><span class="line">==============&gt;漫长的编译~&lt;==============</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>sudo make install</span><br><span class="line">==============&gt;省略了很多&lt;==============</span><br></pre></td></tr></table></figure>
-<p>安装成功。</p>
-<h2 id="0×03设置PATH环境变量">0×03设置PATH环境变量</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>cd ~</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>vim .bashrc</span><br></pre></td></tr></table></figure>
-<p>在该文件末尾追加以下语句：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="operator">-d</span> /opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/bin ]; <span class="keyword">then</span></span><br><span class="line"><span class="built_in">export</span> PATH=/opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
-<p>然后：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$ . .bashrc</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$ echo $PATH</span><br><span class="line"><span class="regexp">/opt/</span>mono-<span class="number">3.2</span>.8<span class="regexp">/bin:/</span>usr<span class="regexp">/lib/</span>lightdm<span class="regexp">/lightdm:/</span>usr<span class="regexp">/local/</span><span class="string">sbin:</span><span class="regexp">/usr/</span>local<span class="regexp">/bin:/</span>usr<span class="regexp">/sbin:/</span>usr<span class="regexp">/bin:/</span><span class="string">sbin:</span><span class="regexp">/bin:/</span>usr<span class="regexp">/games:/</span>usr<span class="regexp">/local/</span>games</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$</span><br></pre></td></tr></table></figure>
-<h2 id="0×04验证Mono是否安装正确">0×04验证Mono是否安装正确</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$ mono --version</span><br><span class="line">Mono JIT compiler version <span class="number">3.2</span>.8 (tarball <span class="number">2014</span>年 <span class="number">03</span>月 <span class="number">27</span>日 星期四 <span class="number">21</span>:<span class="number">55</span>:<span class="number">30</span> CST)</span><br><span class="line">Copyright (C) <span class="number">2002</span>-<span class="number">2014</span> Novell, Inc, Xamarin Inc and Contributors. www.mono-project.com</span><br><span class="line"><span class="string">TLS:</span> __thread</span><br><span class="line"><span class="string">SIGSEGV:</span> altstack</span><br><span class="line"><span class="string">Notifications:</span> epoll</span><br><span class="line"><span class="string">Architecture:</span> x86</span><br><span class="line"><span class="string">Disabled:</span> none</span><br><span class="line"><span class="string">Misc:</span> softdebug</span><br><span class="line"><span class="string">LLVM:</span> supported, not enabled.</span><br><span class="line"><span class="string">GC:</span> sgen</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$ dmcs --version</span><br><span class="line">Mono C# compiler version <span class="number">3.2</span>.8.0</span><br><span class="line">nike<span class="annotation">@NIKE</span>-<span class="string">PC:</span>~$</span><br></pre></td></tr></table></figure>
-<p>安装成功。</p>
-
+<h2 id="0×01下载Mono源代码并编译">0×01下载Mono源代码并编译</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>ls</span><br><span class="line"><span class="constant">Desktop</span> <span class="constant">Downloads</span> <span class="constant">Music</span> <span class="constant">Public</span> <span class="constant">Videos</span></span><br><span class="line"><span class="constant">Documents</span> examples.desktop <span class="constant">Pictures</span> <span class="constant">Templates</span></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>mkdir src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>cd src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>wget <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span><span class="symbol">:</span><span class="number">24</span><span class="symbol">:</span><span class="number">30</span>-- <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line"><span class="constant">Resolving</span> download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</span><br><span class="line"><span class="constant">Connecting</span> to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|<span class="symbol">:</span><span class="number">80</span>... connected.</span><br><span class="line"><span class="constant">HTTP</span> request sent, awaiting response... <span class="number">200</span> <span class="constant">OK</span></span><br><span class="line"><span class="constant">Length</span><span class="symbol">:</span> <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</span><br><span class="line"><span class="constant">Saving</span> <span class="symbol">to:</span> ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</span><br><span class="line"></span><br><span class="line"><span class="number">100</span><span class="string">%[======================================&gt;]</span> <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s <span class="keyword">in</span> <span class="number">10</span>m <span class="number">50</span>s</span><br><span class="line"></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>ls</span><br><span class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">checking build system type... i686-pc-linux-gnu</span><br><span class="line">checking host system type... i686-pc-linux-gnu</span><br><span class="line">checking target system type... i686-pc-linux-gnu</span><br><span class="line">checking <span class="keyword">for</span> a <span class="constant">BSD</span>-compatible install... /usr/bin/install -c</span><br><span class="line">checking whether build environment is sane... yes</span><br><span class="line">checking <span class="keyword">for</span> a thread-safe mkdir -p... /bin/mkdir -p</span><br><span class="line">checking <span class="keyword">for</span> gawk... no</span><br><span class="line">checking <span class="keyword">for</span> mawk... mawk</span><br><span class="line">checking whether make sets <span class="variable">$(</span><span class="constant">MAKE</span>)... yes</span><br><span class="line">checking how to create a ustar tar archive... gnutar</span><br><span class="line">checking whether to enable maintainer-specific portions of <span class="constant">Makefiles</span>... no</span><br><span class="line">checking whether ln -s works... yes</span><br><span class="line">checking whether make supports nested variables... yes</span><br><span class="line">checking host platform characteristics... ok</span><br><span class="line">checking <span class="keyword">for</span> gcc... gcc</span><br><span class="line">checking <span class="keyword">for</span> gcc... (cached) gcc</span><br><span class="line">checking whether the <span class="constant">C</span> compiler works... yes</span><br><span class="line">checking <span class="keyword">for</span> <span class="constant">C</span> compiler default output file name... a.out</span><br><span class="line">checking <span class="keyword">for</span> suffix of executables...</span><br><span class="line">checking whether we are cross compiling... no</span><br><span class="line">checking <span class="keyword">for</span> suffix of object files... o</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span> compiler... yes</span><br><span class="line">checking whether gcc accepts -g... yes</span><br><span class="line">checking <span class="keyword">for</span> gcc option to accept <span class="constant">ISO</span> <span class="constant">C89</span>... none needed</span><br><span class="line">checking <span class="keyword">for</span> style of <span class="keyword">include</span> used by make... <span class="constant">GNU</span></span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> g++... no</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span>++ compiler... no</span><br><span class="line">checking whether g++ accepts -g... no</span><br><span class="line">checking dependency style of g++... none</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> gawk... (cached) mawk</span><br><span class="line">checking whether gcc <span class="keyword">and</span> cc understand -c <span class="keyword">and</span> -o together... yes</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> <span class="constant">You</span> need to install g++</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -782,7 +864,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-count">8</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -796,7 +878,7 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>

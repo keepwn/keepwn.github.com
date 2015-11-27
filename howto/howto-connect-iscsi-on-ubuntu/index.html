@@ -24,7 +24,7 @@
 
 
 
-  <meta name="keywords" content="altman,mef," />
+  <meta name="keywords" content="configure,iscsi,ubuntu," />
 
 
 
@@ -47,7 +47,7 @@
 
 
 
-  <title> Altman不能成功的加载插件 // KeePwn's Notes </title>
+  <title> Ubuntu14.04下连接ISCSI存储 // KeePwn's Notes </title>
 </head>
 
 <body>
@@ -158,7 +158,7 @@
           
           
             
-              Altman不能成功的加载插件
+              Ubuntu14.04下连接ISCSI存储
             
           
         </h1>
@@ -166,14 +166,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2014-07-28
+          发表于 2015-11-10
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/technology/">technology</a>
+              <a href="/categories/howto/">howto</a>
 
               
               
@@ -186,8 +186,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/technology/run-app-based-on-mef-from-web/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/run-app-based-on-mef-from-web/"></span>
+            <a href="/howto/howto-connect-iscsi-on-ubuntu/#comments" >
+              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/howto-connect-iscsi-on-ubuntu/"></span>
             </a>
           </span>
           
@@ -201,20 +201,25 @@
       
 
       
-        <p>一直有小伙伴给我反馈说：在.Net环境安装好的情况下，Altman不能自动载入插件。</p>
-<p>而我在测试的时候，确实发生过相似的现象，但却找不到问题所在。</p>
-<p>今天早些时候，在stackoverflow看到之前有人提到过<a href="http://stackoverflow.com/questions/5412086/mef-based-app-works-great-on-local-machine-but-doesnt-import-addins-when-run-f" target="_blank" rel="external">类似的问题</a>，恍然大悟。</p>
-<p>原来，当我们从Web下载Altman程序的时候，程序集将会被添加一个新的安全属性（文件来自网络，已被锁定）。运行altman，由于loadFromRemoteSources默认属性是false，程序就无法加载这些插件dll。(在<a href="http://msdn.microsoft.com/en-us/library/dd409252(VS.100).aspx" target="_blank" rel="external">这里</a>有详细的说明)</p>
-<p>所以，解决这个问题目前有三种方法：</p>
-<a id="more"></a>
-<ul>
-<li>手动修改Plugins目录下插件的文件属性。</li>
-<li><p>在程序根目录下添加Altman.exe.config，内容如下:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">runtime</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">loadFromRemoteSources</span> <span class="attribute">enabled</span>=<span class="value">"true"</span>/&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">runtime</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>主程序将在下一个版本2.2.1中解决该问题。</p>
-</li>
+        <h2 id="总体步骤">总体步骤</h2><ul>
+<li>安装iscsi</li>
+<li>查找iscsi存储</li>
+<li>设置开机自动映射</li>
+<li>对映射的磁盘进行分区</li>
+<li>分区之后进行格式化</li>
+<li>设置开机自动加载分区</li>
 </ul>
+<h2 id="配置过程">配置过程</h2><h3 id="安装程序open-iscsi">安装程序<code>open-iscsi</code></h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>apt-get install open-iscsi</span><br><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>service open-iscsi status</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="查找iscsi存储">查找iscsi存储</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu:~$ iscsiadm -m discovery -t sendtargets -<span class="tag">p</span> <span class="number">192.168</span>.<span class="number">1.10</span></span><br><span class="line"><span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn.<span class="number">1997</span>-<span class="number">05</span><span class="class">.com</span><span class="class">.test</span>:iscsi1</span><br></pre></td></tr></table></figure>
+<h3 id="设置开机自动映射">设置开机自动映射</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu:~$ iscsiadm -m node -T iqn.<span class="number">1997</span>-<span class="number">05</span><span class="class">.com</span><span class="class">.test</span>:iscsi1 -<span class="tag">p</span> <span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span> --op update -n node<span class="class">.startup</span> -v automatic</span><br></pre></td></tr></table></figure>
+<h3 id="重新启动，检查是否成功映射">重新启动，检查是否成功映射</h3><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu:~$ reboot</span><br><span class="line">test@ubuntu:~$ cat /<span class="keyword">proc</span>/partitions</span><br></pre></td></tr></table></figure>
+<p>发现多出了一块设备<code>/dev/sdb</code></p>
+<h3 id="对映射的磁盘进行分区">对映射的磁盘进行分区</h3><p>如果小于2T分区，可以使用<code>fdisk</code>进行分区，使用<code>MBR</code>分区表，<br>如果大于2T分区，则不能使用<code>MBR</code>分区表，需要使用<code>GPT</code>分区表。<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">test@ubuntu:~$ parted /dev/sdb</span><br><span class="line"><span class="blockquote">&gt; print</span></span><br><span class="line"><span class="blockquote">&gt; mklabel gpt</span></span><br><span class="line"><span class="blockquote">&gt; mkpart primary 0% 100%</span></span><br><span class="line"><span class="blockquote">&gt; print</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T_largefile参数">分区之后进行格式化，格式化时硬盘分区太大，可以使用<code>-T largefile</code>参数</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>mkfs.ext4 -<span class="constant">T </span>largefile /dev/sdb1</span><br></pre></td></tr></table></figure>
+<h3 id="设置开机自动加载分区">设置开机自动加载分区</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>e2label /dev/sdb1 /iscsi</span><br><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>echo <span class="string">"LABEL=/iscsi /data ext4 _netdev 0 0"</span> <span class="prompt">&gt;&gt; </span>/etc/fstab</span><br></pre></td></tr></table></figure>
+<p><em>PS</em>: <code>_netdev</code>指的是，这个分区位于网络上，所以得等待网络启动完成后才会挂载该设备</p>
+<h3 id="Done。">Done。</h3><p>这样重启系统就可以自动挂载分区，使用跟本地磁盘一样。</p>
 
       
     </div>
@@ -223,9 +228,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/altman/"> #altman </a>
+            <a href="/tags/configure/"> #configure </a>
           
-            <a href="/tags/mef/"> #mef </a>
+            <a href="/tags/iscsi/"> #iscsi </a>
+          
+            <a href="/tags/ubuntu/"> #ubuntu </a>
           
         </div>
       
@@ -234,13 +241,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/howto/howto-connect-iscsi-on-ubuntu/">Ubuntu14.04下连接ISCSI存储</a>
+              <a href="/technology/using-open-iscsi-in-docker-container/">Docker环境下使用open-iscsi遇到的问题</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/howto/osx-installed-mono-environment/">Mac安装mono环境</a>
+              <a href="/technology/run-app-based-on-mef-from-web/">Altman不能成功的加载插件</a>
             
           </div>
         </div>
@@ -385,7 +392,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目录</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体步骤"><span class="nav-number">1.</span> <span class="nav-text">总体步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置过程"><span class="nav-number">2.</span> <span class="nav-text">配置过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装程序open-iscsi"><span class="nav-number">2.1.</span> <span class="nav-text">安装程序open-iscsi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找iscsi存储"><span class="nav-number">2.2.</span> <span class="nav-text">查找iscsi存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置开机自动映射"><span class="nav-number">2.3.</span> <span class="nav-text">设置开机自动映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新启动，检查是否成功映射"><span class="nav-number">2.4.</span> <span class="nav-text">重新启动，检查是否成功映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对映射的磁盘进行分区"><span class="nav-number">2.5.</span> <span class="nav-text">对映射的磁盘进行分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区之后进行格式化，格式化时硬盘分区太大，可以使用-T_largefile参数"><span class="nav-number">2.6.</span> <span class="nav-text">分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置开机自动加载分区"><span class="nav-number">2.7.</span> <span class="nav-text">设置开机自动加载分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Done。"><span class="nav-number">2.8.</span> <span class="nav-text">Done。</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
@@ -610,9 +617,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'kee';
-      var disqus_identifier = 'technology/run-app-based-on-mef-from-web/';
-      var disqus_title = 'Altman不能成功的加载插件';
-      var disqus_url = 'http://www.keepwn.com/technology/run-app-based-on-mef-from-web/';
+      var disqus_identifier = 'howto/howto-connect-iscsi-on-ubuntu/';
+      var disqus_title = 'Ubuntu14.04下连接ISCSI存储';
+      var disqus_url = 'http://www.keepwn.com/howto/howto-connect-iscsi-on-ubuntu/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
