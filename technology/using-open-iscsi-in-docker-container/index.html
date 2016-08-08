@@ -347,23 +347,23 @@
         <p>因为有业务需求，需要在docker的容器下连接iscsi磁盘。</p>
 <ul>
 <li><p>部署docker镜像，安装<code>open-iscsi</code>：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@testpc</span>$ docker pull <span class="attribute">ubuntu</span>:<span class="number">14.04</span></span><br><span class="line">test<span class="variable">@testpc</span>$ docker run <span class="attribute">ubuntu</span>:<span class="number">14.04</span> apt-get install -y open-iscsi</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@testpc</span>$ docker pull <span class="attribute">ubuntu</span>:<span class="number">14.04</span></div><div class="line">test<span class="variable">@testpc</span>$ docker run <span class="attribute">ubuntu</span>:<span class="number">14.04</span> apt-get install -y open-iscsi</div></pre></td></tr></table></figure>
 </li>
 <li><p>进入容器，运行<code>iscsiadm</code>：</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root<span class="symbol">@aaaa</span><span class="meta"># iscsiadm -m discovery -t st -p 192.168.1.10</span></span><br><span class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br><span class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br><span class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root<span class="symbol">@aaaa</span><span class="meta"># iscsiadm -m discovery -t st -p 192.168.1.10</span></div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <a id="more"></a>
 <p>初步排查原因，可能是因为找不到iscsi的驱动。该装装，该删删，结果依旧不行。</p>
-<p>有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数<code>privileged</code>:<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test<span class="meta">@testpc</span>$ docker help run </span><br><span class="line">...</span><br><span class="line">--<span class="keyword">privileged</span>=<span class="keyword">false</span>  Give extended privileges to <span class="keyword">this</span> container</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数<code>privileged</code>:<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test<span class="meta">@testpc</span>$ docker help run </div><div class="line">...</div><div class="line">--<span class="keyword">privileged</span>=<span class="keyword">false</span>  Give extended privileges to <span class="keyword">this</span> container</div><div class="line">...</div></pre></td></tr></table></figure></p>
 <p><em>docker容器内的root，默认情况下只是外部的一个普通用户权限，并不拥有root权限。只有使用了该参数，容器内的root才拥有真正的root权限。</em></p>
 <p>尝试一下：</p>
 <ul>
 <li><p>使用<code>privileged</code>创建一个新的容器：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test<span class="meta">@testpc</span>$ docker run --privileged --name test -t -i <span class="string">ubuntu:</span><span class="number">14.04</span> <span class="regexp">/bin/</span>bash</span><br></pre></td></tr></table></figure>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="meta">@testpc</span>$ docker run --privileged --name test -t -i <span class="string">ubuntu:</span><span class="number">14.04</span> <span class="regexp">/bin/</span>bash</div></pre></td></tr></table></figure>
 </li>
 <li><p>进入容器，运行<code>iscsiadm</code>：</p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@aaaa# iscsiadm -m discovery -t <span class="built_in">st</span> -p <span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span></span><br><span class="line"><span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn<span class="meta">.1997</span>-<span class="number">05.</span>com.test:iscsi1</span><br></pre></td></tr></table></figure>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@aaaa# iscsiadm -m discovery -t <span class="built_in">st</span> -p <span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span></div><div class="line"><span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn<span class="meta">.1997</span>-<span class="number">05.</span>com.test:iscsi1</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>完美解决！END</p>
@@ -484,7 +484,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -501,7 +501,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://www.keepwn.com/technology/moving-hyperv-to-esxi/</loc>
+    
+    <lastmod>2016-08-08T09:08:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.keepwn.com/howto/route-traffic-selectively-by-domain-on-openwrt/</loc>
     
     <lastmod>2016-06-03T02:21:22.000Z</lastmod>

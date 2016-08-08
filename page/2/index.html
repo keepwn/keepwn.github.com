@@ -87,7 +87,7 @@
 <meta name="description" content="呵呵">
 <meta property="og:type" content="website">
 <meta property="og:title" content="KeePwn's Notes">
-<meta property="og:url" content="http://www.keepwn.com/archives/2016/06/index.html">
+<meta property="og:url" content="http://www.keepwn.com/page/2/index.html">
 <meta property="og:site_name" content="KeePwn's Notes">
 <meta property="og:description" content="呵呵">
 <meta name="twitter:card" content="summary">
@@ -110,7 +110,7 @@
   };
 </script>
 
-  <title> 归档 | KeePwn's Notes </title>
+  <title> KeePwn's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -140,7 +140,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  page-archive  ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -237,103 +239,137 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+  <section id="posts" class="posts-expand">
+    
+      
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  
+  
 
-    <span class="archive-page-counter">
-      
-      
-      
-        
-      
-      嗯..! 目前共计 11 篇日志。 继续努力。
-    </span>
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
+      <header class="post-header">
 
-      
-      
-      
-
-      
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2016">2016</h2>
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-2/" itemprop="url">
+                  ubuntu安装mono环境(二)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-03-28T00:00:00+08:00" content="2014-03-28">
+              2014-03-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/howto/ubuntu-installed-mono-environment-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
         </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
       
       
 
       
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
         
-            <a class="post-title-link" href="/technology/moving-hyperv-to-esxi/" itemprop="url">
-              
-                <span itemprop="name">从Hyper-V迁移到ESXI的血泪史</span>
-              
+          <p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。<br>这篇主要是配置安装libgdiplus。</p>
+<h2 id="0×00准备工作"><a href="#0×00准备工作" class="headerlink" title="0×00准备工作"></a>0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> System;</div><div class="line"><span class="keyword">using</span> System.Windows.Forms;</div><div class="line"><span class="keyword">namespace</span> <span class="title">FormsTest</span></div><div class="line">&#123;</div><div class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">Program</span></div><div class="line">&#123;</div><div class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></div><div class="line"><span class="comment"><span class="doctag">///</span> 应用程序的主入口点。</span></div><div class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></div><div class="line">[STAThread]</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</div><div class="line"></span>&#123;</div><div class="line">Application.EnableVisualStyles();</div><div class="line">Application.SetCompatibleTextRenderingDefault(<span class="literal">false</span>);</div><div class="line">Application.Run(<span class="keyword">new</span> Form());</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more" rel="contents">
+              阅读全文 &raquo;
             </a>
+          </div>
         
-      </h1>
+      
+    </div>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-03T00:00:00+08:00"
-              content="2016-06-03" >
-          06-03
-        </time>
-      </div>
+    <div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </article>
 
 
-
     
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/howto/route-traffic-selectively-by-domain-on-openwrt/" itemprop="url">
-              
-                <span itemprop="name">Openwrt上使用dnsmasq和ipset实现域名分流</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-06-01T00:00:00+08:00"
-              content="2016-06-01" >
-          06-01
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
   </section>
 
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
@@ -532,12 +568,6 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
-
 
   
 
@@ -554,7 +584,7 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'kee';
-      var disqus_identifier = 'archives/2016/06/index.html';
+      var disqus_identifier = 'page/2/index.html';
       var disqus_title = "";
       var disqus_url = '';
 

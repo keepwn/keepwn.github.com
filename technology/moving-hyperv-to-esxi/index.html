@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="configure,ubuntu,iscsi," />
+  <meta name="keywords" content="hyper-v,esxi," />
 
 
 
@@ -84,40 +84,40 @@
 
 
 
-<meta name="description" content="总体步骤
-安装iscsi
-查找iscsi存储
-设置开机自动映射
-对映射的磁盘进行分区
-分区之后进行格式化
-设置开机自动加载分区
+<meta name="description" content="背景怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。
+当时决定选择Hyper-V平台有以下几个理由：
 
-配置过程安装程序open-iscsi12test@ubuntu:~$ apt-get install open-iscsitest@ubuntu:~$ service open-iscsi status">
+Hyper-V提供的存储池使用方便，用起来简单
+Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能
+Hyper-V下可以实现硬盘休眠
+其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个
+
+现在想来真是too you">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu14.04下连接ISCSI存储">
-<meta property="og:url" content="http://www.keepwn.com/howto/howto-connect-iscsi-on-ubuntu/index.html">
+<meta property="og:title" content="从Hyper-V迁移到ESXI的血泪史">
+<meta property="og:url" content="http://www.keepwn.com/technology/moving-hyperv-to-esxi/index.html">
 <meta property="og:site_name" content="KeePwn's Notes">
-<meta property="og:description" content="总体步骤
-安装iscsi
-查找iscsi存储
-设置开机自动映射
-对映射的磁盘进行分区
-分区之后进行格式化
-设置开机自动加载分区
+<meta property="og:description" content="背景怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。
+当时决定选择Hyper-V平台有以下几个理由：
 
-配置过程安装程序open-iscsi12test@ubuntu:~$ apt-get install open-iscsitest@ubuntu:~$ service open-iscsi status">
-<meta property="og:updated_time" content="2015-11-27T02:35:42.000Z">
+Hyper-V提供的存储池使用方便，用起来简单
+Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能
+Hyper-V下可以实现硬盘休眠
+其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个
+
+现在想来真是too you">
+<meta property="og:updated_time" content="2016-08-08T09:08:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu14.04下连接ISCSI存储">
-<meta name="twitter:description" content="总体步骤
-安装iscsi
-查找iscsi存储
-设置开机自动映射
-对映射的磁盘进行分区
-分区之后进行格式化
-设置开机自动加载分区
+<meta name="twitter:title" content="从Hyper-V迁移到ESXI的血泪史">
+<meta name="twitter:description" content="背景怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。
+当时决定选择Hyper-V平台有以下几个理由：
 
-配置过程安装程序open-iscsi12test@ubuntu:~$ apt-get install open-iscsitest@ubuntu:~$ service open-iscsi status">
+Hyper-V提供的存储池使用方便，用起来简单
+Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能
+Hyper-V下可以实现硬盘休眠
+其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个
+
+现在想来真是too you">
 
 
 
@@ -135,7 +135,7 @@
   };
 </script>
 
-  <title> Ubuntu14.04下连接ISCSI存储 | KeePwn's Notes </title>
+  <title> 从Hyper-V迁移到ESXI的血泪史 | KeePwn's Notes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -284,7 +284,7 @@
             
             
               
-                Ubuntu14.04下连接ISCSI存储
+                从Hyper-V迁移到ESXI的血泪史
               
             
           </h1>
@@ -296,8 +296,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-11-10T00:00:00+08:00" content="2015-11-10">
-              2015-11-10
+            <time itemprop="dateCreated" datetime="2016-06-03T00:00:00+08:00" content="2016-06-03">
+              2016-06-03
             </time>
           </span>
 
@@ -310,8 +310,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/howto/" itemprop="url" rel="index">
-                    <span itemprop="name">howto</span>
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
                   </a>
                 </span>
 
@@ -326,8 +326,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/howto/howto-connect-iscsi-on-ubuntu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/howto-connect-iscsi-on-ubuntu/" itemprop="commentsCount"></span>
+                <a href="/technology/moving-hyperv-to-esxi/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/moving-hyperv-to-esxi/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -350,25 +350,29 @@
       
 
       
-        <h2 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h2><ul>
-<li>安装iscsi</li>
-<li>查找iscsi存储</li>
-<li>设置开机自动映射</li>
-<li>对映射的磁盘进行分区</li>
-<li>分区之后进行格式化</li>
-<li>设置开机自动加载分区</li>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。</p>
+<p>当时决定选择Hyper-V平台有以下几个理由：</p>
+<ul>
+<li>Hyper-V提供的存储池使用方便，用起来简单</li>
+<li>Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能</li>
+<li>Hyper-V下可以实现硬盘休眠</li>
+<li>其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个</li>
 </ul>
-<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="安装程序open-iscsi"><a href="#安装程序open-iscsi" class="headerlink" title="安装程序open-iscsi"></a>安装程序<code>open-iscsi</code></h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ apt-get install open-iscsi</div><div class="line">test<span class="variable">@ubuntu</span>:~$ service open-iscsi status</div></pre></td></tr></table></figure>
+<p>现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。</p>
+<p>于是，我从一条不归路<strong>Server2012 With Hyper-V</strong>走向了另一条不归路<strong>ESXI6.0</strong>。</p>
 <a id="more"></a>
-<h3 id="查找iscsi存储"><a href="#查找iscsi存储" class="headerlink" title="查找iscsi存储"></a>查找iscsi存储</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ iscsiadm -m discovery -t sendtargets -p <span class="number">192.168</span>.<span class="number">1.10</span></div><div class="line"><span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn.<span class="number">1997</span>-<span class="number">05</span>.com.<span class="attribute">test</span>:iscsi1</div></pre></td></tr></table></figure>
-<h3 id="设置开机自动映射"><a href="#设置开机自动映射" class="headerlink" title="设置开机自动映射"></a>设置开机自动映射</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ iscsiadm -m node -T iqn.<span class="number">1997</span>-<span class="number">05</span>.com.<span class="attribute">test</span>:iscsi1 -p <span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span> --op update -n node.startup -v automatic</div></pre></td></tr></table></figure>
-<h3 id="重新启动，检查是否成功映射"><a href="#重新启动，检查是否成功映射" class="headerlink" title="重新启动，检查是否成功映射"></a>重新启动，检查是否成功映射</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ reboot</div><div class="line">test<span class="variable">@ubuntu</span>:~$ cat /proc/partitions</div></pre></td></tr></table></figure>
-<p>发现多出了一块设备<code>/dev/sdb</code></p>
-<h3 id="对映射的磁盘进行分区"><a href="#对映射的磁盘进行分区" class="headerlink" title="对映射的磁盘进行分区"></a>对映射的磁盘进行分区</h3><p>如果小于2T分区，可以使用<code>fdisk</code>进行分区，使用<code>MBR</code>分区表，<br>如果大于2T分区，则不能使用<code>MBR</code>分区表，需要使用<code>GPT</code>分区表。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ parted /dev/sdb</div><div class="line">&gt; print</div><div class="line">&gt; mklabel gpt</div><div class="line">&gt; mkpart primary <span class="number">0%</span> <span class="number">100%</span></div><div class="line">&gt; print</div></pre></td></tr></table></figure></p>
-<h3 id="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数"><a href="#分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数" class="headerlink" title="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数"></a>分区之后进行格式化，格式化时硬盘分区太大，可以使用<code>-T largefile</code>参数</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ mkfs.ext4 -T largefile /dev/sdb1</div></pre></td></tr></table></figure>
-<h3 id="设置开机自动加载分区"><a href="#设置开机自动加载分区" class="headerlink" title="设置开机自动加载分区"></a>设置开机自动加载分区</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ e2label /dev/sdb1 /iscsi</div><div class="line">test<span class="variable">@ubuntu</span>:~$ echo <span class="string">"LABEL=/iscsi /data ext4 _netdev 0 0"</span> &gt;&gt; /etc/fstab</div></pre></td></tr></table></figure>
-<p><em>PS</em>: <code>_netdev</code>指的是，这个分区位于网络上，所以得等待网络启动完成后才会挂载该设备</p>
-<h3 id="Done。"><a href="#Done。" class="headerlink" title="Done。"></a>Done。</h3><p>这样重启系统就可以自动挂载分区，使用跟本地磁盘一样。</p>
+<h2 id="第一坑：安装ESXI之不识别SSD"><a href="#第一坑：安装ESXI之不识别SSD" class="headerlink" title="第一坑：安装ESXI之不识别SSD"></a>第一坑：安装ESXI之不识别SSD</h2><p>之前使用Hyper-V平台时，没有采用Gen8提供的硬件RAID功能，使用的Server2012提供的存储池功能，所以切换到ESXI平台时，重新对本地硬盘进行了硬件RAID设置。</p>
+<p>安装ESXI到SD卡的过程略过，按正常操作来，没什么问题。在对ESXI进行配置的时候遇到了问题，系统只能识别到设置了RAID的硬盘，无法识别到SSD。</p>
+<p>网上查了些资料，<strong>RAID模式下识别不到普通硬盘</strong>，要想识别到SSD，必须对SSD设置RAID，只有一块SSD怎么办？<strong>设置为RAID0</strong>。</p>
+<h2 id="第二坑：安装虚拟机之freenas"><a href="#第二坑：安装虚拟机之freenas" class="headerlink" title="第二坑：安装虚拟机之freenas"></a>第二坑：安装虚拟机之freenas</h2><p>在我的规划中，所有的资料（非虚拟机文件）由freenas进行统一管理，freenas开放smb、nfs服务给其他虚拟机，一方面解决了资料分散，不易管理的问题，另一方面只要保证freenas的可用性，就算其他虚拟机崩溃甚至损坏，都不会对资料有任何影响。</p>
+<p>创建freenas的时候，直接分配全部的磁盘空间（&gt;2T）给freenas的一块虚拟磁盘，然而启动freenas时，一直卡在启动界面，显示磁盘分配错误。</p>
+<p>虽然猜测是分配磁盘过大导致了这个问题，然而在网上并没有查阅到明确的说法。<br>在本地做了几个测试后发现，一旦分配磁盘大于2T，freenas就会卡死在启动界面。（真的只是个例？具体原因有待进一步分析）<br>当然，临时解决办法也很简单，<strong>把磁盘分拆为多个1T大小的虚拟磁盘</strong>，挂载给freenas。</p>
+<h2 id="第三坑：安装虚拟机之openwrt"><a href="#第三坑：安装虚拟机之openwrt" class="headerlink" title="第三坑：安装虚拟机之openwrt"></a>第三坑：安装虚拟机之openwrt</h2><p>正常方式安装openwrt，启动openwrt时，会大概率的出现卡死现象。（在《Openwrt上使用dnsmasq和ipset实现域名分流》中已经详细说明具体的原因，这里不再重复）</p>
+<h2 id="第四坑：安装虚拟机之dsm"><a href="#第四坑：安装虚拟机之dsm" class="headerlink" title="第四坑：安装虚拟机之dsm"></a>第四坑：安装虚拟机之dsm</h2><p>首先，DSM的版本是XPEnology DSM5.2。<br>在Hyper-V上安装dsm非常简单，然而在ESXI上安装完成以后无法进入系统。<br>在正常的安装流程中，虚拟机都是由XPEnologyBoot.iso进行引导启动。简单判断以后，觉得可能由于虚拟机重启以后，未能从cd启动导致的。</p>
+<p>进入虚拟机bios修改第一启动项为cd，保存，重新启动，WTF，怎么还是引导不了。<br>重新进入bios查看启动项信息，发现上次的修改并没有被保存。（在win10的vmware workstation中进行了相同操作，对vmware的修改是生效的。）</p>
+<p>看来只能放大招了么，<strong>手动修改vmx！</strong><br>修改虚拟机的<code>.vmx</code>文件，强制第一启动项为<code>cdrom</code>：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bios<span class="selector-class">.bootOrder</span> = <span class="string">"cdrom,hdd,floppy"</span></div></pre></td></tr></table></figure></p>
+<p>搞定。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>虽然说从Hyper-V切换到ESXI的过程中，遇到了很多不可描述性的问题，但好在都解决了。问我现在用着ESXI的感觉么？感觉还不错:)</p>
 
       
     </div>
@@ -390,11 +394,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/configure/" rel="tag">#configure</a>
+            <a href="/tags/hyper-v/" rel="tag">#hyper-v</a>
           
-            <a href="/tags/ubuntu/" rel="tag">#ubuntu</a>
-          
-            <a href="/tags/iscsi/" rel="tag">#iscsi</a>
+            <a href="/tags/esxi/" rel="tag">#esxi</a>
           
         </div>
       
@@ -403,17 +405,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/technology/run-app-based-on-mef-from-web/" rel="next" title="Altman不能成功的加载插件">
-                <i class="fa fa-chevron-left"></i> Altman不能成功的加载插件
+              <a href="/howto/route-traffic-selectively-by-domain-on-openwrt/" rel="next" title="Openwrt上使用dnsmasq和ipset实现域名分流">
+                <i class="fa fa-chevron-left"></i> Openwrt上使用dnsmasq和ipset实现域名分流
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/technology/using-open-iscsi-in-docker-container/" rel="prev" title="Docker环境下使用open-iscsi遇到的问题">
-                Docker环境下使用open-iscsi遇到的问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,7 +549,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#总体步骤"><span class="nav-number">1.</span> <span class="nav-text">总体步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置过程"><span class="nav-number">2.</span> <span class="nav-text">配置过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装程序open-iscsi"><span class="nav-number">2.1.</span> <span class="nav-text">安装程序open-iscsi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查找iscsi存储"><span class="nav-number">2.2.</span> <span class="nav-text">查找iscsi存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置开机自动映射"><span class="nav-number">2.3.</span> <span class="nav-text">设置开机自动映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重新启动，检查是否成功映射"><span class="nav-number">2.4.</span> <span class="nav-text">重新启动，检查是否成功映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对映射的磁盘进行分区"><span class="nav-number">2.5.</span> <span class="nav-text">对映射的磁盘进行分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数"><span class="nav-number">2.6.</span> <span class="nav-text">分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置开机自动加载分区"><span class="nav-number">2.7.</span> <span class="nav-text">设置开机自动加载分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Done。"><span class="nav-number">2.8.</span> <span class="nav-text">Done。</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一坑：安装ESXI之不识别SSD"><span class="nav-number">2.</span> <span class="nav-text">第一坑：安装ESXI之不识别SSD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二坑：安装虚拟机之freenas"><span class="nav-number">3.</span> <span class="nav-text">第二坑：安装虚拟机之freenas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三坑：安装虚拟机之openwrt"><span class="nav-number">4.</span> <span class="nav-text">第三坑：安装虚拟机之openwrt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四坑：安装虚拟机之dsm"><span class="nav-number">5.</span> <span class="nav-text">第四坑：安装虚拟机之dsm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
           </div>
         </section>
@@ -678,9 +676,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'kee';
-      var disqus_identifier = 'howto/howto-connect-iscsi-on-ubuntu/';
-      var disqus_title = "Ubuntu14.04下连接ISCSI存储";
-      var disqus_url = 'http://www.keepwn.com/howto/howto-connect-iscsi-on-ubuntu/';
+      var disqus_identifier = 'technology/moving-hyperv-to-esxi/';
+      var disqus_title = "从Hyper-V迁移到ESXI的血泪史";
+      var disqus_url = 'http://www.keepwn.com/technology/moving-hyperv-to-esxi/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
