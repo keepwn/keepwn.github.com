@@ -96,13 +96,13 @@
 <meta property="og:site_name" content="KeePwn's Notes">
 <meta property="og:description" content="接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。这篇主要是配置安装libgdiplus。
 0×00准备工作先在VS2012上编译一个winform，代码如下：123456789101112131415161718using System;using System.Windows.Forms;names">
-<meta property="og:image" content="http://www.keepwn.com/img/mono-in-ubuntu-formtest.png">
-<meta property="og:updated_time" content="2015-11-27T02:27:05.000Z">
+<meta property="og:image" content="http://www.keepwn.com/assets/mono-in-ubuntu-formtest.png">
+<meta property="og:updated_time" content="2016-12-06T02:27:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ubuntu安装mono环境(二)">
 <meta name="twitter:description" content="接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。这篇主要是配置安装libgdiplus。
 0×00准备工作先在VS2012上编译一个winform，代码如下：123456789101112131415161718using System;using System.Windows.Forms;names">
-<meta name="twitter:image" content="http://www.keepwn.com/img/mono-in-ubuntu-formtest.png">
+<meta name="twitter:image" content="http://www.keepwn.com/assets/mono-in-ubuntu-formtest.png">
 
 
 
@@ -408,7 +408,7 @@
 <p>在该文件末尾追加以下语句：<br><code>export LD_LIBRARY_PATH=/opt/mono-3.2.8/lib</code><br>然后：</p>
 <figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">nike<span class="variable">@NIKE-PC:</span>~$ . .bashrc</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ echo $LD_LIBRARY_PATH</div><div class="line">/opt/mono-<span class="number">3.2</span>.<span class="number">8</span>/lib</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$</div></pre></td></tr></table></figure>
 <h2 id="0×04验证libgdiplus是否安装成功"><a href="#0×04验证libgdiplus是否安装成功" class="headerlink" title="0×04验证libgdiplus是否安装成功"></a>0×04验证libgdiplus是否安装成功</h2><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nike<span class="variable">@NIKE-PC:</span>~$ cd Desktop/</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/Desktop$ mono FormsTest.exe</div></pre></td></tr></table></figure>
-<p><img src="/img/mono-in-ubuntu-formtest.png" alt="mono in ubuntu"></p>
+<p><img src="/assets/mono-in-ubuntu-formtest.png" alt="mono in ubuntu"></p>
 <p>运行成功。</p>
 
       
