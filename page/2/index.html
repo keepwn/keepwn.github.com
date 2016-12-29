@@ -422,162 +422,6 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/howto/ubuntu-installed-mono-environment-1/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="keepwn">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="KeePwn's Notes">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="KeePwn's Notes" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-1/" itemprop="url">
-                  ubuntu安装mono环境(一)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-03-28T00:00:00+08:00">
-                2014-03-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/howto/" itemprop="url" rel="index">
-                    <span itemprop="name">howto</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <a href="/howto/ubuntu-installed-mono-environment-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-1/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/howto/ubuntu-installed-mono-environment-1/" class="leancloud_visitors" data-flag-title="ubuntu安装mono环境(一)">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>##0x00准备工作<br>一个全新安装的ubuntu13.10系统</p>
-<p>##0×01下载Mono源代码并编译<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">nike<span class="variable">@NIKE-PC:</span>~$ ls</div><div class="line">Desktop Downloads Music Public Videos</div><div class="line">Documents examples.desktop Pictures Templates</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ mkdir src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ cd src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ wget <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span>:<span class="number">24</span>:<span class="number">30</span>-- <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">Resolving download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</div><div class="line">Connecting to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|:<span class="number">80</span>... connected.</div><div class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</div><div class="line"><span class="attribute">Length</span>: <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</div><div class="line">Saving <span class="attribute">to</span>: ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</div><div class="line"></div><div class="line"><span class="number">100%</span>[======================================&gt;] <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s in <span class="number">10</span>m <span class="number">50s</span></div><div class="line"></div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ ls</div><div class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src/mono-<span class="number">3.2</span>.<span class="number">8</span>$ ./configure --prefix=/opt/mono-<span class="number">3.2</span>.<span class="number">8</span></div><div class="line">checking build system type... i686-pc-linux-gnu</div><div class="line">checking host system type... i686-pc-linux-gnu</div><div class="line">checking target system type... i686-pc-linux-gnu</div><div class="line">checking for a BSD-compatible install... /usr/bin/install -c</div><div class="line">checking whether build environment is sane... yes</div><div class="line">checking for a thread-safe mkdir -p... /bin/mkdir -p</div><div class="line">checking for gawk... no</div><div class="line">checking for mawk... mawk</div><div class="line">checking whether make sets $(MAKE)... yes</div><div class="line">checking how to create a ustar tar archive... gnutar</div><div class="line">checking whether to enable maintainer-specific portions of Makefiles... no</div><div class="line">checking whether ln -s works... yes</div><div class="line">checking whether make supports nested variables... yes</div><div class="line">checking host platform characteristics... ok</div><div class="line">checking for gcc... gcc</div><div class="line">checking for gcc... (cached) gcc</div><div class="line">checking whether the C compiler works... yes</div><div class="line">checking for C compiler default output file name... a.out</div><div class="line">checking for suffix of executables...</div><div class="line">checking whether we are cross compiling... no</div><div class="line">checking for suffix of object files... o</div><div class="line">checking whether we are using the GNU C compiler... yes</div><div class="line">checking whether gcc accepts -g... yes</div><div class="line">checking for gcc option to accept ISO C89... none needed</div><div class="line">checking for style of include used by make... GNU</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for g++... no</div><div class="line">checking whether we are using the GNU C++ compiler... no</div><div class="line">checking whether g++ accepts -g... no</div><div class="line">checking dependency style of g++... none</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for gawk... (cached) mawk</div><div class="line">checking whether gcc and cc understand -c and -o together... yes</div><div class="line"><span class="attribute">configure</span>: <span class="attribute">error</span>: You need to install g++</div></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/howto/ubuntu-installed-mono-environment-2/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -694,6 +538,162 @@
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/howto/ubuntu-installed-mono-environment-2/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/howto/ubuntu-installed-mono-environment-1/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="keepwn">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="KeePwn's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="KeePwn's Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/howto/ubuntu-installed-mono-environment-1/" itemprop="url">
+                  ubuntu安装mono环境(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2014-03-28T00:00:00+08:00">
+                2014-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/howto/" itemprop="url" rel="index">
+                    <span itemprop="name">howto</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/howto/ubuntu-installed-mono-environment-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="howto/ubuntu-installed-mono-environment-1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/howto/ubuntu-installed-mono-environment-1/" class="leancloud_visitors" data-flag-title="ubuntu安装mono环境(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>##0x00准备工作<br>一个全新安装的ubuntu13.10系统</p>
+<p>##0×01下载Mono源代码并编译<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">nike<span class="variable">@NIKE-PC:</span>~$ ls</div><div class="line">Desktop Downloads Music Public Videos</div><div class="line">Documents examples.desktop Pictures Templates</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ mkdir src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~$ cd src</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ wget <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">--<span class="number">2014</span>-<span class="number">03</span>-<span class="number">27</span> <span class="number">21</span>:<span class="number">24</span>:<span class="number">30</span>-- <span class="attribute">http</span>:<span class="comment">//download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2</span></div><div class="line">Resolving download.mono-project.com (download.mono-project.com)... <span class="number">54.240</span>.<span class="number">168.102</span>, <span class="number">54.230</span>.<span class="number">156.158</span>, <span class="number">54.230</span>.<span class="number">157.116</span>, ...</div><div class="line">Connecting to download.mono-project.com (download.mono-project.com)|<span class="number">54.240</span>.<span class="number">168.102</span>|:<span class="number">80</span>... connected.</div><div class="line">HTTP request sent, awaiting response... <span class="number">200</span> OK</div><div class="line"><span class="attribute">Length</span>: <span class="number">77515552</span> (<span class="number">74</span>M) [application/x-bzip2]</div><div class="line">Saving <span class="attribute">to</span>: ‘mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2’</div><div class="line"></div><div class="line"><span class="number">100%</span>[======================================&gt;] <span class="number">77</span>,<span class="number">515</span>,<span class="number">552</span> <span class="number">189</span>K/s in <span class="number">10</span>m <span class="number">50s</span></div><div class="line"></div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ ls</div><div class="line">mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ tar -xjf mono-<span class="number">3.2</span>.<span class="number">8</span>.tar.bz2</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src$ cd mono-<span class="number">3.2</span>.<span class="number">8</span>/</div><div class="line">nike<span class="variable">@NIKE-PC</span>:~/src/mono-<span class="number">3.2</span>.<span class="number">8</span>$ ./configure --prefix=/opt/mono-<span class="number">3.2</span>.<span class="number">8</span></div><div class="line">checking build system type... i686-pc-linux-gnu</div><div class="line">checking host system type... i686-pc-linux-gnu</div><div class="line">checking target system type... i686-pc-linux-gnu</div><div class="line">checking for a BSD-compatible install... /usr/bin/install -c</div><div class="line">checking whether build environment is sane... yes</div><div class="line">checking for a thread-safe mkdir -p... /bin/mkdir -p</div><div class="line">checking for gawk... no</div><div class="line">checking for mawk... mawk</div><div class="line">checking whether make sets $(MAKE)... yes</div><div class="line">checking how to create a ustar tar archive... gnutar</div><div class="line">checking whether to enable maintainer-specific portions of Makefiles... no</div><div class="line">checking whether ln -s works... yes</div><div class="line">checking whether make supports nested variables... yes</div><div class="line">checking host platform characteristics... ok</div><div class="line">checking for gcc... gcc</div><div class="line">checking for gcc... (cached) gcc</div><div class="line">checking whether the C compiler works... yes</div><div class="line">checking for C compiler default output file name... a.out</div><div class="line">checking for suffix of executables...</div><div class="line">checking whether we are cross compiling... no</div><div class="line">checking for suffix of object files... o</div><div class="line">checking whether we are using the GNU C compiler... yes</div><div class="line">checking whether gcc accepts -g... yes</div><div class="line">checking for gcc option to accept ISO C89... none needed</div><div class="line">checking for style of include used by make... GNU</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for g++... no</div><div class="line">checking whether we are using the GNU C++ compiler... no</div><div class="line">checking whether g++ accepts -g... no</div><div class="line">checking dependency style of g++... none</div><div class="line">checking dependency style of gcc... gcc3</div><div class="line">checking for gawk... (cached) mawk</div><div class="line">checking whether gcc and cc understand -c and -o together... yes</div><div class="line"><span class="attribute">configure</span>: <span class="attribute">error</span>: You need to install g++</div></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/howto/ubuntu-installed-mono-environment-1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
