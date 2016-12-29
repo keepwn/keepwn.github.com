@@ -100,7 +100,7 @@
 由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。
 
 参考以前的文章《Openwrt">
-<meta property="og:updated_time" content="2016-12-29T06:43:20.000Z">
+<meta property="og:updated_time" content="2016-12-29T08:41:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Openwrt上实现透明代理">
 <meta name="twitter:description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。
@@ -384,6 +384,7 @@
 <p>参考以前的文章<a href="/howto/route-traffic-selectively-by-domain-on-openwrt/">《Openwrt上使用dnsmasq和ipset实现域名分流》</a>，将网关、DNS设置为<code>192.168.0.254</code></p>
 </blockquote>
 <p>因为之前重新部署了ESXI环境，所以Openwrt这台虚拟机不幸丢失，所以只能<code>大侠请重新来过</code>。<br>由于之前的方案在实际使用中还有一些不足，在综合了网络上现有的一些方案后，设计出一份改进版的方案。</p>
+<a id="more"></a>
 <h2 id="网络上原始的方案"><a href="#网络上原始的方案" class="headerlink" title="网络上原始的方案"></a>网络上原始的方案</h2><h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><ul>
 <li>shadowsocks-libev和luci-app-shadowsocks（提供ss-rules）<ul>
 <li>依赖iptables-mod-tproxy和ip</li>
