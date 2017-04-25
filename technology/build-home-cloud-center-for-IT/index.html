@@ -1,0 +1,1141 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="esxi,freenas,rancher," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。作为一个半吊子的码农，这显然不能满足我的需求。 所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。 以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。">
+<meta name="keywords" content="esxi,freenas,rancher">
+<meta property="og:type" content="article">
+<meta property="og:title" content="构建适合程序员的私有云">
+<meta property="og:url" content="http://www.keepwn.com/technology/build-home-cloud-center-for-IT/index.html">
+<meta property="og:site_name" content="KeePwn's Notes">
+<meta property="og:description" content="前言如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。作为一个半吊子的码农，这显然不能满足我的需求。 所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。 以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。">
+<meta property="og:updated_time" content="2017-04-25T01:45:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="构建适合程序员的私有云">
+<meta name="twitter:description" content="前言如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。作为一个半吊子的码农，这显然不能满足我的需求。 所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。 以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'JSSKTAA1FK',
+      apiKey: 'd060dce76c2d0a62d28005cacbbb9538',
+      indexName: 'blog-on-hexo',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"未发现与 「${query}」 相关的内容","hits_stats":"${hits} 条相关条目，使用了 ${time} 毫秒"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.keepwn.com/technology/build-home-cloud-center-for-IT/"/>
+
+
+
+
+
+  <title> 构建适合程序员的私有云 | KeePwn's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">KeePwn's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">You are being watched...</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/technology/build-home-cloud-center-for-IT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="keepwn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeePwn's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                构建适合程序员的私有云
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-09T00:00:00+08:00">
+                2017-04-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-04-25T09:45:09+08:00">
+                2017-04-25
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/technology/" itemprop="url" rel="index">
+                    <span itemprop="name">technology</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/technology/build-home-cloud-center-for-IT/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="technology/build-home-cloud-center-for-IT/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/technology/build-home-cloud-center-for-IT/" class="leancloud_visitors" data-flag-title="构建适合程序员的私有云">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。<br>作为一个半吊子的码农，这显然不能满足我的需求。</p>
+<p>所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。</p>
+<div class="note warning"><p>以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。</p>
+</div>
+<a id="more"></a>
+<h2 id="核心内容"><a href="#核心内容" class="headerlink" title="核心内容"></a>核心内容</h2><ul>
+<li>数据中心，提供数据存储服务</li>
+<li>家庭服务中心，提供常见的NAS服务</li>
+<li>工作服务中心，提供工作上所需服务</li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>准备一台家用服务器（我个人用的是Gen8 1230v2 16G）<ul>
+<li>CPU需要支持VT-D和VT-X</li>
+</ul>
+</li>
+<li>准备1块SSD和至少2块以上的机械硬盘</li>
+<li>准备一张HBA卡（IT模式的D2607-A11阵列卡）</li>
+<li>安装ESXI6系统<ul>
+<li>系统建议单独安装在U盘/SD卡上</li>
+<li>SSD连接在主板SATA接口上，机械硬盘连接在HBA卡上</li>
+<li>将HBA卡配置为直通模式</li>
+<li>将SSD挂载到ESXI中，新建存储为<code>SSD_DataStore</code></li>
+</ul>
+</li>
+</ul>
+<div class="note info"><p>Q: 为什么选用ESXI而不是Hyper-V? <br><br>A: 如果只是用来搭建NAS服务，两者区别不大。但目前的这套方案，使用ESXI更为合适。</p>
+</div>
+<h2 id="数据中心"><a href="#数据中心" class="headerlink" title="数据中心"></a>数据中心</h2><p>数据中心，主要提供数据存储服务，这里有两个数据中心：</p>
+<ul>
+<li>被ESXI管理的SSD<ul>
+<li>用于存储<code>提供基础服务的虚拟机的文件</code>和<code>交换文件</code></li>
+</ul>
+</li>
+<li>被FreeNAS管理的机械硬盘<ul>
+<li>主要提供NFS、CIFS、AFP这3种形式的数据服务</li>
+<li>为ESXI提供部分存储空间，用于存储<code>使用频率较低的虚拟机的文件</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="FreeNAS安装与配置"><a href="#FreeNAS安装与配置" class="headerlink" title="FreeNAS安装与配置"></a>FreeNAS安装与配置</h3><ul>
+<li>创建FreeNAS虚拟机<ul>
+<li><strong>[存储位置为SSD_DataStore]</strong></li>
+</ul>
+</li>
+<li>创建ZFS卷<ul>
+<li>2个以上的机械硬盘</li>
+<li>存储池类型为Mirror或RAIDZ</li>
+</ul>
+</li>
+<li>创建多个数据集<ul>
+<li><code>/vms</code>，提供给ESXI，开启NFS</li>
+<li><code>/media</code>，用于家庭影音，开启NFS、CIFS共享</li>
+<li><code>/share</code>，用于文件共享，开启NFS、CIFS共享</li>
+<li><code>/tm</code>，用于TimeMachine，开启AFP共享</li>
+<li>等</li>
+</ul>
+</li>
+<li>将vms挂载到ESXI中，新建存储为<code>VMS_DataStore</code></li>
+</ul>
+<div class="note warning"><p>FreeNAS的数据，一定要做好手动备份，毕竟号称有五重备份的GitLab也吃了大亏的:)</p>
+</div>
+<h2 id="服务集群中心"><a href="#服务集群中心" class="headerlink" title="服务集群中心"></a>服务集群中心</h2><p>服务集群中心，包括ESXI提供的虚拟机资源和Rancher提供的容器资源。</p>
+<h3 id="Rancher集群安装与配置"><a href="#Rancher集群安装与配置" class="headerlink" title="Rancher集群安装与配置"></a>Rancher集群安装与配置</h3><ul>
+<li>创建3台虚拟机（RancherOS、CoreOS、Ubuntu等系统任选）<ul>
+<li><strong>[存储位置为SSD_DataStore]</strong></li>
+<li>分别命名为master、node1和node2</li>
+<li>分别安装docker</li>
+</ul>
+</li>
+<li>部署Rancher集群<ul>
+<li>在master主机上部署Rancher-Server</li>
+<li>在master主机上部署Rancher-Agent，将master添加到server</li>
+<li>在node1、node2主机上部署Rancher-Agent，将node1和node2添加到server</li>
+<li>合理分配3个主机上的容器的部署</li>
+</ul>
+</li>
+<li>配置Rancher数据源<ul>
+<li>在数据中心创建<code>/rancher</code>数据集</li>
+<li>部署Rancher-NFS</li>
+<li>使用Rancher-NFS服务，容器可实现数据持久化</li>
+</ul>
+</li>
+</ul>
+<h3 id="基础建设服务"><a href="#基础建设服务" class="headerlink" title="基础建设服务"></a>基础建设服务</h3><ul>
+<li>智能家庭服务<ul>
+<li>Home-Assistant和Homebridge</li>
+<li>容器方式部署</li>
+<li>实现用网页端和IOS端对家里的服务或设备进行管理</li>
+</ul>
+</li>
+<li>透明代理服务<ul>
+<li>openwrt虚拟机，<strong>[存储位置为SSD_DataStore]</strong></li>
+<li>具体部署方法在本站中搜索</li>
+<li>设置主机的网关为openwrt地址，即可实现透明代理</li>
+</ul>
+</li>
+<li>公网映射服务<ul>
+<li>容器方式部署，ngrok、n2n和frp任选</li>
+<li>需要一台公网主机</li>
+<li>实现将内网服务映射到公网，方便远程访问</li>
+</ul>
+</li>
+<li>证书签发服务<ul>
+<li>容器方式部署</li>
+<li>内网使用自签发证书</li>
+<li>公网使用Let’s Encrypt服务签发证书</li>
+</ul>
+</li>
+</ul>
+<div class="note info"><p>对于使用ngrok和n2n，个人有一些心得，有时间另开篇介绍</p>
+</div>
+<h3 id="家庭类服务"><a href="#家庭类服务" class="headerlink" title="家庭类服务"></a>家庭类服务</h3><p>一般包括同步、影音、网盘等服务，需要用到以下系统：</p>
+<ul>
+<li>Plex Media Server / Emby Server<ul>
+<li>容器</li>
+<li>管理影音文件</li>
+<li>多设备同时看电影、追美剧</li>
+</ul>
+</li>
+<li>Resilio Sync<ul>
+<li>容器</li>
+<li>多个平台之间文件同步</li>
+</ul>
+</li>
+<li>Xware<ul>
+<li>容器</li>
+<li>迅雷官方远程下载服务</li>
+</ul>
+</li>
+<li>DSM6（群晖）<ul>
+<li>虚拟机，<strong>[存储位置为SSD_DataStore]</strong></li>
+<li>和FreeNAS功能类似</li>
+</ul>
+</li>
+</ul>
+<div class="note warning"><p>本方案中，因为已经搭建了FreeNAS，DSM6的功能已经被大大地弱化了，可以不装</p>
+</div>
+<div class="note warning"><p>Plex和Emby两个都是比较出名的家庭流媒应用，目前个人用Plex比较多</p>
+</div>
+<h3 id="工作类服务"><a href="#工作类服务" class="headerlink" title="工作类服务"></a>工作类服务</h3><p>一般包括代码版本控制、记事本、测试环境等服务：</p>
+<ul>
+<li>Leanote Server<ul>
+<li>容器</li>
+<li>开源的多平台云笔记</li>
+</ul>
+</li>
+<li>Gogs Server<ul>
+<li>容器</li>
+<li>代码版本控制系统，和github类似</li>
+</ul>
+</li>
+<li>Drone<ul>
+<li>容器</li>
+<li>持续构建系统，方便测试代码或部署环境</li>
+</ul>
+</li>
+<li>各类数据库<ul>
+<li>优先容器（MongoDB不宜搭建在容器中，会发生错误，暂未解决）</li>
+<li>多种数据库统一存储，统一管理</li>
+</ul>
+</li>
+</ul>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>由于各个服务之间联系不大，系统平台也比较多，管理起来实在不便。如果有开发能力的话，还是建议自己开发个系统来统一协调各个服务。比如使用微信端入口，对服务进行定期检查，消息通知，甚至是远程控制，未来还是很美好的:)</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后，这个方案其实还有很多的内容，本文只是列了一些提纲，具体在实际操作中必然会有很多问题，就拿Rancher来说，Rancher中容器如何配置、存储如何挂载就需要好好斟酌，当然这会有一个很长的试错过程。当然和去年相比，Rancher上的坑已经少了太多了，想当初把Rancher从v1.1一步步升到现在的1.5.x，中间经历了什么，想想都要哭了</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      keepwn
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.keepwn.com/technology/build-home-cloud-center-for-IT/" title="构建适合程序员的私有云">http://www.keepwn.com/technology/build-home-cloud-center-for-IT/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/esxi/" rel="tag"># esxi</a>
+          
+            <a href="/tags/freenas/" rel="tag"># freenas</a>
+          
+            <a href="/tags/rancher/" rel="tag"># rancher</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/technology/see-the-big-world-on-openwrt/" rel="prev" title="Openwrt上实现透明代理">
+                Openwrt上实现透明代理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460"
+               alt="keepwn" />
+          <p class="site-author-name" itemprop="name">keepwn</p>
+           
+              <p class="site-description motion-element" itemprop="description">呵呵</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心内容"><span class="nav-number">2.</span> <span class="nav-text">核心内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">3.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据中心"><span class="nav-number">4.</span> <span class="nav-text">数据中心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FreeNAS安装与配置"><span class="nav-number">4.1.</span> <span class="nav-text">FreeNAS安装与配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务集群中心"><span class="nav-number">5.</span> <span class="nav-text">服务集群中心</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Rancher集群安装与配置"><span class="nav-number">5.1.</span> <span class="nav-text">Rancher集群安装与配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基础建设服务"><span class="nav-number">5.2.</span> <span class="nav-text">基础建设服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#家庭类服务"><span class="nav-number">5.3.</span> <span class="nav-text">家庭类服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作类服务"><span class="nav-number">5.4.</span> <span class="nav-text">工作类服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进阶"><span class="nav-number">6.</span> <span class="nav-text">进阶</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">7.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">keepwn</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://kee.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://www.keepwn.com/technology/build-home-cloud-center-for-IT/';
+          this.page.identifier = 'technology/build-home-cloud-center-for-IT/';
+          this.page.title = '构建适合程序员的私有云';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://kee.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("IlfnQjaUPXpnfjvGK1kHPq8n-gzGzoHsz", "tQB3yQR2EqyIOpEecvoNPlwe");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

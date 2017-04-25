@@ -27,6 +27,9 @@
 
 
 
+
+
+
   
   
     
@@ -88,25 +91,17 @@
 
 
 
-<meta name="description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。
-由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。
-
-参考以前的文章《Openwrt">
+<meta name="description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。 由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。  参考以前的文章《Openwrt">
+<meta name="keywords" content="openwrt,dnsmasq,ipset,shadowsocks,dnscrypt,chinadns">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Openwrt上实现透明代理">
 <meta property="og:url" content="http://www.keepwn.com/technology/see-the-big-world-on-openwrt/index.html">
 <meta property="og:site_name" content="KeePwn's Notes">
-<meta property="og:description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。
-由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。
-
-参考以前的文章《Openwrt">
+<meta property="og:description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。 由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。  参考以前的文章《Openwrt">
 <meta property="og:updated_time" content="2016-12-29T08:41:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Openwrt上实现透明代理">
-<meta name="twitter:description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。
-由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。
-
-参考以前的文章《Openwrt">
+<meta name="twitter:description" content="背景前一段时间，在ESXI上部署了一台Plex服务器。解决了一些恼人的问题后，用得还算满意，但是TMDb搜刮器在匹配电影信息时，总会丢失一些Poster海报信息。最终发现，The Movie Database (TMDb) 这个地址被和谐社会了。 由于Plex不支持设置代理，且手动设置HTTP_PROXY后还是无效，所以决定把Plex这台服务器加入透明代理网络中。  参考以前的文章《Openwrt">
 
 
 
@@ -115,7 +110,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    sidebar: {"position":"left","display":"post"},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
     motion: true,
     duoshuo: {
@@ -123,11 +118,11 @@
       author: '博主'
     },
     algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
+      applicationID: 'JSSKTAA1FK',
+      apiKey: 'd060dce76c2d0a62d28005cacbbb9538',
+      indexName: 'blog-on-hexo',
       hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"未发现与 「${query}」 相关的内容","hits_stats":"${hits} 条相关条目，使用了 ${time} 毫秒"}
     }
   };
 </script>
@@ -156,34 +151,42 @@
 
 
 
+
+
+
+
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-meta ">
-  
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
 
-  <div class="custom-logo-site-title">
-    <a href="/"  class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <span class="site-title">KeePwn's Notes</span>
-      <span class="logo-line-after"><i></i></span>
-    </a>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">KeePwn's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">You are being watched...</p>
+      
   </div>
-  <p class="site-subtitle">You are being watched...</p>
-</div>
 
-<div class="site-nav-toggle">
-  <button>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-    <span class="btn-bar"></span>
-  </button>
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
 </div>
 
 <nav class="site-nav">
@@ -199,26 +202,6 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
           </a>
         </li>
       
@@ -242,11 +225,69 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
 
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
       
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
   
 </nav>
 
@@ -271,20 +312,17 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/technology/see-the-big-world-on-openwrt/">
+    <link itemprop="mainEntityOfPage" href="http://www.keepwn.com/technology/see-the-big-world-on-openwrt/">
 
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="keepwn">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="KeePwn's Notes">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="KeePwn's Notes" src="">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="keepwn">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460">
     </span>
-  </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="KeePwn's Notes">
+    </span>
 
     
       <header class="post-header">
@@ -307,24 +345,42 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-28T00:00:00+08:00">
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-28T00:00:00+08:00">
                 2016-12-28
               </time>
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2016-12-29T16:41:53+08:00">
+                2016-12-29
+              </time>
             
           </span>
 
           
             <span class="post-category" >
+            
               <span class="post-meta-divider">|</span>
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/technology/" itemprop="url" rel="index">
@@ -342,13 +398,15 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
                 <a href="/technology/see-the-big-world-on-openwrt/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="technology/see-the-big-world-on-openwrt/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="technology/see-the-big-world-on-openwrt/" itemprop="commentCount"></span>
                 </a>
               </span>
             
-          
-
           
 
           
@@ -358,9 +416,13 @@
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
           
 
           
@@ -516,6 +578,27 @@
       
     </div>
 
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      keepwn
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.keepwn.com/technology/see-the-big-world-on-openwrt/" title="Openwrt上实现透明代理">http://www.keepwn.com/technology/see-the-big-world-on-openwrt/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
 
     <footer class="post-footer">
       
@@ -537,11 +620,15 @@
       
 
       
+        
+      
+
+      
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/technology/crossflashing-the-fujitsu-d2607/" rel="next" title="富士通D2607-A11刷IT模式">
-                <i class="fa fa-chevron-left"></i> 富士通D2607-A11刷IT模式
+              <a href="/technology/build-home-cloud-center-for-IT/" rel="next" title="构建适合程序员的私有云">
+                <i class="fa fa-chevron-left"></i> 构建适合程序员的私有云
               </a>
             
           </div>
@@ -549,6 +636,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/technology/crossflashing-the-fujitsu-d2607/" rel="prev" title="富士通D2607-A11刷IT模式">
+                富士通D2607-A11刷IT模式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -577,7 +668,7 @@
       <div id="disqus_thread">
         <noscript>
           Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
         </noscript>
       </div>
     
@@ -618,19 +709,26 @@
                src="https://avatars1.githubusercontent.com/u/7532281?v=3&s=460"
                alt="keepwn" />
           <p class="site-author-name" itemprop="name">keepwn</p>
-          <p class="site-description motion-element" itemprop="description">呵呵</p>
+           
+              <p class="site-description motion-element" itemprop="description">呵呵</p>
+          
         </div>
         <nav class="site-state motion-element">
-          <div class="site-state-item site-state-posts">
-            <a href="/archives">
-              <span class="site-state-item-count">13</span>
-              <span class="site-state-item-name">日志</span>
-            </a>
-          </div>
 
           
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
             <div class="site-state-item site-state-categories">
-              <a href="/categories">
+              <a href="/categories/index.html">
                 <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
@@ -638,9 +736,11 @@
           
 
           
+            
+            
             <div class="site-state-item site-state-tags">
-              <a href="/tags">
-                <span class="site-state-item-count">26</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -652,26 +752,9 @@
 
         <div class="links-of-author motion-element">
           
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/keepwn" target="_blank" title="GitHub">
-                  
-                    <i class="fa fa-fw fa-github"></i>
-                  
-                  GitHub
-                </a>
-              </span>
-            
-          
         </div>
 
         
-        
-          <div class="cc-license motion-element" itemprop="license">
-            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
-            </a>
-          </div>
         
 
         
@@ -700,6 +783,8 @@
       <!--/noindex-->
       
 
+      
+
     </div>
   </aside>
 
@@ -713,7 +798,7 @@
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -739,9 +824,13 @@
       </div>
     </footer>
 
-    <div class="back-to-top">
-      <i class="fa fa-arrow-up"></i>
-    </div>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
   </div>
 
   
@@ -754,6 +843,13 @@
 
 
 
+
+
+
+
+
+
+  
 
 
 
@@ -781,6 +877,9 @@
 
   
   <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
 
 
   
@@ -818,36 +917,37 @@
   
 
 
-
   
 
-    <script type="text/javascript">
-      var disqus_shortname = 'kee';
-      var disqus_identifier = 'technology/see-the-big-world-on-openwrt/';
+    
+      <script id="dsq-count-scr" src="https://kee.disqus.com/count.js" async></script>
+    
 
-      var disqus_title = "Openwrt上实现透明代理";
-
-
-      function run_disqus_script(disqus_script) {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-
-      
+    
+      <script type="text/javascript">
         var disqus_config = function () {
-            this.page.url = disqus_url;
-            this.page.identifier = disqus_identifier;
-            this.page.title = disqus_title;
+          this.page.url = 'http://www.keepwn.com/technology/see-the-big-world-on-openwrt/';
+          this.page.identifier = 'technology/see-the-big-world-on-openwrt/';
+          this.page.title = 'Openwrt上实现透明代理';
         };
-        run_disqus_script('embed.js');
-      
+        var d = document, s = d.createElement('script');
+        s.src = 'https://kee.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
 
-    </script>
+  
+
+
+
+
+	
+
+
+
+
+
   
 
 
@@ -855,9 +955,36 @@
 
 
   
-  
+
+
+
+
 
   
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
 
   
 
@@ -972,6 +1099,9 @@
 
   
 
+  
+
+  
 
 </body>
 </html>
