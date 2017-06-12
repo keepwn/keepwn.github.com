@@ -96,7 +96,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ubuntu14.04下连接ISCSI存储">
 <meta property="og:url" content="http://www.keepwn.com/howto/howto-connect-iscsi-on-ubuntu/index.html">
-<meta property="og:site_name" content="KeePwn's Notes">
+<meta property="og:site_name" content="KeePwn&#39;s Notes">
 <meta property="og:description" content="总体步骤 安装iscsi 查找iscsi存储 设置开机自动映射 对映射的磁盘进行分区 分区之后进行格式化 设置开机自动加载分区  配置过程安装程序open-iscsi12test@ubuntu:~$ apt-get install open-iscsitest@ubuntu:~$ service open-iscsi status">
 <meta property="og:updated_time" content="2015-11-27T02:35:42.000Z">
 <meta name="twitter:card" content="summary">
@@ -448,15 +448,15 @@
 <li>分区之后进行格式化</li>
 <li>设置开机自动加载分区</li>
 </ul>
-<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="安装程序open-iscsi"><a href="#安装程序open-iscsi" class="headerlink" title="安装程序open-iscsi"></a>安装程序<code>open-iscsi</code></h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ apt-get install open-iscsi</div><div class="line">test<span class="variable">@ubuntu</span>:~$ service open-iscsi status</div></pre></td></tr></table></figure>
+<h2 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h2><h3 id="安装程序open-iscsi"><a href="#安装程序open-iscsi" class="headerlink" title="安装程序open-iscsi"></a>安装程序<code>open-iscsi</code></h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test@ubuntu:~$ apt-<span class="builtin-name">get</span> install open-iscsi</div><div class="line">test@ubuntu:~$<span class="built_in"> service </span>open-iscsi status</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h3 id="查找iscsi存储"><a href="#查找iscsi存储" class="headerlink" title="查找iscsi存储"></a>查找iscsi存储</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ iscsiadm -m discovery -t sendtargets -p <span class="number">192.168</span>.<span class="number">1.10</span></div><div class="line"><span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn.<span class="number">1997</span>-<span class="number">05</span>.com.<span class="attribute">test</span>:iscsi1</div></pre></td></tr></table></figure>
-<h3 id="设置开机自动映射"><a href="#设置开机自动映射" class="headerlink" title="设置开机自动映射"></a>设置开机自动映射</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ iscsiadm -m node -T iqn.<span class="number">1997</span>-<span class="number">05</span>.com.<span class="attribute">test</span>:iscsi1 -p <span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span> --op update -n node.startup -v automatic</div></pre></td></tr></table></figure>
-<h3 id="重新启动，检查是否成功映射"><a href="#重新启动，检查是否成功映射" class="headerlink" title="重新启动，检查是否成功映射"></a>重新启动，检查是否成功映射</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ reboot</div><div class="line">test<span class="variable">@ubuntu</span>:~$ cat /proc/partitions</div></pre></td></tr></table></figure>
+<h3 id="查找iscsi存储"><a href="#查找iscsi存储" class="headerlink" title="查找iscsi存储"></a>查找iscsi存储</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test@ubuntu:~$ iscsiadm -m<span class="built_in"> discovery </span>-t sendtargets -p 192.168.1.10</div><div class="line">192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1</div></pre></td></tr></table></figure>
+<h3 id="设置开机自动映射"><a href="#设置开机自动映射" class="headerlink" title="设置开机自动映射"></a>设置开机自动映射</h3><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test@ubuntu:~$ iscsiadm -m <span class="keyword">node</span> <span class="title">-T</span> iqn.<span class="number">1997</span>-<span class="number">05</span>.com.test:iscsi1 -p <span class="number">192.168</span>.<span class="number">1.10</span>:<span class="number">3260</span> --<span class="keyword">op</span> update -n <span class="keyword">node</span>.<span class="title">startup</span> -v automatic</div></pre></td></tr></table></figure>
+<h3 id="重新启动，检查是否成功映射"><a href="#重新启动，检查是否成功映射" class="headerlink" title="重新启动，检查是否成功映射"></a>重新启动，检查是否成功映射</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>reboot</div><div class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>cat /proc/partitions</div></pre></td></tr></table></figure>
 <p>发现多出了一块设备<code>/dev/sdb</code></p>
-<h3 id="对映射的磁盘进行分区"><a href="#对映射的磁盘进行分区" class="headerlink" title="对映射的磁盘进行分区"></a>对映射的磁盘进行分区</h3><p>如果小于2T分区，可以使用<code>fdisk</code>进行分区，使用<code>MBR</code>分区表，<br>如果大于2T分区，则不能使用<code>MBR</code>分区表，需要使用<code>GPT</code>分区表。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ parted /dev/sdb</div><div class="line">&gt; print</div><div class="line">&gt; mklabel gpt</div><div class="line">&gt; mkpart primary <span class="number">0%</span> <span class="number">100%</span></div><div class="line">&gt; print</div></pre></td></tr></table></figure></p>
-<h3 id="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数"><a href="#分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数" class="headerlink" title="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数"></a>分区之后进行格式化，格式化时硬盘分区太大，可以使用<code>-T largefile</code>参数</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ mkfs.ext4 -T largefile /dev/sdb1</div></pre></td></tr></table></figure>
-<h3 id="设置开机自动加载分区"><a href="#设置开机自动加载分区" class="headerlink" title="设置开机自动加载分区"></a>设置开机自动加载分区</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu:</span>~$ e2label /dev/sdb1 /iscsi</div><div class="line">test<span class="variable">@ubuntu</span>:~$ echo <span class="string">"LABEL=/iscsi /data ext4 _netdev 0 0"</span> &gt;&gt; /etc/fstab</div></pre></td></tr></table></figure>
+<h3 id="对映射的磁盘进行分区"><a href="#对映射的磁盘进行分区" class="headerlink" title="对映射的磁盘进行分区"></a>对映射的磁盘进行分区</h3><p>如果小于2T分区，可以使用<code>fdisk</code>进行分区，使用<code>MBR</code>分区表，<br>如果大于2T分区，则不能使用<code>MBR</code>分区表，需要使用<code>GPT</code>分区表。<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">test@ubuntu:~$ parted /dev/sdb</div><div class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">print</span></span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> mklabel gpt</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> mkpart primary 0% 100%</span></div><div class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">print</span></span></div></pre></td></tr></table></figure></p>
+<h3 id="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数"><a href="#分区之后进行格式化，格式化时硬盘分区太大，可以使用-T-largefile参数" class="headerlink" title="分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数"></a>分区之后进行格式化，格式化时硬盘分区太大，可以使用<code>-T largefile</code>参数</h3><figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@ubuntu</span><span class="symbol">:~</span><span class="variable">$ </span>mkfs.ext4 -T largefile /dev/sdb1</div></pre></td></tr></table></figure>
+<h3 id="设置开机自动加载分区"><a href="#设置开机自动加载分区" class="headerlink" title="设置开机自动加载分区"></a>设置开机自动加载分区</h3><figure class="highlight ruby"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test@ubuntu<span class="symbol">:~</span>$ e2label /dev/sdb1 /iscsi</div><div class="line">test@ubuntu<span class="symbol">:~</span>$ echo <span class="string">"LABEL=/iscsi /data ext4 _netdev 0 0"</span> <span class="meta">&gt;&gt; </span>/etc/fstab</div></pre></td></tr></table></figure>
 <p><em>PS</em>: <code>_netdev</code>指的是，这个分区位于网络上，所以得等待网络启动完成后才会挂载该设备</p>
 <h3 id="Done。"><a href="#Done。" class="headerlink" title="Done。"></a>Done。</h3><p>这样重启系统就可以自动挂载分区，使用跟本地磁盘一样。</p>
 
@@ -520,8 +520,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/technology/using-open-iscsi-in-docker-container/" rel="next" title="Docker环境下使用open-iscsi遇到的问题">
-                <i class="fa fa-chevron-left"></i> Docker环境下使用open-iscsi遇到的问题
+              <a href="/technology/run-app-based-on-mef-from-web/" rel="next" title="Altman不能成功的加载插件">
+                <i class="fa fa-chevron-left"></i> Altman不能成功的加载插件
               </a>
             
           </div>
@@ -530,8 +530,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/technology/run-app-based-on-mef-from-web/" rel="prev" title="Altman不能成功的加载插件">
-                Altman不能成功的加载插件 <i class="fa fa-chevron-right"></i>
+              <a href="/technology/using-open-iscsi-in-docker-container/" rel="prev" title="Docker环境下使用open-iscsi遇到的问题">
+                Docker环境下使用open-iscsi遇到的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

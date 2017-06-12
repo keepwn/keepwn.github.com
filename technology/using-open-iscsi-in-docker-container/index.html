@@ -96,7 +96,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker环境下使用open-iscsi遇到的问题">
 <meta property="og:url" content="http://www.keepwn.com/technology/using-open-iscsi-in-docker-container/index.html">
-<meta property="og:site_name" content="KeePwn's Notes">
+<meta property="og:site_name" content="KeePwn&#39;s Notes">
 <meta property="og:description" content="因为有业务需求，需要在docker的容器下连接iscsi磁盘。  部署docker镜像，安装open-iscsi： 12test@testpc$ docker pull ubuntu:14.04test@testpc$ docker run ubuntu:14.04 apt-get install -y open-iscsi  进入容器，运行iscsiadm： 1234root@aaaa# isc">
 <meta property="og:updated_time" content="2015-11-27T01:30:07.000Z">
 <meta name="twitter:card" content="summary">
@@ -443,23 +443,23 @@
         <p>因为有业务需求，需要在docker的容器下连接iscsi磁盘。</p>
 <ul>
 <li><p>部署docker镜像，安装<code>open-iscsi</code>：</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@testpc</span>$ docker pull <span class="attribute">ubuntu</span>:<span class="number">14.04</span></div><div class="line">test<span class="variable">@testpc</span>$ docker run <span class="attribute">ubuntu</span>:<span class="number">14.04</span> apt-get install -y open-iscsi</div></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">test<span class="variable">@testpc</span><span class="variable">$ </span>docker pull <span class="symbol">ubuntu:</span><span class="number">14.04</span></div><div class="line">test<span class="variable">@testpc</span><span class="variable">$ </span>docker run <span class="symbol">ubuntu:</span><span class="number">14.04</span> apt-get install -y open-iscsi</div></pre></td></tr></table></figure>
 </li>
 <li><p>进入容器，运行<code>iscsiadm</code>：</p>
-<figure class="highlight autoit"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root<span class="symbol">@aaaa</span><span class="meta"># iscsiadm -m discovery -t st -p 192.168.1.10</span></div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: can <span class="literal">not</span> connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div><div class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (<span class="number">111</span>)!</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">root@aaaa# iscsiadm -m<span class="built_in"> discovery </span>-t st -p 192.168.1.10</div><div class="line">iscsiadm: can <span class="keyword">not</span> connect <span class="keyword">to</span> iSCSI daemon (111)!</div><div class="line">iscsiadm: can <span class="keyword">not</span> connect <span class="keyword">to</span> iSCSI daemon (111)!</div><div class="line">iscsiadm: Cann perform discovery. connect <span class="keyword">to</span> iSCSI daemon (111)!</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <a id="more"></a>
 <p>初步排查原因，可能是因为找不到iscsi的驱动。该装装，该删删，结果依旧不行。</p>
-<p>有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数<code>privileged</code>:<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test<span class="meta">@testpc</span>$ docker help run </div><div class="line">...</div><div class="line">--<span class="keyword">privileged</span>=<span class="keyword">false</span>  Give extended privileges to <span class="keyword">this</span> container</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数<code>privileged</code>:<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">test@testpc$ docker help <span class="builtin-name">run</span> </div><div class="line"><span class="built_in">..</span>.</div><div class="line"><span class="attribute">--privileged</span>=<span class="literal">false</span>  Give extended privileges <span class="keyword">to</span> this container</div><div class="line"><span class="built_in">..</span>.</div></pre></td></tr></table></figure></p>
 <p><em>docker容器内的root，默认情况下只是外部的一个普通用户权限，并不拥有root权限。只有使用了该参数，容器内的root才拥有真正的root权限。</em></p>
 <p>尝试一下：</p>
 <ul>
 <li><p>使用<code>privileged</code>创建一个新的容器：</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test<span class="meta">@testpc</span>$ docker run --privileged --name test -t -i <span class="string">ubuntu:</span><span class="number">14.04</span> <span class="regexp">/bin/</span>bash</div></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">test@testpc$ docker <span class="keyword">run</span><span class="bash"> --privileged --name <span class="built_in">test</span> -t -i ubuntu:14.04 /bin/bash</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>进入容器，运行<code>iscsiadm</code>：</p>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@aaaa# iscsiadm -m discovery -t <span class="built_in">st</span> -p <span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span></div><div class="line"><span class="number">192.168</span><span class="meta">.1</span><span class="meta">.10</span>:<span class="number">3260</span>,<span class="number">1</span> iqn<span class="meta">.1997</span>-<span class="number">05.</span>com.test:iscsi1</div></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">root@aaaa# iscsiadm -m<span class="built_in"> discovery </span>-t st -p 192.168.1.10</div><div class="line">192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <p>完美解决！END</p>
@@ -522,8 +522,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/" rel="next" title="Pi2版OMV的Monit连接错误的问题">
-                <i class="fa fa-chevron-left"></i> Pi2版OMV的Monit连接错误的问题
+              <a href="/howto/howto-connect-iscsi-on-ubuntu/" rel="next" title="Ubuntu14.04下连接ISCSI存储">
+                <i class="fa fa-chevron-left"></i> Ubuntu14.04下连接ISCSI存储
               </a>
             
           </div>
@@ -532,8 +532,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/howto/howto-connect-iscsi-on-ubuntu/" rel="prev" title="Ubuntu14.04下连接ISCSI存储">
-                Ubuntu14.04下连接ISCSI存储 <i class="fa fa-chevron-right"></i>
+              <a href="/technology/error-connecting-to-the-monit-daemon-in-omv-for-pi2/" rel="prev" title="Pi2版OMV的Monit连接错误的问题">
+                Pi2版OMV的Monit连接错误的问题 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

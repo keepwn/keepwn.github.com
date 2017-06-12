@@ -96,7 +96,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="富士通D2607-A11刷IT模式">
 <meta property="og:url" content="http://www.keepwn.com/technology/crossflashing-the-fujitsu-d2607/index.html">
-<meta property="og:site_name" content="KeePwn's Notes">
+<meta property="og:site_name" content="KeePwn&#39;s Notes">
 <meta property="og:description" content="准备工具 一张富士通D2607-A11阵列卡 一个U盘 一台PC机（支持UEFI启动）  准备工作 制作DOS启动盘 将U盘格式化成FAT32，刷入dos系统   下载刷机工具包点击下载 拷贝刷机所需工具 megarec软件 sas2flash软件 9211-8i固件   拷贝efi shell支持文件 在U盘根目录下，创建\efi\boot目录 复制shell_v1.efi到\efi\boot目">
 <meta property="og:updated_time" content="2016-12-06T02:35:30.000Z">
 <meta name="twitter:card" content="summary">
@@ -469,7 +469,7 @@
 <li><p>启动PC，选择U盘引导，进入DOS命令行</p>
 <ul>
 <li><p>备份阵列卡信息</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;<span class="selector-tag">dir</span></div><div class="line">&gt;<span class="selector-tag">megarec</span> <span class="selector-tag">-readsbr</span> 0 <span class="selector-tag">sbrbak</span><span class="selector-class">.bin</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">dir</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">megarec -readsbr 0 sbrbak.bin</span></div></pre></td></tr></table></figure>
 <blockquote>
 <ul>
 <li>使用<code>xdd</code>查看sbrbak.bin的数据，在<code>000000d0</code>行<code>500X XXXX XXXX XXXX</code>为阵列卡的地址</li>
@@ -482,10 +482,10 @@
 <li><p>刷入sbr</p>
 <ul>
 <li><p>刷入fj版sbr</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;<span class="selector-tag">megarec</span> <span class="selector-tag">-writesbr</span> 0 <span class="selector-tag">sbrfj</span><span class="selector-class">.bin</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">megarec -writesbr 0 sbrfj.bin</span></div></pre></td></tr></table></figure>
 </li>
 <li><p>清空flash</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;megarec -cleanflash 0</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">megarec -cleanflash 0</span></div></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -494,7 +494,7 @@
 <li><p>刷固件</p>
 <ul>
 <li><p>刷入9211 8i固件</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt;<span class="selector-tag">cd</span> <span class="selector-tag">fs0</span> # 或<span class="selector-tag">fs1</span></div><div class="line">&gt;<span class="selector-tag">sas2hax</span><span class="selector-class">.efi</span> <span class="selector-tag">-o</span> <span class="selector-tag">-f</span> 2118<span class="selector-tag">it</span><span class="selector-class">.bin</span></div><div class="line">&gt;<span class="selector-tag">sas2hax</span><span class="selector-class">.efi</span> <span class="selector-tag">-o</span> <span class="selector-tag">-b</span> <span class="selector-tag">mptsas2</span><span class="selector-class">.rom</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash"><span class="built_in">cd</span> fs0 <span class="comment"># 或fs1</span></span></div><div class="line"><span class="meta">&gt;</span><span class="bash">sas2hax.efi -o -f 2118it.bin</span></div><div class="line"><span class="meta">&gt;</span><span class="bash">sas2hax.efi -o -b mptsas2.rom</span></div></pre></td></tr></table></figure>
 <blockquote>
 <ul>
 <li>这里使用的shell.efi版本为v1，如果遇到以下报错:<code>InitShellApp: Application not started from Shell</code>，你可能需要更换shell.efi版本</li>
@@ -517,7 +517,7 @@
 <li><p>重启电脑，进入DOS命令行，重新刷入sbr</p>
 <ul>
 <li><p>刷入fj版sbr</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;<span class="selector-tag">megarec</span> <span class="selector-tag">-writesbr</span> 0 <span class="selector-tag">sbrfj</span><span class="selector-class">.bin</span></div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;</span><span class="bash">megarec -writesbr 0 sbrfj.bin</span></div></pre></td></tr></table></figure>
 <blockquote>
 <p>必须重刷一次sbr，否则只能用阵列卡的一个端口了</p>
 </blockquote>
@@ -596,8 +596,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/technology/see-the-big-world-on-openwrt/" rel="next" title="Openwrt上实现透明代理">
-                <i class="fa fa-chevron-left"></i> Openwrt上实现透明代理
+              <a href="/technology/moving-hyperv-to-esxi/" rel="next" title="从Hyper-V迁移到ESXI的血泪史">
+                <i class="fa fa-chevron-left"></i> 从Hyper-V迁移到ESXI的血泪史
               </a>
             
           </div>
@@ -606,8 +606,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/technology/moving-hyperv-to-esxi/" rel="prev" title="从Hyper-V迁移到ESXI的血泪史">
-                从Hyper-V迁移到ESXI的血泪史 <i class="fa fa-chevron-right"></i>
+              <a href="/technology/see-the-big-world-on-openwrt/" rel="prev" title="Openwrt上实现透明代理">
+                Openwrt上实现透明代理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
