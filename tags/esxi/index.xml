@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>esxi on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/esxi/</link>
+    <description>Recent content in esxi on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Sun, 09 Apr 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/esxi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>构建适合程序员的私有云</title>
+      <link>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</link>
+      <pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。&lt;br&gt;
+作为一个半吊子的码农，这显然不能满足我的需求。&lt;/p&gt;
+&lt;p&gt;所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>从Hyper-V迁移到ESXI的血泪史</title>
+      <link>https://www.keepwn.com/posts/moving-hyperv-to-esxi/</link>
+      <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/moving-hyperv-to-esxi/</guid>
+      <description>背景 怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。
+当时决定选择Hyper-V平台有以下几个理由：
+ Hyper-V提供的存储池使用方便，用起来简单 Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能 Hyper-V下可以实现硬盘休眠 其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个  现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。
+于是，我从一条不归路Server2012 With Hyper-V走向了另一条不归路ESXI6.0。
+第一坑：安装ESXI之不识别SSD 之前使用Hyper-V平台时，没有采用Gen8提供的硬件RAID功能，使用的Server2012提供的存储池功能，所以切换到ESXI平台时，重新对本地硬盘进行了硬件RAID设置。
+安装ESXI到SD卡的过程略过，按正常操作来，没什么问题。在对ESXI进行配置的时候遇到了问题，系统只能识别到设置了RAID的硬盘，无法识别到SSD。
+网上查了些资料，RAID模式下识别不到普通硬盘，要想识别到SSD，必须对SSD设置RAID，只有一块SSD怎么办？设置为RAID0。
+第二坑：安装虚拟机之freenas 在我的规划中，所有的资料（非虚拟机文件）由freenas进行统一管理，freenas开放smb、nfs服务给其他虚拟机，一方面解决了资料分散，不易管理的问题，另一方面只要保证freenas的可用性，就算其他虚拟机崩溃甚至损坏，都不会对资料有任何影响。
+创建freenas的时候，直接分配全部的磁盘空间（&amp;gt;2T）给freenas的一块虚拟磁盘，然而启动freenas时，一直卡在启动界面，显示磁盘分配错误。
+虽然猜测是分配磁盘过大导致了这个问题，然而在网上并没有查阅到明确的说法。
+在本地做了几个测试后发现，一旦分配磁盘大于2T，freenas就会卡死在启动界面。（真的只是个例？具体原因有待进一步分析）
+当然，临时解决办法也很简单，把磁盘分拆为多个1T大小的虚拟磁盘，挂载给freenas。
+第三坑：安装虚拟机之openwrt 正常方式安装openwrt，启动openwrt时，会大概率的出现卡死现象。（在《Openwrt上使用dnsmasq和ipset实现域名分流》中已经详细说明具体的原因，这里不再重复）
+第四坑：安装虚拟机之dsm 首先，DSM的版本是XPEnology DSM5.2。
+在Hyper-V上安装dsm非常简单，然而在ESXI上安装完成以后无法进入系统。
+在正常的安装流程中，虚拟机都是由XPEnologyBoot.iso进行引导启动。简单判断以后，觉得可能由于虚拟机重启以后，未能从cd启动导致的。
+进入虚拟机bios修改第一启动项为cd，保存，重新启动，WTF，怎么还是引导不了。
+重新进入bios查看启动项信息，发现上次的修改并没有被保存。（在win10的vmware workstation中进行了相同操作，对vmware的修改是生效的。）
+看来只能放大招了么，手动修改vmx！
+修改虚拟机的.vmx文件，强制第一启动项为cdrom：
+bios.bootOrder = &amp;quot;cdrom,hdd,floppy&amp;quot; 搞定。
+后记 虽然说从Hyper-V切换到ESXI的过程中，遇到了很多不可描述性的问题，但好在都解决了。问我现在用着ESXI的感觉么？感觉还不错:)</description>
+    </item>
+    
+  </channel>
+</rss>

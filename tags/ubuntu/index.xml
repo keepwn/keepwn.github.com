@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ubuntu on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/ubuntu/</link>
+    <description>Recent content in ubuntu on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Tue, 10 Nov 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu14.04下连接ISCSI存储</title>
+      <link>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</link>
+      <pubDate>Tue, 10 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</guid>
+      <description>总体步骤  安装iscsi 查找iscsi存储 设置开机自动映射 对映射的磁盘进行分区 分区之后进行格式化 设置开机自动加载分区  配置过程 安装程序open-iscsi test@ubuntu:~$ apt-get install open-iscsi test@ubuntu:~$ service open-iscsi status 查找iscsi存储 test@ubuntu:~$ iscsiadm -m discovery -t sendtargets -p 192.168.1.10 192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1 设置开机自动映射 test@ubuntu:~$ iscsiadm -m node -T iqn.1997-05.com.test:iscsi1 -p 192.168.1.10:3260 --op update -n node.startup -v automatic 重新启动，检查是否成功映射 test@ubuntu:~$ reboot test@ubuntu:~$ cat /proc/partitions 发现多出了一块设备/dev/sdb
+对映射的磁盘进行分区 如果小于2T分区，可以使用fdisk进行分区，使用MBR分区表，
+如果大于2T分区，则不能使用MBR分区表，需要使用GPT分区表。
+test@ubuntu:~$ parted /dev/sdb &amp;gt; print &amp;gt; mklabel gpt &amp;gt; mkpart primary 0% 100% &amp;gt; print 分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数 test@ubuntu:~$ mkfs.</description>
+    </item>
+    
+  </channel>
+</rss>

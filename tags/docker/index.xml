@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>docker on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/docker/</link>
+    <description>Recent content in docker on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Thu, 12 Nov 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docker环境下使用open-iscsi遇到的问题</title>
+      <link>https://www.keepwn.com/posts/using-open-iscsi-in-docker-container/</link>
+      <pubDate>Thu, 12 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/using-open-iscsi-in-docker-container/</guid>
+      <description>因为有业务需求，需要在docker的容器下连接iscsi磁盘。
+ 部署docker镜像，安装open-iscsi： test@testpc$ docker pull ubuntu:14.04 test@testpc$ docker run ubuntu:14.04 apt-get install -y open-iscsi  进入容器，运行iscsiadm： root@aaaa# iscsiadm -m discovery -t st -p 192.168.1.10 iscsiadm: can not connect to iSCSI daemon (111)! iscsiadm: can not connect to iSCSI daemon (111)! iscsiadm: Cann perform discovery. connect to iSCSI daemon (111)!   初步排查原因，可能是因为找不到iscsi的驱动。该装装，该删删，结果依旧不行。
+有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数privileged:
+test@testpc$ docker help run ... --privileged=false Give extended privileges to this container ... docker容器内的root，默认情况下只是外部的一个普通用户权限，并不拥有root权限。只有使用了该参数，容器内的root才拥有真正的root权限。
+尝试一下：
+ 使用privileged创建一个新的容器： test@testpc$ docker run --privileged --name test -t -i ubuntu:14.</description>
+    </item>
+    
+  </channel>
+</rss>

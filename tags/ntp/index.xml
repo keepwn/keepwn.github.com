@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ntp on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/ntp/</link>
+    <description>Recent content in ntp on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Thu, 17 Dec 2015 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/ntp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pi2版OMV的Monit连接错误的问题</title>
+      <link>https://www.keepwn.com/posts/error-connecting-to-the-monit-daemon-in-omv-for-pi2/</link>
+      <pubDate>Thu, 17 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/error-connecting-to-the-monit-daemon-in-omv-for-pi2/</guid>
+      <description>背景 之前买了个树莓派2，闲置了很久，最近正好有NAS需求，就打算拿它装个OpenMediaVault玩玩。
+安装过程不表。
+事实上是在使用过程中，遇到的某个问题比较奇葩，就拿来分享了。
+林尽水源 在网页端对OMV进行配置时，经常会遇到一个弹窗monit: Cannot connect to the monit daemon. Did you start it with http support?。
+详细错误代码如下：
+exception &#39;OMVException&#39; with message &#39;Failed to execute command &#39;export LANG=C; monit restart collectd 2&amp;gt;&amp;amp;1&#39;: monit: Cannot connect to the monit daemon. Did you start it with http support?&#39; in /usr/share/php/openmediavault/monit.inc:113 Stack trace: #0 /usr/share/php/openmediavault/monit.inc(70): OMVMonit-&amp;gt;action(&#39;restart&#39;, &#39;collectd&#39;, false) #1 /usr/share/openmediavault/engined/module/collectd.inc(53): OMVMonit-&amp;gt;restart(&#39;collectd&#39;) #2 /usr/share/openmediavault/engined/rpc/config.inc(206): OMVModuleCollectd-&amp;gt;startService() #3 [internal function]: OMVRpcServiceConfig-&amp;gt;applyChanges(Array, Array) #4 /usr/share/php/openmediavault/rpcservice.inc(125): call_user_func_array(Array, Array) #5 /usr/share/php/openmediavault/rpcservice.</description>
+    </item>
+    
+  </channel>
+</rss>

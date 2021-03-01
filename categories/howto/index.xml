@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>howto on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/categories/howto/</link>
+    <description>Recent content in howto on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Wed, 01 Jun 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/categories/howto/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Openwrt上使用dnsmasq和ipset实现域名分流</title>
+      <link>https://www.keepwn.com/posts/route-traffic-selectively-by-domain-on-openwrt/</link>
+      <pubDate>Wed, 01 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/route-traffic-selectively-by-domain-on-openwrt/</guid>
+      <description>目标 部署一台自动代理路由器，实现根据域名来自动设定直连或者代理，而我要做的只是设置PC的默认网关为主路由器（192.168.0.1）还是自动代理路由器（192.168.0.254）。
+创建Openwrt虚拟机 系统版本
+ 主路由器 (ip: 192.168.0.1) ESXI 6.0U2 Openwrt 15.05.1 (ip: 192.168.0.254，gateway: 192.168.0.1)  Openwrt虚拟机的配置教程有很多，这里只针对ESXI版Openwrt可能会遇到的问题说明下：
+  在ESXI6上，openwrt_x86每次启动时会大概率的出现卡死现象，表现为Kernel panic - not syncing: Attempted to kill init。
+ 解决办法：改用openwrt_x64后正常。原因未知。    在ESXI6上，在openwrt上执行某些命令时，会被强制关机，表现为
+来自 promote 的消息: The operation on the file &amp;quot;/vmfs/devices/deltadisks/17ad1ab5-openwrt-15. 05.1-x86-64-combined-ext4-s001.vmdk&amp;quot; failed (Bad address). The file system where disk &amp;quot;/vmfs /devices/deltadisks/17ad1ab5-openwrt-15.05.1-- x86-64-combined-ext4-s001.vmdk&amp;quot; resides is full. Select _Retry to attempt the operation again. Select Cancel to end the session.</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu14.04下连接ISCSI存储</title>
+      <link>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</link>
+      <pubDate>Tue, 10 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</guid>
+      <description>总体步骤  安装iscsi 查找iscsi存储 设置开机自动映射 对映射的磁盘进行分区 分区之后进行格式化 设置开机自动加载分区  配置过程 安装程序open-iscsi test@ubuntu:~$ apt-get install open-iscsi test@ubuntu:~$ service open-iscsi status 查找iscsi存储 test@ubuntu:~$ iscsiadm -m discovery -t sendtargets -p 192.168.1.10 192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1 设置开机自动映射 test@ubuntu:~$ iscsiadm -m node -T iqn.1997-05.com.test:iscsi1 -p 192.168.1.10:3260 --op update -n node.startup -v automatic 重新启动，检查是否成功映射 test@ubuntu:~$ reboot test@ubuntu:~$ cat /proc/partitions 发现多出了一块设备/dev/sdb
+对映射的磁盘进行分区 如果小于2T分区，可以使用fdisk进行分区，使用MBR分区表，
+如果大于2T分区，则不能使用MBR分区表，需要使用GPT分区表。
+test@ubuntu:~$ parted /dev/sdb &amp;gt; print &amp;gt; mklabel gpt &amp;gt; mkpart primary 0% 100% &amp;gt; print 分区之后进行格式化，格式化时硬盘分区太大，可以使用-T largefile参数 test@ubuntu:~$ mkfs.</description>
+    </item>
+    
+    <item>
+      <title>Mac安装mono环境</title>
+      <link>https://www.keepwn.com/posts/osx-installed-mono-environment/</link>
+      <pubDate>Fri, 25 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/osx-installed-mono-environment/</guid>
+      <description>##0x00准备工作
+一个全新安装的MacOs X10.9系统
+##0×01下载Mono和MonoDevelop并安装
+ MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg [XamarinStudio-5.0.1.3-0.dmg] 1  然后默认安装即可。
+##0×02验证Mono是否安装正确
+TestAdeMac:~ testa$ mono -VMono JIT compiler version 3.4.0 ((no/d4511ef Tue Mar 25 14:35:52 EDT 2014)Copyright (C) 2002-2014 Novell, Inc, Xamarin Inc and Contributors. www.mono-project.comTLS: normalSIGSEGV: altstackNotification: kqueueArchitecture: x86Disabled: noneMisc: softdebug LLVM: yes(3.4svn-mono-(no/e656cac)GC: sgen安装成功。</description>
+    </item>
+    
+    <item>
+      <title>ubuntu安装mono环境(一)</title>
+      <link>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/</link>
+      <pubDate>Fri, 28 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/</guid>
+      <description>0x00 准备工作 一个全新安装的ubuntu13.10系统
+0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ lsDesktop Downloads Music Public VideosDocuments examples.desktop Pictures Templatesnike@NIKE-PC:~$ mkdir srcnike@NIKE-PC:~$ cd srcnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 77515552 (74M) [application/x-bzip2]Saving to: ‘mono-3.2.8.tar.bz2’100%[======================================&amp;gt;] 77,515,552 189K/s in 10m 50snike@NIKE-PC:~/src$ lsmono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ cd mono-3.2.8/nike@NIKE-PC:~/src/mono-3.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu安装mono环境(二)</title>
+      <link>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/</link>
+      <pubDate>Fri, 28 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/</guid>
+      <description>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。
+这篇主要是配置安装libgdiplus。
+0×00准备工作 先在VS2012上编译一个winform，代码如下：
+using System;using System.Windows.Forms;namespace FormsTest{static class Program{/// &amp;lt;summary&amp;gt;/// 应用程序的主入口点。/// &amp;lt;/summary&amp;gt;[STAThread]static void Main(){Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);Application.Run(new Form());}}}尝试在ubuntu上用mono运行：
+nike@NIKE-PC:~$ cd Desktop/nike@NIKE-PC:~/Desktop$ lsFormsTest.exenike@NIKE-PC:~/Desktop$ mono FormsTest.exeUnhandled Exception:System.TypeInitializationException: An exception was thrown by the type initializer for System.Windows.Forms.XplatUI ---&amp;gt; System.TypeInitializationException: An exception was thrown by the type initializer for System.Drawing.GDIPlus ---&amp;gt; System.</description>
+    </item>
+    
+  </channel>
+</rss>

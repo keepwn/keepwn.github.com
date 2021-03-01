@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>exp on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/exp/</link>
+    <description>Recent content in exp on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Mon, 31 Mar 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/exp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Winrar4.x的文件欺骗漏洞利用脚本</title>
+      <link>https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/</link>
+      <pubDate>Mon, 31 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/</guid>
+      <description>0×00 背景 这几天仔细研究了winrar4.x系列的文件扩展名欺骗漏洞的那篇文章，通过一些测试对其有了一些新的想法和建议。（准确的说应该不能算文件扩展名欺骗漏，不止扩展名，整个文件名都是可以欺骗的）
+具体的漏洞成因相信文章中都很清楚了，简单说一下：
+zip格式中有2个filename，一般情况下，一般应用程序打开zip时，预览使用的是filename2，点击预览也是以filename2方式打开的，只有在解压的时候才会使用filename1。然而在winrar4.x中，点击预览是以预览filename1方式打开的。
+这会造成什么结果呢？当第一个filename为readme.exe，第二个filename为readme.txt时，用winrar4.x打开时，你在程序窗口看到的文件名为readme.txt，然后你再点击文件时却是以readme.exe方式打开，这就形成漏洞了。
+文章给出了如何利用这个bug的方法，更改filename2即可。但是作者是手动操作的，那么能不能写成利用脚本呢？这个filename2的长度有没有要求，需不需要和filename1长度相同？这正是本文要研究的。
+0×01 细节 在研究这个问题以前，先科普一下zip格式（想看详细版的去网上下载APPNOTE.TXT）。
+zip格式由3部分组成：
+1. 文件内容源数据2. 目录源数据3. 目录结束标识结构 以只压缩了一个文件的zip文件为例，大致格式为：
+[file header][file data][data descriptor][central directory file header][end of central directory record] 其中关键的几个字段为：
+[file header]:Offset Bytes Description18 4 Compressed size26 2 File name length (n)28 2 Extra field length (m)30 n File name30+n m Extra field[central directory file header]:Offset Bytes Description28 2 File name length (n)30 2 Extra field length (m)34 2 File comment length (k)[end of central directory record]:Offset Bytes Description12 4 Size of central directory (bytes)16 4 Offset of start of central directory, relative to start of archive 在了解了zip基本格式后，我对winrar压缩生成的zip文件和用windows生成的zip文件进行了分析，它们的区别是winrar的zip文件在Extra field区段都进行了一些数据填充。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mef on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/mef/</link>
+    <description>Recent content in mef on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Mon, 28 Jul 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/mef/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Altman不能成功的加载插件</title>
+      <link>https://www.keepwn.com/posts/run-app-based-on-mef-from-web/</link>
+      <pubDate>Mon, 28 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/run-app-based-on-mef-from-web/</guid>
+      <description>一直有小伙伴给我反馈说：在.Net环境安装好的情况下，Altman不能自动载入插件。
+而我在测试的时候，确实发生过相似的现象，但却找不到问题所在。
+今天早些时候，在stackoverflow看到之前有人提到过类似的问题，恍然大悟。
+原来，当我们从Web下载Altman程序的时候，程序集将会被添加一个新的安全属性（文件来自网络，已被锁定）。运行altman，由于loadFromRemoteSources默认属性是false，程序就无法加载这些插件dll。(在这里有详细的说明)
+所以，解决这个问题目前有三种方法：
+ 手动修改Plugins目录下插件的文件属性。 在程序根目录下添加Altman.exe.config，内容如下: &amp;lt;configuration&amp;gt;&amp;lt;runtime&amp;gt;&amp;lt;loadFromRemoteSources enabled=&amp;quot;true&amp;quot;/&amp;gt;&amp;lt;/runtime&amp;gt;&amp;lt;/configuration&amp;gt; 主程序将在下一个版本2.2.1中解决该问题。  </description>
+    </item>
+    
+  </channel>
+</rss>

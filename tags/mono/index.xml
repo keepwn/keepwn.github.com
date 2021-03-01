@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mono on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/mono/</link>
+    <description>Recent content in mono on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Fri, 25 Jul 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/mono/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mac安装mono环境</title>
+      <link>https://www.keepwn.com/posts/osx-installed-mono-environment/</link>
+      <pubDate>Fri, 25 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/osx-installed-mono-environment/</guid>
+      <description>##0x00准备工作
+一个全新安装的MacOs X10.9系统
+##0×01下载Mono和MonoDevelop并安装
+ MonoFramework-MDK-3.4.0.macos10.xamarin.x86.pkg [XamarinStudio-5.0.1.3-0.dmg] 1  然后默认安装即可。
+##0×02验证Mono是否安装正确
+TestAdeMac:~ testa$ mono -VMono JIT compiler version 3.4.0 ((no/d4511ef Tue Mar 25 14:35:52 EDT 2014)Copyright (C) 2002-2014 Novell, Inc, Xamarin Inc and Contributors. www.mono-project.comTLS: normalSIGSEGV: altstackNotification: kqueueArchitecture: x86Disabled: noneMisc: softdebug LLVM: yes(3.4svn-mono-(no/e656cac)GC: sgen安装成功。</description>
+    </item>
+    
+    <item>
+      <title>ubuntu安装mono环境(一)</title>
+      <link>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/</link>
+      <pubDate>Fri, 28 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/</guid>
+      <description>0x00 准备工作 一个全新安装的ubuntu13.10系统
+0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ lsDesktop Downloads Music Public VideosDocuments examples.desktop Pictures Templatesnike@NIKE-PC:~$ mkdir srcnike@NIKE-PC:~$ cd srcnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 77515552 (74M) [application/x-bzip2]Saving to: ‘mono-3.2.8.tar.bz2’100%[======================================&amp;gt;] 77,515,552 189K/s in 10m 50snike@NIKE-PC:~/src$ lsmono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ cd mono-3.2.8/nike@NIKE-PC:~/src/mono-3.</description>
+    </item>
+    
+    <item>
+      <title>ubuntu安装mono环境(二)</title>
+      <link>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/</link>
+      <pubDate>Fri, 28 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/</guid>
+      <description>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。
+这篇主要是配置安装libgdiplus。
+0×00准备工作 先在VS2012上编译一个winform，代码如下：
+using System;using System.Windows.Forms;namespace FormsTest{static class Program{/// &amp;lt;summary&amp;gt;/// 应用程序的主入口点。/// &amp;lt;/summary&amp;gt;[STAThread]static void Main(){Application.EnableVisualStyles();Application.SetCompatibleTextRenderingDefault(false);Application.Run(new Form());}}}尝试在ubuntu上用mono运行：
+nike@NIKE-PC:~$ cd Desktop/nike@NIKE-PC:~/Desktop$ lsFormsTest.exenike@NIKE-PC:~/Desktop$ mono FormsTest.exeUnhandled Exception:System.TypeInitializationException: An exception was thrown by the type initializer for System.Windows.Forms.XplatUI ---&amp;gt; System.TypeInitializationException: An exception was thrown by the type initializer for System.Drawing.GDIPlus ---&amp;gt; System.</description>
+    </item>
+    
+  </channel>
+</rss>

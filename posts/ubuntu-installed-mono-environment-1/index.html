@@ -1,0 +1,137 @@
+<!doctype html><html lang=zh dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ubuntu安装mono环境(一) | KeePwn's Notes</title><meta name=keywords content="configure,mono"><meta name=description content="0x00 准备工作 一个全新安装的ubuntu13.10系统
+0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ lsDesktop Downloads Music Public VideosDocuments examples.desktop Pictures Templatesnike@NIKE-PC:~$ mkdir srcnike@NIKE-PC:~$ cd srcnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 77515552 (74M) [application/x-bzip2]Saving to: ‘mono-3.2.8.tar.bz2’100%[======================================>] 77,515,552 189K/s in 10m 50snike@NIKE-PC:~/src$ lsmono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ cd mono-3.2.8/nike@NIKE-PC:~/src/mono-3."><meta name=author content="keepwn"><link rel=canonical href=https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/><meta name=google-site-verification content="UA-52738842-1"><link href=//cdn.bootcdn.net/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css rel=stylesheet type=text/css><link href=/assets/css/stylesheet.min.b18d2192b46ee057ab44baca1a2f3dcd088499657810f879e44342f68066ec97.css integrity="sha256-sY0hkrRu4FerRLrKGi89zQiEmWV4EPh55ENC9oBm7Jc=" rel="preload stylesheet" as=style><link rel=icon href=https://www.keepwn.com/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://www.keepwn.com/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://www.keepwn.com/favicon-32x32.png><link rel=apple-touch-icon href=https://www.keepwn.com/apple-touch-icon.png><link rel=mask-icon href=https://www.keepwn.com/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.82.0"><meta property="og:title" content="ubuntu安装mono环境(一)"><meta property="og:description" content="0x00 准备工作 一个全新安装的ubuntu13.10系统
+0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ lsDesktop Downloads Music Public VideosDocuments examples.desktop Pictures Templatesnike@NIKE-PC:~$ mkdir srcnike@NIKE-PC:~$ cd srcnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 77515552 (74M) [application/x-bzip2]Saving to: ‘mono-3.2.8.tar.bz2’100%[======================================>] 77,515,552 189K/s in 10m 50snike@NIKE-PC:~/src$ lsmono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ cd mono-3.2.8/nike@NIKE-PC:~/src/mono-3."><meta property="og:type" content="article"><meta property="og:url" content="https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2014-03-28T00:00:00+00:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="ubuntu安装mono环境(一)"><meta name=twitter:description content="0x00 准备工作 一个全新安装的ubuntu13.10系统
+0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ lsDesktop Downloads Music Public VideosDocuments examples.desktop Pictures Templatesnike@NIKE-PC:~$ mkdir srcnike@NIKE-PC:~$ cd srcnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.HTTP request sent, awaiting response... 200 OKLength: 77515552 (74M) [application/x-bzip2]Saving to: ‘mono-3.2.8.tar.bz2’100%[======================================>] 77,515,552 189K/s in 10m 50snike@NIKE-PC:~/src$ lsmono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2nike@NIKE-PC:~/src$ cd mono-3.2.8/nike@NIKE-PC:~/src/mono-3."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://www.keepwn.com/posts/"},{"@type":"ListItem","position":3,"name":"ubuntu安装mono环境(一)","item":"https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"ubuntu安装mono环境(一)","name":"ubuntu安装mono环境(一)","description":"0x00 准备工作 一个全新安装的ubuntu13.10系统\n0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ ls\rDesktop Downloads Music Public Videos\rDocuments examples.desktop Pictures Templates\rnike@NIKE-PC:~$ mkdir src\rnike@NIKE-PC:~$ cd src\rnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2\r--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2\rResolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...\rConnecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.\rHTTP request sent, awaiting response... 200 OK\rLength: 77515552 (74M) [application/x-bzip2]\rSaving to: ‘mono-3.2.8.tar.bz2’\r100%[======================================\u0026gt;] 77,515,552 189K/s in 10m 50s\rnike@NIKE-PC:~/src$ ls\rmono-3.2.8.tar.bz2\rnike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2\rnike@NIKE-PC:~/src$ cd mono-3.2.8/\rnike@NIKE-PC:~/src/mono-3.","keywords":["configure","mono"],"articleBody":"0x00 准备工作 一个全新安装的ubuntu13.10系统\n0×01 下载Mono源代码并编译 nike@NIKE-PC:~$ ls\rDesktop Downloads Music Public Videos\rDocuments examples.desktop Pictures Templates\rnike@NIKE-PC:~$ mkdir src\rnike@NIKE-PC:~$ cd src\rnike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2\r--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2\rResolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...\rConnecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.\rHTTP request sent, awaiting response... 200 OK\rLength: 77515552 (74M) [application/x-bzip2]\rSaving to: ‘mono-3.2.8.tar.bz2’\r100%[======================================] 77,515,552 189K/s in 10m 50s\rnike@NIKE-PC:~/src$ ls\rmono-3.2.8.tar.bz2\rnike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2\rnike@NIKE-PC:~/src$ cd mono-3.2.8/\rnike@NIKE-PC:~/src/mono-3.2.8$ ./configure --prefix=/opt/mono-3.2.8\rchecking build system type... i686-pc-linux-gnu\rchecking host system type... i686-pc-linux-gnu\rchecking target system type... i686-pc-linux-gnu\rchecking for a BSD-compatible install... /usr/bin/install -c\rchecking whether build environment is sane... yes\rchecking for a thread-safe mkdir -p... /bin/mkdir -p\rchecking for gawk... no\rchecking for mawk... mawk\rchecking whether make sets $(MAKE)... yes\rchecking how to create a ustar tar archive... gnutar\rchecking whether to enable maintainer-specific portions of Makefiles... no\rchecking whether ln -s works... yes\rchecking whether make supports nested variables... yes\rchecking host platform characteristics... ok\rchecking for gcc... gcc\rchecking for gcc... (cached) gcc\rchecking whether the C compiler works... yes\rchecking for C compiler default output file name... a.out\rchecking for suffix of executables...\rchecking whether we are cross compiling... no\rchecking for suffix of object files... o\rchecking whether we are using the GNU C compiler... yes\rchecking whether gcc accepts -g... yes\rchecking for gcc option to accept ISO C89... none needed\rchecking for style of include used by make... GNU\rchecking dependency style of gcc... gcc3\rchecking for g++... no\rchecking whether we are using the GNU C++ compiler... no\rchecking whether g++ accepts -g... no\rchecking dependency style of g++... none\rchecking dependency style of gcc... gcc3\rchecking for gawk... (cached) mawk\rchecking whether gcc and cc understand -c and -o together... yes\rconfigure: error: You need to install g++\r因为没有安装g++而无法继续：\nnike@NIKE-PC:~/src/mono-3.2.8$ sudo apt-get install g++\r[sudo] password for nike:\rReading package lists... Done\rBuilding dependency tree\rReading state information... Done\rThe following extra packages will be installed:\rcpp-4.8 g++-4.8 gcc-4.8 gcc-4.8-base libasan0 libatomic1 libgcc-4.8-dev\rlibgcc1 libgomp1 libitm1 libquadmath0 libstdc++-4.8-dev libstdc++6\rSuggested packages:\rgcc-4.8-locales g++-multilib g++-4.8-multilib gcc-4.8-doc libstdc++6-4.8-dbg\rgcc-4.8-multilib libmudflap0-4.8-dev libgcc1-dbg libgomp1-dbg libitm1-dbg\rlibatomic1-dbg libasan0-dbg libtsan0-dbg libbacktrace1-dbg libquadmath0-dbg\rlibmudflap0-dbg libstdc++-4.8-doc\rThe following NEW packages will be installed:\rg++ g++-4.8 libstdc++-4.8-dev\rThe following packages will be upgraded:\rcpp-4.8 gcc-4.8 gcc-4.8-base libasan0 libatomic1 libgcc-4.8-dev libgcc1\rlibgomp1 libitm1 libquadmath0 libstdc++6\r11 upgraded, 3 newly installed, 0 to remove and 275 not upgraded.\rNeed to get 25.9 MB of archives.\rAfter this operation, 28.2 MB of additional disk space will be used.\rDo you want to continue [Y/n]?\r==============省略了很多重新初始化mono安装配置文件：\nnike@NIKE-PC:~/src/mono-3.2.8$ ./configure --prefix=/opt/mono-3.2.8\r==============省略了很多./configure通过。\n0×02 编译Mono源代码 nike@NIKE-PC:~/src/mono-3.2.8$ make\r==============漫长的编译~省略了很多安装成功。\n##0×03设置PATH环境变量\nnike@NIKE-PC:~/src/mono-3.2.8$ cd ~\rnike@NIKE-PC:~$ vim .bashrc\r在该文件末尾追加以下语句：\nif [ -d /opt/mono-3.2.8/bin ]; then\rexport PATH=/opt/mono-3.2.8/bin:$PATH\rfi\r然后：\nnike@NIKE-PC:~$ . .bashrc\rnike@NIKE-PC:~$ echo $PATH\r/opt/mono-3.2.8/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games\rnike@NIKE-PC:~$\r0×04 验证Mono是否安装正确 nike@NIKE-PC:~$ mono --version\rMono JIT compiler version 3.2.8 (tarball 2014年 03月 27日 星期四 21:55:30 CST)\rCopyright (C) 2002-2014 Novell, Inc, Xamarin Inc and Contributors. www.mono-project.com\rTLS: __thread\rSIGSEGV: altstack\rNotifications: epoll\rArchitecture: x86\rDisabled: none\rMisc: softdebug\rLLVM: supported, not enabled.\rGC: sgen\rnike@NIKE-PC:~$ dmcs --version\rMono C# compiler version 3.2.8.0\rnike@NIKE-PC:~$\r安装成功。\n","wordCount":"584","inLanguage":"zh","datePublished":"2014-03-28T00:00:00Z","dateModified":"0001-01-01T00:00:00Z","author":{"@type":"Person","name":"keepwn"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.keepwn.com/posts/ubuntu-installed-mono-environment-1/"},"publisher":{"@type":"Organization","name":"KeePwn's Notes","logo":{"@type":"ImageObject","url":"https://www.keepwn.com/favicon.ico"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://www.keepwn.com accesskey=h title="KeePwn's Notes (Alt + H)">KeePwn's Notes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu onscroll=menu_on_scroll()><li><a href=https://www.keepwn.com/search title=搜索><span>搜索</span></a></li><li><a href=https://www.keepwn.com/archives title=归档><span>归档</span></a></li><li><a href=https://www.keepwn.com/categories/ title=分类><span>分类</span></a></li><li><a href=https://www.keepwn.com/tags/ title=标签><span>标签</span></a></li><li><a href=https://www.keepwn.com/about title=关于><span>关于</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>ubuntu安装mono环境(一)</h1><div class=post-meta>March 28, 2014&nbsp;·&nbsp;3 分钟&nbsp;·&nbsp;keepwn</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><div class=details>目录</div></summary><div class=inner><ul><li><a href=#0x00-%e5%87%86%e5%a4%87%e5%b7%a5%e4%bd%9c aria-label="0x00 准备工作">0x00 准备工作</a></li><li><a href=#001-%e4%b8%8b%e8%bd%bdmono%e6%ba%90%e4%bb%a3%e7%a0%81%e5%b9%b6%e7%bc%96%e8%af%91 aria-label="0×01 下载Mono源代码并编译">0×01 下载Mono源代码并编译</a></li><li><a href=#002-%e7%bc%96%e8%af%91mono%e6%ba%90%e4%bb%a3%e7%a0%81 aria-label="0×02 编译Mono源代码">0×02 编译Mono源代码</a></li><li><a href=#004-%e9%aa%8c%e8%af%81mono%e6%98%af%e5%90%a6%e5%ae%89%e8%a3%85%e6%ad%a3%e7%a1%ae aria-label="0×04 验证Mono是否安装正确">0×04 验证Mono是否安装正确</a></li></ul></div></details></div><div class=post-content><h2 id=0x00-准备工作>0x00 准备工作<a hidden class=anchor aria-hidden=true href=#0x00-准备工作>#</a></h2><p>一个全新安装的ubuntu13.10系统</p><h2 id=001-下载mono源代码并编译>0×01 下载Mono源代码并编译<a hidden class=anchor aria-hidden=true href=#001-下载mono源代码并编译>#</a></h2><pre><code>nike@NIKE-PC:~$ ls
+Desktop Downloads Music Public Videos
+Documents examples.desktop Pictures Templates
+nike@NIKE-PC:~$ mkdir src
+nike@NIKE-PC:~$ cd src
+nike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2
+--2014-03-27 21:24:30-- http://download.mono-project.com/sources/mono/mono-3.2.8.tar.bz2
+Resolving download.mono-project.com (download.mono-project.com)... 54.240.168.102, 54.230.156.158, 54.230.157.116, ...
+Connecting to download.mono-project.com (download.mono-project.com)|54.240.168.102|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 77515552 (74M) [application/x-bzip2]
+Saving to: ‘mono-3.2.8.tar.bz2’
+
+100%[======================================&gt;] 77,515,552 189K/s in 10m 50s
+
+nike@NIKE-PC:~/src$ ls
+mono-3.2.8.tar.bz2
+nike@NIKE-PC:~/src$ tar -xjf mono-3.2.8.tar.bz2
+nike@NIKE-PC:~/src$ cd mono-3.2.8/
+nike@NIKE-PC:~/src/mono-3.2.8$ ./configure --prefix=/opt/mono-3.2.8
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking target system type... i686-pc-linux-gnu
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking how to create a ustar tar archive... gnutar
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking whether ln -s works... yes
+checking whether make supports nested variables... yes
+checking host platform characteristics... ok
+checking for gcc... gcc
+checking for gcc... (cached) gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for style of include used by make... GNU
+checking dependency style of gcc... gcc3
+checking for g++... no
+checking whether we are using the GNU C++ compiler... no
+checking whether g++ accepts -g... no
+checking dependency style of g++... none
+checking dependency style of gcc... gcc3
+checking for gawk... (cached) mawk
+checking whether gcc and cc understand -c and -o together... yes
+configure: error: You need to install g++
+</code></pre><p>因为没有安装g++而无法继续：</p><pre><code>nike@NIKE-PC:~/src/mono-3.2.8$ sudo apt-get install g++
+[sudo] password for nike:
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following extra packages will be installed:
+cpp-4.8 g++-4.8 gcc-4.8 gcc-4.8-base libasan0 libatomic1 libgcc-4.8-dev
+libgcc1 libgomp1 libitm1 libquadmath0 libstdc++-4.8-dev libstdc++6
+Suggested packages:
+gcc-4.8-locales g++-multilib g++-4.8-multilib gcc-4.8-doc libstdc++6-4.8-dbg
+gcc-4.8-multilib libmudflap0-4.8-dev libgcc1-dbg libgomp1-dbg libitm1-dbg
+libatomic1-dbg libasan0-dbg libtsan0-dbg libbacktrace1-dbg libquadmath0-dbg
+libmudflap0-dbg libstdc++-4.8-doc
+The following NEW packages will be installed:
+g++ g++-4.8 libstdc++-4.8-dev
+The following packages will be upgraded:
+cpp-4.8 gcc-4.8 gcc-4.8-base libasan0 libatomic1 libgcc-4.8-dev libgcc1
+libgomp1 libitm1 libquadmath0 libstdc++6
+11 upgraded, 3 newly installed, 0 to remove and 275 not upgraded.
+Need to get 25.9 MB of archives.
+After this operation, 28.2 MB of additional disk space will be used.
+Do you want to continue [Y/n]?
+==============&gt;省略了很多&lt;==============
+</code></pre><p>重新初始化mono安装配置文件：</p><pre><code>nike@NIKE-PC:~/src/mono-3.2.8$ ./configure --prefix=/opt/mono-3.2.8
+==============&gt;省略了很多&lt;==============
+Engine:
+GC: sgen and bundled Boehm GC with typed GC and parallel mark
+TLS: __thread
+SIGALTSTACK: yes
+Engine: Building and using the JIT
+oprofile: no
+BigArrays: no
+DTrace: no
+LLVM Back End: no (dynamically loaded: no)
+ 
+Libraries:
+.NET 2.0/3.5: yes
+.NET 4.0: yes
+.NET 4.5: yes
+MonoDroid: no
+MonoTouch: no
+JNI support: IKVM Native
+libgdiplus: assumed to be installed
+zlib:
+nike@NIKE-PC:~/src/mono-3.2.8$
+</code></pre><p>./configure通过。</p><h2 id=002-编译mono源代码>0×02 编译Mono源代码<a hidden class=anchor aria-hidden=true href=#002-编译mono源代码>#</a></h2><pre><code>nike@NIKE-PC:~/src/mono-3.2.8$ make
+==============&gt;漫长的编译~&lt;==============
+nike@NIKE-PC:~/src/mono-3.2.8$ sudo make install
+==============&gt;省略了很多&lt;==============
+</code></pre><p>安装成功。</p><p>##0×03设置PATH环境变量</p><pre><code>nike@NIKE-PC:~/src/mono-3.2.8$ cd ~
+nike@NIKE-PC:~$ vim .bashrc
+</code></pre><p>在该文件末尾追加以下语句：</p><pre><code>if [ -d /opt/mono-3.2.8/bin ]; then
+export PATH=/opt/mono-3.2.8/bin:$PATH
+fi
+</code></pre><p>然后：</p><pre><code>nike@NIKE-PC:~$ . .bashrc
+nike@NIKE-PC:~$ echo $PATH
+/opt/mono-3.2.8/bin:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+nike@NIKE-PC:~$
+</code></pre><h2 id=004-验证mono是否安装正确>0×04 验证Mono是否安装正确<a hidden class=anchor aria-hidden=true href=#004-验证mono是否安装正确>#</a></h2><pre><code>nike@NIKE-PC:~$ mono --version
+Mono JIT compiler version 3.2.8 (tarball 2014年 03月 27日 星期四 21:55:30 CST)
+Copyright (C) 2002-2014 Novell, Inc, Xamarin Inc and Contributors. www.mono-project.com
+TLS: __thread
+SIGSEGV: altstack
+Notifications: epoll
+Architecture: x86
+Disabled: none
+Misc: softdebug
+LLVM: supported, not enabled.
+GC: sgen
+nike@NIKE-PC:~$ dmcs --version
+Mono C# compiler version 3.2.8.0
+nike@NIKE-PC:~$
+</code></pre><p>安装成功。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://www.keepwn.com/tags/configure/>configure</a></li><li><a href=https://www.keepwn.com/tags/mono/>mono</a></li></ul><nav class=paginav><a class=prev href=https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/><span class=title>« 上一页</span><br><span>Winrar4.x的文件欺骗漏洞利用脚本</span></a>
+<a class=next href=https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/><span class=title>下一页 »</span><br><span>ubuntu安装mono环境(二)</span></a></nav></footer><section class=comments><style>.utterances{max-width:100%}</style><script src=https://utteranc.es/client.js repo=keepwn/blog-comments issue-term=pathname theme=github-light crossorigin=anonymous async></script></section></article></main><footer class=footer><span>© 2014 - 2021 KEEPWN.COM</span>
+<span>&#183;</span>
+<span>Powered by <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a></span>
+<span>&#183;</span>
+<span>Theme PaperMod & Custom</span></footer><div class=back-to-top><i class="fa fa-arrow-up"></i>
+<span id=scrollpercent><span>0</span>%</span></div><script type=text/javascript src=//cdn.bootcdn.net/ajax/libs/jquery/2.1.4/jquery.min.js></script><script type=text/javascript>function getCntViewHeight(){var b=$('#content').height(),a=$(window).height(),c=b>a?b-a:$(document).height()-a;return c}function registerBackTop(){var b=50,a=$('.back-to-top');$(window).on('scroll',function(){var d,e,f,c,g;a.toggleClass('back-to-top-on',window.pageYOffset>b),d=$(window).scrollTop(),e=getCntViewHeight(),f=d/e,c=Math.round(f*100),g=c>100?100:c,$('#scrollpercent>span').html(g)}),a.on('click',function(){$("html,body").animate({scrollTop:0,screenLeft:0},800)})}registerBackTop()</script><script src=https://unpkg.com/scrollnav@3.0.1/dist/scrollnav.min.umd.js></script><script>const content=document.querySelector('.post-content');scrollnav.init(content,{debug:!1,easingStyle:'linear',sections:$('.post-content > h1').length>0?'h1':'h2',subSections:$('.post-content > h1').length>0?'h2':'h3'}),$(window).on('scroll',function(){$(".scroll-nav__sub-item.scroll-nav__item--active").parent().parent().addClass("scroll-nav__item--half-active");let a=$(".scroll-nav__item.scroll-nav__item--half-active");a.find(".scroll-nav__sub-item").length>0&&(a.find(".scroll-nav__sub-item").is(".scroll-nav__item--active")||a.removeClass("scroll-nav__item--half-active"))})</script><script defer src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script><script>window.onload=function(){localStorage.getItem("menu-scroll-position")&&(document.getElementById('menu').scrollLeft=localStorage.getItem("menu-scroll-position"))},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})});function menu_on_scroll(){localStorage.setItem("menu-scroll-position",document.getElementById('menu').scrollLeft)}</script><script>document.getElementById("theme-toggle")?.addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script></body></html>

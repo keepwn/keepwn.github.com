@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>9211-8i on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/9211-8i/</link>
+    <description>Recent content in 9211-8i on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Fri, 02 Dec 2016 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/9211-8i/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>富士通D2607-A11刷IT模式</title>
+      <link>https://www.keepwn.com/posts/crossflashing-the-fujitsu-d2607/</link>
+      <pubDate>Fri, 02 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/crossflashing-the-fujitsu-d2607/</guid>
+      <description>准备工具  一张富士通D2607-A11阵列卡 一个U盘 一台PC机（支持UEFI启动）  准备工作  制作DOS启动盘   将U盘格式化成FAT32，刷入dos系统  下载刷机工具包点击下载 拷贝刷机所需工具   megarec软件 sas2flash软件 9211-8i固件  拷贝efi shell支持文件   在U盘根目录下，创建\efi\boot目录 复制shell_v1.efi到\efi\boot目录，重命名为bootx64.efi  开始刷固件  插上D2607-A11阵列卡 启动PC，选择U盘引导，进入DOS命令行    备份阵列卡信息
+&amp;gt;dir &amp;gt;megarec -readsbr 0 sbrbak.bin   使用xdd查看sbrbak.bin的数据，在000000d0行500X XXXX XXXX XXXX为阵列卡的地址 强烈建议进行这个操作，尽管我当时忘了     刷入sbr   刷入fj版sbr &amp;gt;megarec -writesbr 0 sbrfj.bin  清空flash &amp;gt;megarec -cleanflash 0   重启PC，选择UEFI版U盘引导，进入efi shell 刷固件    刷入9211 8i固件</description>
+    </item>
+    
+  </channel>
+</rss>
