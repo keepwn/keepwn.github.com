@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>security-onion on KeePwn&#39;s Notes</title>
+    <link>https://www.keepwn.com/tags/security-onion/</link>
+    <description>Recent content in security-onion on KeePwn&#39;s Notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <copyright>© 2014 - 2021 KEEPWN.COM</copyright>
+    <lastBuildDate>Sat, 20 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/security-onion/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Security-Onion-2 分布式实践之安装篇</title>
+      <link>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</link>
+      <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</guid>
+      <description>前言  Security Onion （以下称安全洋葱）是一款免费且开源的，用于威胁发现、企业安全监视和日志管理的 Linux 发行版本。
+目前，安全洋葱已经迭代至 2.X，与 1.X 版本不同，2.X 版本基于容器开发，实现了将各个组件和服务容器化，更易于使用者部署和定制。
+  本篇并不涉及系统的调优，如果你此前已经安装并部署了安全洋葱，可以跳过此章节。
+ 安全洋葱的安装较为简单，网络上也有诸多的 ALL IN ONE 的安装教程，但考虑到这些部署方式不太适合生产环境使用，所以本篇主要讲述如何在生产环境分布式部署安全洋葱系统。
+本文中使用的安全洋葱版本为 v2.3.30（截至本文编写时）。
+准备工作 官方文档建议采用标准的分布式部署方式进行部署安全洋葱，至少以下三个节点：
+   节点类型 说明     manager node 主要节点，负责接收采集到的原始数据   forward node 流量分析节点，也叫 sensor-node   search-node 搜索节点，存储 ES 数据    我部署了 4 个节点，大家根据实际情况进行扩展：
+   节点 IP 配置     security-manager 10.10.0.1 8 cores, 16g memory, 200g disk   security-sensor 10.</description>
+    </item>
+    
+  </channel>
+</rss>

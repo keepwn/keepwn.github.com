@@ -2,21 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.keepwn.com/categories/</loc>
+  </url><url>
     <loc>https://www.keepwn.com/</loc>
   </url><url>
     <loc>https://www.keepwn.com/posts/</loc>
   </url><url>
-    <loc>https://www.keepwn.com/posts/see-you-again/</loc>
+    <loc>https://www.keepwn.com/categories/security/</loc>
   </url><url>
-    <loc>https://www.keepwn.com/categories/</loc>
+    <loc>https://www.keepwn.com/tags/security-onion/</loc>
+  </url><url>
+    <loc>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</loc>
+  </url><url>
+    <loc>https://www.keepwn.com/tags/</loc>
+  </url><url>
+    <loc>https://www.keepwn.com/posts/see-you-again/</loc>
   </url><url>
     <loc>https://www.keepwn.com/tags/esxi/</loc>
   </url><url>
     <loc>https://www.keepwn.com/tags/freenas/</loc>
   </url><url>
     <loc>https://www.keepwn.com/tags/rancher/</loc>
-  </url><url>
-    <loc>https://www.keepwn.com/tags/</loc>
   </url><url>
     <loc>https://www.keepwn.com/categories/technology/</loc>
   </url><url>
