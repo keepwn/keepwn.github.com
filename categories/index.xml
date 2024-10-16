@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on KeePwn&#39;s Notes</title>
+        <link>/categories/</link>
+        <description>Recent content in Categories on KeePwn&#39;s Notes</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 16 Oct 2024 15:44:40 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>SecDevOps</title>
+        <link>/categories/secdevops/</link>
+        <pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate>
+        
+        <guid>/categories/secdevops/</guid>
+        <description>&lt;img src="/categories/secdevops/banner-secdevops.png" alt="Featured image of post SecDevOps" /&gt;</description>
+        </item>
+        <item>
+        <title>HomeLab</title>
+        <link>/categories/homelab/</link>
+        <pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate>
+        
+        <guid>/categories/homelab/</guid>
+        <description>&lt;img src="/categories/homelab/banner-homelab.png" alt="Featured image of post HomeLab" /&gt;</description>
+        </item>
+        <item>
+        <title>HowTo</title>
+        <link>/categories/howto/</link>
+        <pubDate>Wed, 01 Jun 2016 00:00:00 +0000</pubDate>
+        
+        <guid>/categories/howto/</guid>
+        <description>&lt;img src="/categories/howto/banner-howto.png" alt="Featured image of post HowTo" /&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

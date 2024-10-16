@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Altman Mef on KeePwn&#39;s Notes</title>
+        <link>/tags/altman-mef/</link>
+        <description>Recent content in Altman Mef on KeePwn&#39;s Notes</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 16 Oct 2024 15:38:05 +0000</lastBuildDate><atom:link href="/tags/altman-mef/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Altman不能成功的加载插件</title>
+        <link>/posts/run-app-based-on-mef-from-web/</link>
+        <pubDate>Mon, 28 Jul 2014 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/run-app-based-on-mef-from-web/</guid>
+        <description>&lt;p&gt;一直有小伙伴给我反馈说：在.Net环境安装好的情况下，Altman不能自动载入插件。&lt;/p&gt;
+&lt;p&gt;而我在测试的时候，确实发生过相似的现象，但却找不到问题所在。&lt;/p&gt;
+&lt;p&gt;今天早些时候，在stackoverflow看到之前有人提到过&lt;a class=&#34;link&#34; href=&#34;http://stackoverflow.com/questions/5412086/mef-based-app-works-great-on-local-machine-but-doesnt-import-addins-when-run-f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;类似的问题&lt;/a&gt;，恍然大悟。&lt;/p&gt;
+&lt;p&gt;原来，当我们从Web下载Altman程序的时候，程序集将会被添加一个新的安全属性（文件来自网络，已被锁定）。运行altman，由于loadFromRemoteSources默认属性是false，程序就无法加载这些插件dll。(在&lt;a class=&#34;link&#34; href=&#34;http://msdn.microsoft.com/en-us/library/dd409252%28VS.100%29.aspx&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这里&lt;/a&gt;有详细的说明)&lt;/p&gt;
+&lt;p&gt;所以，解决这个问题目前有三种方法：&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;ul&gt;
+&lt;li&gt;手动修改Plugins目录下插件的文件属性。&lt;/li&gt;
+&lt;li&gt;在程序根目录下添加Altman.exe.config，内容如下:
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-gdscript3&#34; data-lang=&#34;gdscript3&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;configuration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;loadFromRemoteSources&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;enabled&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  &lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;runtime&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;configuration&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;主程序将在下一个版本2.2.1中解决该问题。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

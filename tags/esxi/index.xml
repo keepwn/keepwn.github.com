@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Esxi on KeePwn&#39;s Notes</title>
+        <link>/tags/esxi/</link>
+        <description>Recent content in Esxi on KeePwn&#39;s Notes</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Wed, 16 Oct 2024 15:43:11 +0000</lastBuildDate><atom:link href="/tags/esxi/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>构建适合程序员的私有云</title>
+        <link>/posts/build-home-cloud-center-for-it/</link>
+        <pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/build-home-cloud-center-for-it/</guid>
+        <description>&lt;img src="/images/banner-build-home-cloud-center-for-IT.png" alt="Featured image of post 构建适合程序员的私有云" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
+&lt;/h2&gt;&lt;p&gt;如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。&lt;/p&gt;
+&lt;p&gt;作为一个半吊子的码农，这显然不能满足我的需求。&lt;/p&gt;
+&lt;p&gt;所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;核心内容&#34;&gt;核心内容
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;数据中心，提供数据存储服务&lt;/li&gt;
+&lt;li&gt;家庭服务中心，提供常见的NAS服务&lt;/li&gt;
+&lt;li&gt;工作服务中心，提供工作上所需服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;准备工作&#34;&gt;准备工作
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;准备一台家用服务器（我个人用的是Gen8 1230v2 16G）
+&lt;ul&gt;
+&lt;li&gt;CPU需要支持VT-D和VT-X&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;准备1块SSD和至少2块以上的机械硬盘&lt;/li&gt;
+&lt;li&gt;准备一张HBA卡（IT模式的D2607-A11阵列卡）&lt;/li&gt;
+&lt;li&gt;安装ESXI6系统
+&lt;ul&gt;
+&lt;li&gt;系统建议单独安装在U盘/SD卡上&lt;/li&gt;
+&lt;li&gt;SSD连接在主板SATA接口上，机械硬盘连接在HBA卡上&lt;/li&gt;
+&lt;li&gt;将HBA卡配置为直通模式&lt;/li&gt;
+&lt;li&gt;将SSD挂载到ESXI中，新建存储为&lt;code&gt;SSD_DataStore&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;admonition question&#34;&gt;
+    &lt;div class=&#34;details-summary admonition-title&#34;&gt;
+        &lt;i class=&#39;icon fas fa-question-circle fa-fw&#39;&gt;&lt;/i&gt;
+        
+            Question
+        
+    &lt;/div&gt;
+    &lt;div class=&#34;details-content&#34;&gt;
+        &lt;div class=&#34;admonition-content&#34;&gt;
+            &lt;p&gt;Q: 为什么选用ESXI而不是Hyper-V?
+A: 如果只是用来搭建NAS服务，两者区别不大。但目前的这套方案，使用ESXI更为合适。&lt;/p&gt;
+&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;数据中心&#34;&gt;数据中心
+&lt;/h2&gt;&lt;p&gt;数据中心，主要提供数据存储服务，这里有两个数据中心：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;被ESXI管理的SSD
+&lt;ul&gt;
+&lt;li&gt;用于存储&lt;code&gt;提供基础服务的虚拟机的文件&lt;/code&gt;和&lt;code&gt;交换文件&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;被FreeNAS管理的机械硬盘
+&lt;ul&gt;
+&lt;li&gt;主要提供NFS、CIFS、AFP这3种形式的数据服务&lt;/li&gt;
+&lt;li&gt;为ESXI提供部分存储空间，用于存储&lt;code&gt;使用频率较低的虚拟机的文件&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;freenas安装与配置&#34;&gt;FreeNAS安装与配置
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;创建FreeNAS虚拟机
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;创建ZFS卷
+&lt;ul&gt;
+&lt;li&gt;2个以上的机械硬盘&lt;/li&gt;
+&lt;li&gt;存储池类型为Mirror或RAIDZ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;创建多个数据集
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;/vms&lt;/code&gt;，提供给ESXI，开启NFS&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/media&lt;/code&gt;，用于家庭影音，开启NFS、CIFS共享&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/share&lt;/code&gt;，用于文件共享，开启NFS、CIFS共享&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/tm&lt;/code&gt;，用于TimeMachine，开启AFP共享&lt;/li&gt;
+&lt;li&gt;等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;将vms挂载到ESXI中，新建存储为&lt;code&gt;VMS_DataStore&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;FreeNAS的数据，一定要做好手动备份，毕竟号称有五重备份的GitLab也吃了大亏的:)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;服务集群中心&#34;&gt;服务集群中心
+&lt;/h2&gt;&lt;p&gt;服务集群中心，包括ESXI提供的虚拟机资源和Rancher提供的容器资源。&lt;/p&gt;
+&lt;h3 id=&#34;rancher集群安装与配置&#34;&gt;Rancher集群安装与配置
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;创建3台虚拟机（RancherOS、CoreOS、Ubuntu等系统任选）
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;分别命名为master、node1和node2&lt;/li&gt;
+&lt;li&gt;分别安装docker&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;部署Rancher集群
+&lt;ul&gt;
+&lt;li&gt;在master主机上部署Rancher-Server&lt;/li&gt;
+&lt;li&gt;在master主机上部署Rancher-Agent，将master添加到server&lt;/li&gt;
+&lt;li&gt;在node1、node2主机上部署Rancher-Agent，将node1和node2添加到server&lt;/li&gt;
+&lt;li&gt;合理分配3个主机上的容器的部署&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;配置Rancher数据源
+&lt;ul&gt;
+&lt;li&gt;在数据中心创建&lt;code&gt;/rancher&lt;/code&gt;数据集&lt;/li&gt;
+&lt;li&gt;部署Rancher-NFS&lt;/li&gt;
+&lt;li&gt;使用Rancher-NFS服务，容器可实现数据持久化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;基础建设服务&#34;&gt;基础建设服务
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;智能家庭服务
+&lt;ul&gt;
+&lt;li&gt;Home-Assistant和Homebridge&lt;/li&gt;
+&lt;li&gt;容器方式部署&lt;/li&gt;
+&lt;li&gt;实现用网页端和IOS端对家里的服务或设备进行管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;透明代理服务
+&lt;ul&gt;
+&lt;li&gt;openwrt虚拟机，&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;具体部署方法在本站中搜索&lt;/li&gt;
+&lt;li&gt;设置主机的网关为openwrt地址，即可实现透明代理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;公网映射服务
+&lt;ul&gt;
+&lt;li&gt;容器方式部署，ngrok、n2n和frp任选&lt;/li&gt;
+&lt;li&gt;需要一台公网主机&lt;/li&gt;
+&lt;li&gt;实现将内网服务映射到公网，方便远程访问&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;证书签发服务
+&lt;ul&gt;
+&lt;li&gt;容器方式部署&lt;/li&gt;
+&lt;li&gt;内网使用自签发证书&lt;/li&gt;
+&lt;li&gt;公网使用Let&amp;rsquo;s Encrypt服务签发证书&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;对于使用ngrok和n2n，个人有一些心得，有时间另开篇介绍&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;家庭类服务&#34;&gt;家庭类服务
+&lt;/h3&gt;&lt;p&gt;一般包括同步、影音、网盘等服务，需要用到以下系统：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Plex Media Server / Emby Server
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;管理影音文件&lt;/li&gt;
+&lt;li&gt;多设备同时看电影、追美剧&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Resilio Sync
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;多个平台之间文件同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Xware
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;迅雷官方远程下载服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;DSM6（群晖）
+&lt;ul&gt;
+&lt;li&gt;虚拟机，&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;和FreeNAS功能类似&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本方案中，因为已经搭建了FreeNAS，DSM6的功能已经被大大地弱化了，可以不装&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Plex和Emby两个都是比较出名的家庭流媒应用，目前个人用Plex比较多&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;工作类服务&#34;&gt;工作类服务
+&lt;/h3&gt;&lt;p&gt;一般包括代码版本控制、记事本、测试环境等服务：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Leanote Server
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;开源的多平台云笔记&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Gogs Server
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;代码版本控制系统，和github类似&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Drone
+&lt;ul&gt;
+&lt;li&gt;容器&lt;/li&gt;
+&lt;li&gt;持续构建系统，方便测试代码或部署环境&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;各类数据库
+&lt;ul&gt;
+&lt;li&gt;优先容器（MongoDB不宜搭建在容器中，会发生错误，暂未解决）&lt;/li&gt;
+&lt;li&gt;多种数据库统一存储，统一管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;进阶&#34;&gt;进阶
+&lt;/h2&gt;&lt;p&gt;由于各个服务之间联系不大，系统平台也比较多，管理起来实在不便。如果有开发能力的话，还是建议自己开发个系统来统一协调各个服务。比如使用微信端入口，对服务进行定期检查，消息通知，甚至是远程控制，未来还是很美好的:)&lt;/p&gt;
+&lt;h2 id=&#34;最后&#34;&gt;最后
+&lt;/h2&gt;&lt;p&gt;最后，这个方案其实还有很多的内容，本文只是列了一些提纲，具体在实际操作中必然会有很多问题，就拿Rancher来说，Rancher中容器如何配置、存储如何挂载就需要好好斟酌，当然这会有一个很长的试错过程。当然和去年相比，Rancher上的坑已经少了太多了，想当初把Rancher从v1.1一步步升到现在的1.5.x，中间经历了什么，想想都要哭了&lt;/p&gt;</description>
+        </item>
+        <item>
+        <title>从Hyper-V迁移到ESXI的血泪史</title>
+        <link>/posts/moving-hyperv-to-esxi/</link>
+        <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
+        
+        <guid>/posts/moving-hyperv-to-esxi/</guid>
+        <description>&lt;h2 id=&#34;背景&#34;&gt;背景
+&lt;/h2&gt;&lt;p&gt;怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。&lt;/p&gt;
+&lt;p&gt;当时决定选择Hyper-V平台有以下几个理由：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hyper-V提供的存储池使用方便，用起来简单&lt;/li&gt;
+&lt;li&gt;Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能&lt;/li&gt;
+&lt;li&gt;Hyper-V下可以实现硬盘休眠&lt;/li&gt;
+&lt;li&gt;其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。&lt;/p&gt;
+&lt;p&gt;于是，我从一条不归路&lt;strong&gt;Server2012 With Hyper-V&lt;/strong&gt;走向了另一条不归路&lt;strong&gt;ESXI6.0&lt;/strong&gt;。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;第一坑安装esxi之不识别ssd&#34;&gt;第一坑：安装ESXI之不识别SSD
+&lt;/h2&gt;&lt;p&gt;之前使用Hyper-V平台时，没有采用Gen8提供的硬件RAID功能，使用的Server2012提供的存储池功能，所以切换到ESXI平台时，重新对本地硬盘进行了硬件RAID设置。&lt;/p&gt;
+&lt;p&gt;安装ESXI到SD卡的过程略过，按正常操作来，没什么问题。在对ESXI进行配置的时候遇到了问题，系统只能识别到设置了RAID的硬盘，无法识别到SSD。&lt;/p&gt;
+&lt;p&gt;网上查了些资料，&lt;strong&gt;RAID模式下识别不到普通硬盘&lt;/strong&gt;，要想识别到SSD，必须对SSD设置RAID，只有一块SSD怎么办？&lt;strong&gt;设置为RAID0&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;第二坑安装虚拟机之freenas&#34;&gt;第二坑：安装虚拟机之freenas
+&lt;/h2&gt;&lt;p&gt;在我的规划中，所有的资料（非虚拟机文件）由freenas进行统一管理，freenas开放smb、nfs服务给其他虚拟机，一方面解决了资料分散，不易管理的问题，另一方面只要保证freenas的可用性，就算其他虚拟机崩溃甚至损坏，都不会对资料有任何影响。&lt;/p&gt;
+&lt;p&gt;创建freenas的时候，直接分配全部的磁盘空间（&amp;gt;2T）给freenas的一块虚拟磁盘，然而启动freenas时，一直卡在启动界面，显示磁盘分配错误。&lt;/p&gt;
+&lt;p&gt;虽然猜测是分配磁盘过大导致了这个问题，然而在网上并没有查阅到明确的说法。&lt;/p&gt;
+&lt;p&gt;在本地做了几个测试后发现，一旦分配磁盘大于2T，freenas就会卡死在启动界面。（真的只是个例？具体原因有待进一步分析）&lt;/p&gt;
+&lt;p&gt;当然，临时解决办法也很简单，&lt;strong&gt;把磁盘分拆为多个1T大小的虚拟磁盘&lt;/strong&gt;，挂载给freenas。&lt;/p&gt;
+&lt;h2 id=&#34;第三坑安装虚拟机之openwrt&#34;&gt;第三坑：安装虚拟机之openwrt
+&lt;/h2&gt;&lt;p&gt;正常方式安装openwrt，启动openwrt时，会大概率的出现卡死现象。（在《Openwrt上使用dnsmasq和ipset实现域名分流》中已经详细说明具体的原因，这里不再重复）&lt;/p&gt;
+&lt;h2 id=&#34;第四坑安装虚拟机之dsm&#34;&gt;第四坑：安装虚拟机之dsm
+&lt;/h2&gt;&lt;p&gt;首先，DSM的版本是XPEnology DSM5.2。&lt;/p&gt;
+&lt;p&gt;在Hyper-V上安装dsm非常简单，然而在ESXI上安装完成以后无法进入系统。&lt;/p&gt;
+&lt;p&gt;在正常的安装流程中，虚拟机都是由XPEnologyBoot.iso进行引导启动。简单判断以后，觉得可能由于虚拟机重启以后，未能从cd启动导致的。&lt;/p&gt;
+&lt;p&gt;进入虚拟机bios修改第一启动项为cd，保存，重新启动，WTF，怎么还是引导不了。&lt;/p&gt;
+&lt;p&gt;重新进入bios查看启动项信息，发现上次的修改并没有被保存。（在win10的vmware workstation中进行了相同操作，对vmware的修改是生效的。）&lt;/p&gt;
+&lt;p&gt;看来只能放大招了么，&lt;strong&gt;手动修改vmx！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;修改虚拟机的&lt;code&gt;.vmx&lt;/code&gt;文件，强制第一启动项为&lt;code&gt;cdrom&lt;/code&gt;：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;bios.bootOrder = &amp;#34;cdrom,hdd,floppy&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;搞定。&lt;/p&gt;
+&lt;h2 id=&#34;后记&#34;&gt;后记
+&lt;/h2&gt;&lt;p&gt;虽然说从Hyper-V切换到ESXI的过程中，遇到了很多不可描述性的问题，但好在都解决了。问我现在用着ESXI的感觉么？感觉还不错:)&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

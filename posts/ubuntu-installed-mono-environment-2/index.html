@@ -1,0 +1,365 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。\n"><title>ubuntu安装mono环境(二)</title>
+<link rel=canonical href=/posts/ubuntu-installed-mono-environment-2/><link rel=stylesheet href=/scss/style.min.a1b1ba438e860c87798b68a93abe1acc0cbdab582cb899c9f3bf2afa7be8e373.css><meta property='og:title' content="ubuntu安装mono环境(二)"><meta property='og:description' content="接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。\n"><meta property='og:url' content='/posts/ubuntu-installed-mono-environment-2/'><meta property='og:site_name' content="KeePwn's Notes"><meta property='og:type' content='article'><meta property='article:section' content='Posts'><meta property='article:tag' content='configure mono'><meta property='article:tag' content='configure'><meta property='article:tag' content='mono'><meta property='article:published_time' content='2014-03-28T00:00:00+00:00'><meta property='article:modified_time' content='2024-10-16T15:33:52+00:00'><meta name=twitter:title content="ubuntu安装mono环境(二)"><meta name=twitter:description content="接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。\n"><link rel="shortcut icon" href=/favicon.png></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label="Toggle Menu">
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu6864098431101011839.png width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🚀</span></figure><div class=site-meta><h1 class=site-name><a href=/>KeePwn's Notes</a></h1><h2 class=site-description>我叫王安全，找我最安全</h2></div></header><ol class=menu-social><li><a href=https://github.com/keepwn target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>About</span></a></li><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>Archives</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>Search</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-sun-high" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14.828 14.828A4 4 0 109.172 9.172a4 4 0 005.656 5.656z"/><path d="M6.343 17.657l-1.414 1.414"/><path d="M6.343 6.343 4.929 4.929"/><path d="M17.657 6.343l1.414-1.414"/><path d="M17.657 17.657l1.414 1.414"/><path d="M4 12H2"/><path d="M12 4V2"/><path d="M20 12h2"/><path d="M12 20v2"/></svg>
+<svg class="icon icon-tabler icon-tabler-moon-stars" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132.0.263.0.393.0a7.5 7.5.0 007.92 12.446A9 9 0 1112 2.992z"/><path d="M17 4a2 2 0 002 2 2 2 0 00-2 2 2 2 0 00-2-2 2 2 0 002-2"/><path d="M19 11h2m-1-1v2"/></svg>
+<span>Dark Mode</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">Table of contents</h2><div class=widget--toc><nav id=TableOfContents><ol><li><ol><li><a href=#000准备工作>0×00准备工作</a></li><li><a href=#001下载libgdiplus并编译>0×01下载libgdiplus并编译</a></li><li><a href=#002编译安装源代码>0×02编译安装源代码</a></li><li><a href=#003设置path环境变量>0×03设置PATH环境变量</a></li><li><a href=#004验证libgdiplus是否安装成功>0×04验证libgdiplus是否安装成功</a></li></ol></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/howto/ style=background-color:#2a9d8f;color:#fff>HowTo</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/posts/ubuntu-installed-mono-environment-2/>ubuntu安装mono环境(二)</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>2014/03/28</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>5 minute read</time></div></footer></div></header><section class=article-content><p>接上篇，上篇仅安装了Mono本身，并没有安装libgdiplus、gtk-sharp、mod_mono、MonoDevelop 等其他相关的软件。</p><p>这篇主要是配置安装libgdiplus。</p><h2 id=000准备工作>0×00准备工作</h2><p>先在VS2012上编译一个winform，代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-csharp data-lang=csharp><span class=line><span class=cl><span class=k>using</span> <span class=nn>System</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>using</span> <span class=nn>System.Windows.Forms</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>namespace</span> <span class=nn>FormsTest</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=kd>static</span> <span class=k>class</span> <span class=nc>Program</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=cs>/// &lt;summary&gt;</span>
+</span></span><span class=line><span class=cl><span class=cs>/// 应用程序的主入口点。</span>
+</span></span><span class=line><span class=cl><span class=cs>/// &lt;/summary&gt;</span>
+</span></span><span class=line><span class=cl><span class=na>[STAThread]</span>
+</span></span><span class=line><span class=cl><span class=kd>static</span> <span class=k>void</span> <span class=n>Main</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=n>Application</span><span class=p>.</span><span class=n>EnableVisualStyles</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=n>Application</span><span class=p>.</span><span class=n>SetCompatibleTextRenderingDefault</span><span class=p>(</span><span class=kc>false</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>Application</span><span class=p>.</span><span class=n>Run</span><span class=p>(</span><span class=k>new</span> <span class=n>Form</span><span class=p>());</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>尝试在ubuntu上用mono运行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~$ <span class=nb>cd</span> Desktop/
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/Desktop$ ls
+</span></span><span class=line><span class=cl>FormsTest.exe
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/Desktop$ mono FormsTest.exe
+</span></span><span class=line><span class=cl>Unhandled Exception:
+</span></span><span class=line><span class=cl>System.TypeInitializationException: An exception was thrown by the <span class=nb>type</span> initializer <span class=k>for</span> System.Windows.Forms.XplatUI ---&gt; System.TypeInitializationException: An exception was thrown by the <span class=nb>type</span> initializer <span class=k>for</span> System.Drawing.GDIPlus ---&gt; System.DllNotFoundException: /opt/mono-3.2.8/lib/libgdiplus.so
+</span></span><span class=line><span class=cl>at <span class=o>(</span>wrapper managed-to-native<span class=o>)</span> System.Drawing.GDIPlus:GdiplusStartup <span class=o>(</span>ulong<span class=p>&amp;</span>,System.Drawing.GdiplusStartupInput<span class=p>&amp;</span>,System.Drawing.GdiplusStartupOutput<span class=p>&amp;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>at System.Drawing.GDIPlus..cctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>--- End of inner exception stack trace ---
+</span></span><span class=line><span class=cl>at System.Drawing.Graphics.FromHdcInternal <span class=o>(</span>IntPtr hdc<span class=o>)</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11.SetDisplay <span class=o>(</span>IntPtr display_handle<span class=o>)</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11..ctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11.GetInstance <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUI..cctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>--- End of inner exception stack trace ---
+</span></span><span class=line><span class=cl>at System.Windows.Forms.Application.EnableVisualStyles <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at FormsTest.Program.Main <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl><span class=o>[</span>ERROR<span class=o>]</span> FATAL UNHANDLED EXCEPTION: System.TypeInitializationException: An exception was thrown by the <span class=nb>type</span> initializer <span class=k>for</span> System.Windows.Forms.XplatUI ---&gt; System.TypeInitializationException: An exception was thrown by the <span class=nb>type</span> initializer <span class=k>for</span> System.Drawing.GDIPlus ---&gt; System.DllNotFoundException: /opt/mono-3.2.8/lib/libgdiplus.so
+</span></span><span class=line><span class=cl>at <span class=o>(</span>wrapper managed-to-native<span class=o>)</span> System.Drawing.GDIPlus:GdiplusStartup <span class=o>(</span>ulong<span class=p>&amp;</span>,System.Drawing.GdiplusStartupInput<span class=p>&amp;</span>,System.Drawing.GdiplusStartupOutput<span class=p>&amp;</span><span class=o>)</span>
+</span></span><span class=line><span class=cl>at System.Drawing.GDIPlus..cctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>--- End of inner exception stack trace ---
+</span></span><span class=line><span class=cl>at System.Drawing.Graphics.FromHdcInternal <span class=o>(</span>IntPtr hdc<span class=o>)</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11.SetDisplay <span class=o>(</span>IntPtr display_handle<span class=o>)</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11..ctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUIX11.GetInstance <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at System.Windows.Forms.XplatUI..cctor <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>--- End of inner exception stack trace ---
+</span></span><span class=line><span class=cl>at System.Windows.Forms.Application.EnableVisualStyles <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span><span class=line><span class=cl>at FormsTest.Program.Main <span class=o>()</span> <span class=o>[</span>0x00000<span class=o>]</span> in &lt;filename unknown&gt;:0
+</span></span></code></pre></td></tr></table></div></div><p>遇到错误了System.DllNotFoundException: /opt/mono-3.2.8/lib/libgdiplus.so，原因是如果要在ubuntu运行winform，那么必须要安装libgdiplus。</p><h2 id=001下载libgdiplus并编译>0×01下载libgdiplus并编译</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~$ <span class=nb>cd</span> src
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src$ wget http://download.mono-project.com/sources/libgdiplus/libgdiplus-2.10.9.tar.bz2
+</span></span><span class=line><span class=cl>--2014-03-27 22:46:40-- http://download.mono-project.com/sources/libgdiplus/libgdiplus-2.10.9.tar.bz2
+</span></span><span class=line><span class=cl>Resolving download.mono-project.com <span class=o>(</span>download.mono-project.com<span class=o>)</span>... 54.230.157.116, 54.230.157.204, 54.230.158.216, ...
+</span></span><span class=line><span class=cl>Connecting to download.mono-project.com <span class=o>(</span>download.mono-project.com<span class=o>)</span><span class=p>|</span>54.230.157.116<span class=p>|</span>:80... connected.
+</span></span><span class=line><span class=cl>HTTP request sent, awaiting response... <span class=m>200</span> OK
+</span></span><span class=line><span class=cl>Length: <span class=m>2074317</span> <span class=o>(</span>2.0M<span class=o>)</span> <span class=o>[</span>application/x-bzip2<span class=o>]</span>
+</span></span><span class=line><span class=cl>Saving to: ‘libgdiplus-2.10.9.tar.bz2’
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>100%<span class=o>[======================================</span>&gt;<span class=o>]</span> 2,074,317 224KB/s in 9.5s
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>2014-03-27 22:46:54 <span class=o>(</span><span class=m>213</span> KB/s<span class=o>)</span> - ‘libgdiplus-2.10.9.tar.bz2’ saved <span class=o>[</span>2074317/2074317<span class=o>]</span>
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src$ ls
+</span></span><span class=line><span class=cl>libgdiplus-2.10.9.tar.bz2 mono-3.2.8 mono-3.2.8.tar.bz2
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src$ tar -xvjf libgdiplus-2.10.9.tar.bz2
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src$ <span class=nb>cd</span> libgdiplus-2.10.9/
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ ./configure --prefix<span class=o>=</span>/opt/mono-3.2.8
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>checking pkg-config is at least version 0.9.0... yes
+</span></span><span class=line><span class=cl>checking <span class=k>for</span> BASE_DEPENDENCIES... no
+</span></span><span class=line><span class=cl>configure: error: Package requirements <span class=o>(</span>glib-2.0 <span class=p>&amp;</span>gt<span class=p>;</span><span class=o>=</span> 2.2.3<span class=o>)</span> were not met:
+</span></span><span class=line><span class=cl>No package <span class=s1>&#39;glib-2.0&#39;</span> found
+</span></span><span class=line><span class=cl>Consider adjusting the PKG_CONFIG_PATH environment variable <span class=k>if</span> you
+</span></span><span class=line><span class=cl>installed software in a non-standard prefix.
+</span></span><span class=line><span class=cl> 
+</span></span><span class=line><span class=cl>Alternatively, you may <span class=nb>set</span> the environment variables BASE_DEPENDENCIES_CFLAGS
+</span></span><span class=line><span class=cl>and BASE_DEPENDENCIES_LIBS to avoid the need to call pkg-config.
+</span></span><span class=line><span class=cl>See the pkg-config man page <span class=k>for</span> more details.
+</span></span></code></pre></td></tr></table></div></div><p>遇到错误了，需要安装libglib2.0-dev：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install libglib2.0-dev
+</span></span><span class=line><span class=cl>Reading package lists... Done
+</span></span><span class=line><span class=cl>Building dependency tree
+</span></span><span class=line><span class=cl>Reading state information... Done
+</span></span><span class=line><span class=cl>The following extra packages will be installed:
+</span></span><span class=line><span class=cl>libglib2.0-0 libglib2.0-bin libpcre3-dev libpcrecpp0 zlib1g-dev
+</span></span><span class=line><span class=cl>Suggested packages:
+</span></span><span class=line><span class=cl>libglib2.0-doc
+</span></span><span class=line><span class=cl>The following NEW packages will be installed:
+</span></span><span class=line><span class=cl>libglib2.0-dev libpcre3-dev libpcrecpp0 zlib1g-dev
+</span></span><span class=line><span class=cl>The following packages will be upgraded:
+</span></span><span class=line><span class=cl>libglib2.0-0 libglib2.0-bin
+</span></span><span class=line><span class=cl><span class=m>2</span> upgraded, <span class=m>4</span> newly installed, <span class=m>0</span> to remove and <span class=m>273</span> not upgraded.
+</span></span><span class=line><span class=cl>Need to get 2,728 kB of archives.
+</span></span><span class=line><span class=cl>After this operation, 9,208 kB of additional disk space will be used.
+</span></span><span class=line><span class=cl>Do you want to <span class=k>continue</span> <span class=o>[</span>Y/n<span class=o>]</span>?
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span></code></pre></td></tr></table></div></div><p>重新初始化libgdiplus安装配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ ./configure --prefix<span class=o>=</span>/opt/mono-3.2.8
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>checking <span class=k>for</span> libpng14... checking <span class=k>for</span> libpng12... no
+</span></span><span class=line><span class=cl>checking <span class=k>for</span> png_read_info in -lpng... no
+</span></span><span class=line><span class=cl>configure: error: *** libpng12 not found. See http://www.libpng.org/pub/png/libpng.html.
+</span></span></code></pre></td></tr></table></div></div><p>又遇到错误了，需要安装libpng-dev：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install libpng-dev
+</span></span></code></pre></td></tr></table></div></div><p>重新初始化libgdiplus安装配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ ./configure --prefix<span class=o>=</span>/opt/mono-3.2.8
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>./configure: line 13371: test: too many arguments
+</span></span><span class=line><span class=cl>configure: error: <span class=s2>&#34;Failed to compile with X11/Xlib.h include. You must fix your compiler paths&#34;</span>
+</span></span></code></pre></td></tr></table></div></div><p>提示错误，需要安装libx11-dev：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install libx11-dev
+</span></span></code></pre></td></tr></table></div></div><p>重新初始化libgdiplus安装配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ ./configure --prefix<span class=o>=</span>/opt/mono-3.2.8
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>configure: error: Cairo requires at least one font backend.
+</span></span><span class=line><span class=cl>Please install freetype and fontconfig, <span class=k>then</span> try again:
+</span></span><span class=line><span class=cl>http://freetype.org/ http://fontconfig.org/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>configure: error: ./configure failed <span class=k>for</span> cairo
+</span></span></code></pre></td></tr></table></div></div><p>需要安装freetype和fontconfig：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install libfreetype6-dev
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install fontconfig
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo apt-get install libfontconfig1-dev
+</span></span></code></pre></td></tr></table></div></div><p>重新初始化libgdiplus安装配置文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ ./configure --prefix<span class=o>=</span>/opt/mono-3.2.8
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>Configuration summary
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>* Installation <span class=nv>prefix</span> <span class=o>=</span> /opt/mono-3.2.8
+</span></span><span class=line><span class=cl>* <span class=nv>Cairo</span> <span class=o>=</span> 1.6.4 <span class=o>(</span>internal<span class=o>)</span>
+</span></span><span class=line><span class=cl>* <span class=nv>Text</span> <span class=o>=</span> cairo
+</span></span><span class=line><span class=cl>* EXIF <span class=nv>tags</span> <span class=o>=</span> No. Get it from http://libexif.sourceforge.net/
+</span></span><span class=line><span class=cl>* Codecs supported:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>- TIFF: no <span class=o>(</span>Get it from http://www.libtiff.org/<span class=o>)</span>
+</span></span><span class=line><span class=cl>- JPEG: no <span class=o>(</span>Get it from http://freshmeat.net/projects/libjpeg<span class=o>)</span>
+</span></span><span class=line><span class=cl>- GIF: no <span class=o>(</span>See http://sourceforge.net/projects/libgif<span class=o>)</span>
+</span></span><span class=line><span class=cl>- PNG: yes
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NOTE: <span class=k>if</span> any of the above say <span class=s1>&#39;no&#39;</span> you may install the
+</span></span><span class=line><span class=cl>corresponding development packages <span class=k>for</span> them, rerun
+</span></span><span class=line><span class=cl>autogen.sh to include them in the build.
+</span></span><span class=line><span class=cl>nike@NIKE-PC:
+</span></span></code></pre></td></tr></table></div></div><p>./configure通过。</p><h2 id=002编译安装源代码>0×02编译安装源代码</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ make
+</span></span><span class=line><span class=cl>make all-recursive
+</span></span><span class=line><span class=cl>make<span class=o>[</span>1<span class=o>]</span>: Entering directory <span class=sb>`</span>/home/nike/src/libgdiplus-2.10.9<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>Making all in pixman
+</span></span></span><span class=line><span class=cl><span class=s1>make[2]: Entering directory `/home/nike/src/libgdiplus-2.10.9/pixman&#39;</span>
+</span></span><span class=line><span class=cl>make all-recursive
+</span></span><span class=line><span class=cl>make<span class=o>[</span>3<span class=o>]</span>: Entering directory <span class=sb>`</span>/home/nike/src/libgdiplus-2.10.9/pixman<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>Making all in pixman
+</span></span></span><span class=line><span class=cl><span class=s1>make[4]: Entering directory `/home/nike/src/libgdiplus-2.10.9/pixman/pixman&#39;</span>
+</span></span><span class=line><span class=cl>/bin/bash ../libtool --tag<span class=o>=</span>CC --mode<span class=o>=</span>compile gcc -DHAVE_CONFIG_H -I. -I.. -g -O2 -Wall -fvisibility<span class=o>=</span>hidden -MT pixman-access.lo -MD -MP -MF .deps/pixman-access.Tpo -c -o pixman-access.lo pixman-access.c
+</span></span><span class=line><span class=cl>../libtool: line 852: X--tag<span class=o>=</span>CC: <span class=nb>command</span> not found
+</span></span></code></pre></td></tr></table></div></div><p>遇到错误了，通过google搜索，可能是因为在项目目录下生成的libtool脚本中定义了<code>$ECHO</code>变量，但是在脚本文件ltmain.sh中，使用的却是<code>$echo</code>（生成的libtool版本太旧）</p><p>解决方法很简单<code>export echo=echo</code>即可：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ <span class=nb>export</span> <span class=nv>echo</span><span class=o>=</span><span class=nb>echo</span>
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ <span class=nv>make</span>
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>make<span class=o>[</span>2<span class=o>]</span>: Entering directory <span class=sb>`</span>/home/nike/src/libgdiplus-2.10.9/tests<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>/bin/bash ../libtool --tag=CC --mode=link gcc -g -O2 -pthread -o testgdi testgdi.o ../src/libgdiplus.la -lpthread -lfontconfig
+</span></span></span><span class=line><span class=cl><span class=s1>libtool: link: gcc -g -O2 -pthread -o .libs/testgdi testgdi.o ../src/.libs/libgdiplus.so -lpthread -lfontconfig -pthread -Wl,-rpath -Wl,/opt/mono-3.2.8/lib
+</span></span></span><span class=line><span class=cl><span class=s1>/usr/bin/ld: testgdi.o: undefined reference to symbol &#39;</span>g_print<span class=s1>&#39;
+</span></span></span><span class=line><span class=cl><span class=s1>/lib/i386-linux-gnu/libglib-2.0.so.0: error adding symbols: DSO missing from command line
+</span></span></span><span class=line><span class=cl><span class=s1>collect2: error: ld returned 1 exit status
+</span></span></span><span class=line><span class=cl><span class=s1>make[2]: *** [testgdi] Error 1
+</span></span></span><span class=line><span class=cl><span class=s1>make[2]: Leaving directory `/home/nike/src/libgdiplus-2.10.9/tests&#39;</span>
+</span></span><span class=line><span class=cl>make<span class=o>[</span>1<span class=o>]</span>: *** <span class=o>[</span>all-recursive<span class=o>]</span> Error <span class=m>1</span>
+</span></span><span class=line><span class=cl>make<span class=o>[</span>1<span class=o>]</span>: Leaving directory <span class=sb>`</span>/home/nike/src/libgdiplus-2.10.9<span class=err>&#39;</span>
+</span></span><span class=line><span class=cl>make: *** <span class=o>[</span>all<span class=o>]</span> Error <span class=m>2</span>
+</span></span></code></pre></td></tr></table></div></div><p>编译时又出错了，解决办法为：</p><p>1.运行<code>./configure</code>后，编辑<code>tests/Makefile</code>文件</p><p>2.在Makefile文件130行位置，将<code>LIBS = -lpthread -lfontconfig</code>改为<code>LIBS = -lpthread -lfontconfig -lglib-2.0 -lX11</code></p><p>3.再次运行<code>make</code>即可</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ vim tests/Makefile
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ <span class=nv>make</span>
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;编译很快&lt;<span class=o>==============</span>
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/src/libgdiplus-2.10.9$ sudo make <span class=nv>install</span>
+</span></span><span class=line><span class=cl><span class=o>==============</span>&gt;省略了很多&lt;<span class=o>==============</span>
+</span></span></code></pre></td></tr></table></div></div><p>安装完成。</p><h2 id=003设置path环境变量>0×03设置PATH环境变量</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~/src/mono-3.2.8$ <span class=nb>cd</span> ~
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~$ vim .bashrc
+</span></span></code></pre></td></tr></table></div></div><p>在该文件末尾追加以下语句：</p><p><code>export LD_LIBRARY_PATH=/opt/mono-3.2.8/lib</code></p><p>然后：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~$ . .bashrc
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~$ <span class=nb>echo</span> <span class=nv>$LD_LIBRARY_PATH</span>
+</span></span><span class=line><span class=cl>/opt/mono-3.2.8/lib
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~$
+</span></span></code></pre></td></tr></table></div></div><h2 id=004验证libgdiplus是否安装成功>0×04验证libgdiplus是否安装成功</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>nike@NIKE-PC:~$ <span class=nb>cd</span> Desktop/
+</span></span><span class=line><span class=cl>nike@NIKE-PC:~/Desktop$ mono FormsTest.exe
+</span></span></code></pre></td></tr></table></div></div><p><img src=/images/mono-in-ubuntu-formtest.webp#center loading=lazy alt="mono in ubuntu"></p><p>运行成功。</p></section><footer class=article-footer><section class=article-tags><a href=/tags/configure-mono/>Configure Mono</a>
+<a href=/tags/configure/>Configure</a>
+<a href=/tags/mono/>Mono</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section><section class=article-lastmod><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>Last updated on 2024/10/16</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>Related content</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/posts/osx-installed-mono-environment/><div class=article-details><h2 class=article-title>Mac安装mono环境</h2></div></a></article><article><a href=/posts/ubuntu-installed-mono-environment-1/><div class=article-details><h2 class=article-title>ubuntu安装mono环境(一)</h2></div></a></article><article><a href=/posts/howto-connect-iscsi-on-ubuntu/><div class=article-details><h2 class=article-title>Ubuntu14.04下连接ISCSI存储</h2></div></a></article><article><a href=/posts/route-traffic-selectively-by-domain-on-openwrt/><div class=article-details><h2 class=article-title>Openwrt上使用dnsmasq和ipset实现域名分流</h2></div></a></article></div></div></aside><script src=https://utteranc.es/client.js repo=keepwn/blog-comments issue-term=pathname crossorigin=anonymous async></script><style>.utterances{max-width:unset}</style><script>let utterancesLoaded=!1;function setUtterancesTheme(e){let t=document.querySelector(".utterances iframe");t&&t.contentWindow.postMessage({type:"set-theme",theme:`github-${e}`},"https://utteranc.es")}addEventListener("message",e=>{if(e.origin!=="https://utteranc.es")return;utterancesLoaded=!0,setUtterancesTheme(document.documentElement.dataset.scheme)}),window.addEventListener("onColorSchemeChange",e=>{if(!utterancesLoaded)return;setUtterancesTheme(e.detail)})</script><footer class=site-footer><section class=copyright>&copy;
+2014 -
+2024 KeePwn's Notes</section><section class=powerby>Built with <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a><br>Theme <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.27.0>Stack</a></b> designed by <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
