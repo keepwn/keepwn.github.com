@@ -1,62 +1,43 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Hyper-v Esxi on KeePwn&#39;s Notes</title>
-        <link>/tags/hyper-v-esxi/</link>
-        <description>Recent content in Hyper-v Esxi on KeePwn&#39;s Notes</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 16 Oct 2024 15:43:11 +0000</lastBuildDate><atom:link href="/tags/hyper-v-esxi/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>从Hyper-V迁移到ESXI的血泪史</title>
-        <link>/posts/moving-hyperv-to-esxi/</link>
-        <pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate>
-        
-        <guid>/posts/moving-hyperv-to-esxi/</guid>
-        <description>&lt;h2 id=&#34;背景&#34;&gt;背景
-&lt;/h2&gt;&lt;p&gt;怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。&lt;/p&gt;
-&lt;p&gt;当时决定选择Hyper-V平台有以下几个理由：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Hyper-V提供的存储池使用方便，用起来简单&lt;/li&gt;
-&lt;li&gt;Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能&lt;/li&gt;
-&lt;li&gt;Hyper-V下可以实现硬盘休眠&lt;/li&gt;
-&lt;li&gt;其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。&lt;/p&gt;
-&lt;p&gt;于是，我从一条不归路&lt;strong&gt;Server2012 With Hyper-V&lt;/strong&gt;走向了另一条不归路&lt;strong&gt;ESXI6.0&lt;/strong&gt;。&lt;/p&gt;
-&lt;!-- more --&gt;
-&lt;h2 id=&#34;第一坑安装esxi之不识别ssd&#34;&gt;第一坑：安装ESXI之不识别SSD
-&lt;/h2&gt;&lt;p&gt;之前使用Hyper-V平台时，没有采用Gen8提供的硬件RAID功能，使用的Server2012提供的存储池功能，所以切换到ESXI平台时，重新对本地硬盘进行了硬件RAID设置。&lt;/p&gt;
-&lt;p&gt;安装ESXI到SD卡的过程略过，按正常操作来，没什么问题。在对ESXI进行配置的时候遇到了问题，系统只能识别到设置了RAID的硬盘，无法识别到SSD。&lt;/p&gt;
-&lt;p&gt;网上查了些资料，&lt;strong&gt;RAID模式下识别不到普通硬盘&lt;/strong&gt;，要想识别到SSD，必须对SSD设置RAID，只有一块SSD怎么办？&lt;strong&gt;设置为RAID0&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;第二坑安装虚拟机之freenas&#34;&gt;第二坑：安装虚拟机之freenas
-&lt;/h2&gt;&lt;p&gt;在我的规划中，所有的资料（非虚拟机文件）由freenas进行统一管理，freenas开放smb、nfs服务给其他虚拟机，一方面解决了资料分散，不易管理的问题，另一方面只要保证freenas的可用性，就算其他虚拟机崩溃甚至损坏，都不会对资料有任何影响。&lt;/p&gt;
-&lt;p&gt;创建freenas的时候，直接分配全部的磁盘空间（&amp;gt;2T）给freenas的一块虚拟磁盘，然而启动freenas时，一直卡在启动界面，显示磁盘分配错误。&lt;/p&gt;
-&lt;p&gt;虽然猜测是分配磁盘过大导致了这个问题，然而在网上并没有查阅到明确的说法。&lt;/p&gt;
-&lt;p&gt;在本地做了几个测试后发现，一旦分配磁盘大于2T，freenas就会卡死在启动界面。（真的只是个例？具体原因有待进一步分析）&lt;/p&gt;
-&lt;p&gt;当然，临时解决办法也很简单，&lt;strong&gt;把磁盘分拆为多个1T大小的虚拟磁盘&lt;/strong&gt;，挂载给freenas。&lt;/p&gt;
-&lt;h2 id=&#34;第三坑安装虚拟机之openwrt&#34;&gt;第三坑：安装虚拟机之openwrt
-&lt;/h2&gt;&lt;p&gt;正常方式安装openwrt，启动openwrt时，会大概率的出现卡死现象。（在《Openwrt上使用dnsmasq和ipset实现域名分流》中已经详细说明具体的原因，这里不再重复）&lt;/p&gt;
-&lt;h2 id=&#34;第四坑安装虚拟机之dsm&#34;&gt;第四坑：安装虚拟机之dsm
-&lt;/h2&gt;&lt;p&gt;首先，DSM的版本是XPEnology DSM5.2。&lt;/p&gt;
-&lt;p&gt;在Hyper-V上安装dsm非常简单，然而在ESXI上安装完成以后无法进入系统。&lt;/p&gt;
-&lt;p&gt;在正常的安装流程中，虚拟机都是由XPEnologyBoot.iso进行引导启动。简单判断以后，觉得可能由于虚拟机重启以后，未能从cd启动导致的。&lt;/p&gt;
-&lt;p&gt;进入虚拟机bios修改第一启动项为cd，保存，重新启动，WTF，怎么还是引导不了。&lt;/p&gt;
-&lt;p&gt;重新进入bios查看启动项信息，发现上次的修改并没有被保存。（在win10的vmware workstation中进行了相同操作，对vmware的修改是生效的。）&lt;/p&gt;
-&lt;p&gt;看来只能放大招了么，&lt;strong&gt;手动修改vmx！&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;修改虚拟机的&lt;code&gt;.vmx&lt;/code&gt;文件，强制第一启动项为&lt;code&gt;cdrom&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;bios.bootOrder = &amp;#34;cdrom,hdd,floppy&amp;#34;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;搞定。&lt;/p&gt;
-&lt;h2 id=&#34;后记&#34;&gt;后记
-&lt;/h2&gt;&lt;p&gt;虽然说从Hyper-V切换到ESXI的过程中，遇到了很多不可描述性的问题，但好在都解决了。问我现在用着ESXI的感觉么？感觉还不错:)&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Hyper-v Esxi on KeePwn's Notes</title><link>https://www.keepwn.com/tags/hyper-v-esxi/</link><description>Recent content in Hyper-v Esxi on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 16 Oct 2024 15:43:11 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/hyper-v-esxi/index.xml" rel="self" type="application/rss+xml"/><item><title>从Hyper-V迁移到ESXI的血泪史</title><link>https://www.keepwn.com/posts/moving-hyperv-to-esxi/</link><pubDate>Fri, 03 Jun 2016 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/moving-hyperv-to-esxi/</guid><description>&lt;h2 id="背景">背景
+&lt;/h2>&lt;p>怎么说呢，在买Gen8之前就已经仔细比较过Hyper-V和ESXI的优劣，最终选择了Hyper-V的方案。&lt;/p>
+&lt;p>当时决定选择Hyper-V平台有以下几个理由：&lt;/p>
+&lt;ul>
+&lt;li>Hyper-V提供的存储池使用方便，用起来简单&lt;/li>
+&lt;li>Hyper-V相对于ESXI而言比较轻量，没有ESXI那么多臃肿的功能&lt;/li>
+&lt;li>Hyper-V下可以实现硬盘休眠&lt;/li>
+&lt;li>其实最主要的原因是，觉得自己的需求不大，哪个简单用哪个&lt;/li>
+&lt;/ul>
+&lt;p>现在想来真是too young啊，我的需求怎么可能不大呢，Hyper-V自身的限制成了严重的短板。总之，在权衡未来需求和迁移成本之后，决定使用ESXI平台了。&lt;/p>
+&lt;p>于是，我从一条不归路&lt;strong>Server2012 With Hyper-V&lt;/strong>走向了另一条不归路&lt;strong>ESXI6.0&lt;/strong>。&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="第一坑安装esxi之不识别ssd">第一坑：安装ESXI之不识别SSD
+&lt;/h2>&lt;p>之前使用Hyper-V平台时，没有采用Gen8提供的硬件RAID功能，使用的Server2012提供的存储池功能，所以切换到ESXI平台时，重新对本地硬盘进行了硬件RAID设置。&lt;/p>
+&lt;p>安装ESXI到SD卡的过程略过，按正常操作来，没什么问题。在对ESXI进行配置的时候遇到了问题，系统只能识别到设置了RAID的硬盘，无法识别到SSD。&lt;/p>
+&lt;p>网上查了些资料，&lt;strong>RAID模式下识别不到普通硬盘&lt;/strong>，要想识别到SSD，必须对SSD设置RAID，只有一块SSD怎么办？&lt;strong>设置为RAID0&lt;/strong>。&lt;/p>
+&lt;h2 id="第二坑安装虚拟机之freenas">第二坑：安装虚拟机之freenas
+&lt;/h2>&lt;p>在我的规划中，所有的资料（非虚拟机文件）由freenas进行统一管理，freenas开放smb、nfs服务给其他虚拟机，一方面解决了资料分散，不易管理的问题，另一方面只要保证freenas的可用性，就算其他虚拟机崩溃甚至损坏，都不会对资料有任何影响。&lt;/p>
+&lt;p>创建freenas的时候，直接分配全部的磁盘空间（&amp;gt;2T）给freenas的一块虚拟磁盘，然而启动freenas时，一直卡在启动界面，显示磁盘分配错误。&lt;/p>
+&lt;p>虽然猜测是分配磁盘过大导致了这个问题，然而在网上并没有查阅到明确的说法。&lt;/p>
+&lt;p>在本地做了几个测试后发现，一旦分配磁盘大于2T，freenas就会卡死在启动界面。（真的只是个例？具体原因有待进一步分析）&lt;/p>
+&lt;p>当然，临时解决办法也很简单，&lt;strong>把磁盘分拆为多个1T大小的虚拟磁盘&lt;/strong>，挂载给freenas。&lt;/p>
+&lt;h2 id="第三坑安装虚拟机之openwrt">第三坑：安装虚拟机之openwrt
+&lt;/h2>&lt;p>正常方式安装openwrt，启动openwrt时，会大概率的出现卡死现象。（在《Openwrt上使用dnsmasq和ipset实现域名分流》中已经详细说明具体的原因，这里不再重复）&lt;/p>
+&lt;h2 id="第四坑安装虚拟机之dsm">第四坑：安装虚拟机之dsm
+&lt;/h2>&lt;p>首先，DSM的版本是XPEnology DSM5.2。&lt;/p>
+&lt;p>在Hyper-V上安装dsm非常简单，然而在ESXI上安装完成以后无法进入系统。&lt;/p>
+&lt;p>在正常的安装流程中，虚拟机都是由XPEnologyBoot.iso进行引导启动。简单判断以后，觉得可能由于虚拟机重启以后，未能从cd启动导致的。&lt;/p>
+&lt;p>进入虚拟机bios修改第一启动项为cd，保存，重新启动，WTF，怎么还是引导不了。&lt;/p>
+&lt;p>重新进入bios查看启动项信息，发现上次的修改并没有被保存。（在win10的vmware workstation中进行了相同操作，对vmware的修改是生效的。）&lt;/p>
+&lt;p>看来只能放大招了么，&lt;strong>手动修改vmx！&lt;/strong>&lt;/p>
+&lt;p>修改虚拟机的&lt;code>.vmx&lt;/code>文件，强制第一启动项为&lt;code>cdrom&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">bios.bootOrder = &amp;#34;cdrom,hdd,floppy&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>搞定。&lt;/p>
+&lt;h2 id="后记">后记
+&lt;/h2>&lt;p>虽然说从Hyper-V切换到ESXI的过程中，遇到了很多不可描述性的问题，但好在都解决了。问我现在用着ESXI的感觉么？感觉还不错:)&lt;/p></description></item></channel></rss>

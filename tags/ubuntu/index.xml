@@ -1,115 +1,96 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Ubuntu on KeePwn&#39;s Notes</title>
-        <link>/tags/ubuntu/</link>
-        <description>Recent content in Ubuntu on KeePwn&#39;s Notes</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 16 Oct 2024 15:40:39 +0000</lastBuildDate><atom:link href="/tags/ubuntu/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Ubuntu14.04下连接ISCSI存储</title>
-        <link>/posts/howto-connect-iscsi-on-ubuntu/</link>
-        <pubDate>Tue, 10 Nov 2015 00:00:00 +0000</pubDate>
-        
-        <guid>/posts/howto-connect-iscsi-on-ubuntu/</guid>
-        <description>&lt;h2 id=&#34;总体步骤&#34;&gt;总体步骤
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;安装iscsi&lt;/li&gt;
-&lt;li&gt;查找iscsi存储&lt;/li&gt;
-&lt;li&gt;设置开机自动映射&lt;/li&gt;
-&lt;li&gt;对映射的磁盘进行分区&lt;/li&gt;
-&lt;li&gt;分区之后进行格式化&lt;/li&gt;
-&lt;li&gt;设置开机自动加载分区&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;配置过程&#34;&gt;配置过程
-&lt;/h2&gt;&lt;p&gt;1.安装程序open-iscsi&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ apt-get install open-iscsi
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ service open-iscsi status
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;!-- more --&gt;
-&lt;p&gt;2.查找iscsi存储&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ iscsiadm -m discovery -t sendtargets -p 192.168.1.10
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;3.设置开机自动映射&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ iscsiadm -m node -T iqn.1997-05.com.test:iscsi1 -p 192.168.1.10:3260 --op update -n node.startup -v automatic
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;4.重新启动，检查是否成功映射&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ reboot
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ cat /proc/partitions
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;发现多出了一块设备&lt;code&gt;/dev/sdb&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;5.对映射的磁盘进行分区&lt;/p&gt;
-&lt;p&gt;如果小于2T分区，可以使用&lt;code&gt;fdisk&lt;/code&gt;进行分区，使用&lt;code&gt;MBR&lt;/code&gt;分区表，&lt;/p&gt;
-&lt;p&gt;如果大于2T分区，则不能使用&lt;code&gt;MBR&lt;/code&gt;分区表，需要使用&lt;code&gt;GPT&lt;/code&gt;分区表。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ parted /dev/sdb
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; print
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; mklabel gpt
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; mkpart primary 0% 100%
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt; print
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;6.分区之后进行格式化，格式化时硬盘分区太大，可以使用&lt;code&gt;-T largefile&lt;/code&gt;参数&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ mkfs.ext4 -T largefile /dev/sdb1
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;7.设置开机自动加载分区&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ e2label /dev/sdb1 /iscsi
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;test@ubuntu:~$ &lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;LABEL=/iscsi /data ext4 _netdev 0 0&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /etc/fstab
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;em&gt;PS&lt;/em&gt;: &lt;code&gt;_netdev&lt;/code&gt;指的是，这个分区位于网络上，所以得等待网络启动完成后才会挂载该设备&lt;/p&gt;
-&lt;p&gt;8.Done&lt;/p&gt;
-&lt;p&gt;这样重启系统就可以自动挂载分区，使用跟本地磁盘一样。&lt;/p&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on KeePwn's Notes</title><link>https://www.keepwn.com/tags/ubuntu/</link><description>Recent content in Ubuntu on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 16 Oct 2024 15:40:39 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu14.04下连接ISCSI存储</title><link>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</link><pubDate>Tue, 10 Nov 2015 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/howto-connect-iscsi-on-ubuntu/</guid><description>&lt;h2 id="总体步骤">总体步骤
+&lt;/h2>&lt;ul>
+&lt;li>安装iscsi&lt;/li>
+&lt;li>查找iscsi存储&lt;/li>
+&lt;li>设置开机自动映射&lt;/li>
+&lt;li>对映射的磁盘进行分区&lt;/li>
+&lt;li>分区之后进行格式化&lt;/li>
+&lt;li>设置开机自动加载分区&lt;/li>
+&lt;/ul>
+&lt;h2 id="配置过程">配置过程
+&lt;/h2>&lt;p>1.安装程序open-iscsi&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ apt-get install open-iscsi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ service open-iscsi status
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;!-- more -->
+&lt;p>2.查找iscsi存储&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ iscsiadm -m discovery -t sendtargets -p 192.168.1.10
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">192.168.1.10:3260,1 iqn.1997-05.com.test:iscsi1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>3.设置开机自动映射&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ iscsiadm -m node -T iqn.1997-05.com.test:iscsi1 -p 192.168.1.10:3260 --op update -n node.startup -v automatic
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>4.重新启动，检查是否成功映射&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ reboot
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ cat /proc/partitions
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>发现多出了一块设备&lt;code>/dev/sdb&lt;/code>&lt;/p>
+&lt;p>5.对映射的磁盘进行分区&lt;/p>
+&lt;p>如果小于2T分区，可以使用&lt;code>fdisk&lt;/code>进行分区，使用&lt;code>MBR&lt;/code>分区表，&lt;/p>
+&lt;p>如果大于2T分区，则不能使用&lt;code>MBR&lt;/code>分区表，需要使用&lt;code>GPT&lt;/code>分区表。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ parted /dev/sdb
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; print
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; mklabel gpt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; mkpart primary 0% 100%
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; print
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>6.分区之后进行格式化，格式化时硬盘分区太大，可以使用&lt;code>-T largefile&lt;/code>参数&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ mkfs.ext4 -T largefile /dev/sdb1
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>7.设置开机自动加载分区&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ e2label /dev/sdb1 /iscsi
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">test@ubuntu:~$ &lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;LABEL=/iscsi /data ext4 _netdev 0 0&amp;#34;&lt;/span> &amp;gt;&amp;gt; /etc/fstab
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;em>PS&lt;/em>: &lt;code>_netdev&lt;/code>指的是，这个分区位于网络上，所以得等待网络启动完成后才会挂载该设备&lt;/p>
+&lt;p>8.Done&lt;/p>
+&lt;p>这样重启系统就可以自动挂载分区，使用跟本地磁盘一样。&lt;/p></description></item></channel></rss>

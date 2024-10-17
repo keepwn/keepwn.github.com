@@ -1,233 +1,213 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>Rancher on KeePwn&#39;s Notes</title>
-        <link>/tags/rancher/</link>
-        <description>Recent content in Rancher on KeePwn&#39;s Notes</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 16 Oct 2024 15:23:48 +0000</lastBuildDate><atom:link href="/tags/rancher/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>构建适合程序员的私有云</title>
-        <link>/posts/build-home-cloud-center-for-it/</link>
-        <pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate>
-        
-        <guid>/posts/build-home-cloud-center-for-it/</guid>
-        <description>&lt;img src="/images/banner-build-home-cloud-center-for-IT.png" alt="Featured image of post 构建适合程序员的私有云" /&gt;&lt;h2 id=&#34;前言&#34;&gt;前言
-&lt;/h2&gt;&lt;p&gt;如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。&lt;/p&gt;
-&lt;p&gt;作为一个半吊子的码农，这显然不能满足我的需求。&lt;/p&gt;
-&lt;p&gt;所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;核心内容&#34;&gt;核心内容
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;数据中心，提供数据存储服务&lt;/li&gt;
-&lt;li&gt;家庭服务中心，提供常见的NAS服务&lt;/li&gt;
-&lt;li&gt;工作服务中心，提供工作上所需服务&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;准备工作&#34;&gt;准备工作
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;准备一台家用服务器（我个人用的是Gen8 1230v2 16G）
-&lt;ul&gt;
-&lt;li&gt;CPU需要支持VT-D和VT-X&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;准备1块SSD和至少2块以上的机械硬盘&lt;/li&gt;
-&lt;li&gt;准备一张HBA卡（IT模式的D2607-A11阵列卡）&lt;/li&gt;
-&lt;li&gt;安装ESXI6系统
-&lt;ul&gt;
-&lt;li&gt;系统建议单独安装在U盘/SD卡上&lt;/li&gt;
-&lt;li&gt;SSD连接在主板SATA接口上，机械硬盘连接在HBA卡上&lt;/li&gt;
-&lt;li&gt;将HBA卡配置为直通模式&lt;/li&gt;
-&lt;li&gt;将SSD挂载到ESXI中，新建存储为&lt;code&gt;SSD_DataStore&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;admonition question&#34;&gt;
-    &lt;div class=&#34;details-summary admonition-title&#34;&gt;
-        &lt;i class=&#39;icon fas fa-question-circle fa-fw&#39;&gt;&lt;/i&gt;
-        
-            Question
-        
-    &lt;/div&gt;
-    &lt;div class=&#34;details-content&#34;&gt;
-        &lt;div class=&#34;admonition-content&#34;&gt;
-            &lt;p&gt;Q: 为什么选用ESXI而不是Hyper-V?
-A: 如果只是用来搭建NAS服务，两者区别不大。但目前的这套方案，使用ESXI更为合适。&lt;/p&gt;
-&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;数据中心&#34;&gt;数据中心
-&lt;/h2&gt;&lt;p&gt;数据中心，主要提供数据存储服务，这里有两个数据中心：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;被ESXI管理的SSD
-&lt;ul&gt;
-&lt;li&gt;用于存储&lt;code&gt;提供基础服务的虚拟机的文件&lt;/code&gt;和&lt;code&gt;交换文件&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;被FreeNAS管理的机械硬盘
-&lt;ul&gt;
-&lt;li&gt;主要提供NFS、CIFS、AFP这3种形式的数据服务&lt;/li&gt;
-&lt;li&gt;为ESXI提供部分存储空间，用于存储&lt;code&gt;使用频率较低的虚拟机的文件&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;freenas安装与配置&#34;&gt;FreeNAS安装与配置
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;创建FreeNAS虚拟机
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;创建ZFS卷
-&lt;ul&gt;
-&lt;li&gt;2个以上的机械硬盘&lt;/li&gt;
-&lt;li&gt;存储池类型为Mirror或RAIDZ&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;创建多个数据集
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;/vms&lt;/code&gt;，提供给ESXI，开启NFS&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/media&lt;/code&gt;，用于家庭影音，开启NFS、CIFS共享&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/share&lt;/code&gt;，用于文件共享，开启NFS、CIFS共享&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;/tm&lt;/code&gt;，用于TimeMachine，开启AFP共享&lt;/li&gt;
-&lt;li&gt;等&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;将vms挂载到ESXI中，新建存储为&lt;code&gt;VMS_DataStore&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;FreeNAS的数据，一定要做好手动备份，毕竟号称有五重备份的GitLab也吃了大亏的:)&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&#34;服务集群中心&#34;&gt;服务集群中心
-&lt;/h2&gt;&lt;p&gt;服务集群中心，包括ESXI提供的虚拟机资源和Rancher提供的容器资源。&lt;/p&gt;
-&lt;h3 id=&#34;rancher集群安装与配置&#34;&gt;Rancher集群安装与配置
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;创建3台虚拟机（RancherOS、CoreOS、Ubuntu等系统任选）
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;分别命名为master、node1和node2&lt;/li&gt;
-&lt;li&gt;分别安装docker&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;部署Rancher集群
-&lt;ul&gt;
-&lt;li&gt;在master主机上部署Rancher-Server&lt;/li&gt;
-&lt;li&gt;在master主机上部署Rancher-Agent，将master添加到server&lt;/li&gt;
-&lt;li&gt;在node1、node2主机上部署Rancher-Agent，将node1和node2添加到server&lt;/li&gt;
-&lt;li&gt;合理分配3个主机上的容器的部署&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;配置Rancher数据源
-&lt;ul&gt;
-&lt;li&gt;在数据中心创建&lt;code&gt;/rancher&lt;/code&gt;数据集&lt;/li&gt;
-&lt;li&gt;部署Rancher-NFS&lt;/li&gt;
-&lt;li&gt;使用Rancher-NFS服务，容器可实现数据持久化&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&#34;基础建设服务&#34;&gt;基础建设服务
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;智能家庭服务
-&lt;ul&gt;
-&lt;li&gt;Home-Assistant和Homebridge&lt;/li&gt;
-&lt;li&gt;容器方式部署&lt;/li&gt;
-&lt;li&gt;实现用网页端和IOS端对家里的服务或设备进行管理&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;透明代理服务
-&lt;ul&gt;
-&lt;li&gt;openwrt虚拟机，&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;具体部署方法在本站中搜索&lt;/li&gt;
-&lt;li&gt;设置主机的网关为openwrt地址，即可实现透明代理&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;公网映射服务
-&lt;ul&gt;
-&lt;li&gt;容器方式部署，ngrok、n2n和frp任选&lt;/li&gt;
-&lt;li&gt;需要一台公网主机&lt;/li&gt;
-&lt;li&gt;实现将内网服务映射到公网，方便远程访问&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;证书签发服务
-&lt;ul&gt;
-&lt;li&gt;容器方式部署&lt;/li&gt;
-&lt;li&gt;内网使用自签发证书&lt;/li&gt;
-&lt;li&gt;公网使用Let&amp;rsquo;s Encrypt服务签发证书&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;对于使用ngrok和n2n，个人有一些心得，有时间另开篇介绍&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;家庭类服务&#34;&gt;家庭类服务
-&lt;/h3&gt;&lt;p&gt;一般包括同步、影音、网盘等服务，需要用到以下系统：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Plex Media Server / Emby Server
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;管理影音文件&lt;/li&gt;
-&lt;li&gt;多设备同时看电影、追美剧&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Resilio Sync
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;多个平台之间文件同步&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Xware
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;迅雷官方远程下载服务&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;DSM6（群晖）
-&lt;ul&gt;
-&lt;li&gt;虚拟机，&lt;strong&gt;[存储位置为SSD_DataStore]&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;和FreeNAS功能类似&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;本方案中，因为已经搭建了FreeNAS，DSM6的功能已经被大大地弱化了，可以不装&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Plex和Emby两个都是比较出名的家庭流媒应用，目前个人用Plex比较多&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;工作类服务&#34;&gt;工作类服务
-&lt;/h3&gt;&lt;p&gt;一般包括代码版本控制、记事本、测试环境等服务：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Leanote Server
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;开源的多平台云笔记&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Gogs Server
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;代码版本控制系统，和github类似&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;Drone
-&lt;ul&gt;
-&lt;li&gt;容器&lt;/li&gt;
-&lt;li&gt;持续构建系统，方便测试代码或部署环境&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;各类数据库
-&lt;ul&gt;
-&lt;li&gt;优先容器（MongoDB不宜搭建在容器中，会发生错误，暂未解决）&lt;/li&gt;
-&lt;li&gt;多种数据库统一存储，统一管理&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;进阶&#34;&gt;进阶
-&lt;/h2&gt;&lt;p&gt;由于各个服务之间联系不大，系统平台也比较多，管理起来实在不便。如果有开发能力的话，还是建议自己开发个系统来统一协调各个服务。比如使用微信端入口，对服务进行定期检查，消息通知，甚至是远程控制，未来还是很美好的:)&lt;/p&gt;
-&lt;h2 id=&#34;最后&#34;&gt;最后
-&lt;/h2&gt;&lt;p&gt;最后，这个方案其实还有很多的内容，本文只是列了一些提纲，具体在实际操作中必然会有很多问题，就拿Rancher来说，Rancher中容器如何配置、存储如何挂载就需要好好斟酌，当然这会有一个很长的试错过程。当然和去年相比，Rancher上的坑已经少了太多了，想当初把Rancher从v1.1一步步升到现在的1.5.x，中间经历了什么，想想都要哭了&lt;/p&gt;</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rancher on KeePwn's Notes</title><link>https://www.keepwn.com/tags/rancher/</link><description>Recent content in Rancher on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2024 15:21:05 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/rancher/index.xml" rel="self" type="application/rss+xml"/><item><title>构建适合程序员的私有云</title><link>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</link><pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</guid><description>&lt;img src="https://www.keepwn.com/images/banner-build-home-cloud-center-for-IT.png" alt="Featured image of post 构建适合程序员的私有云" />&lt;h2 id="前言">前言
+&lt;/h2>&lt;p>如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。&lt;/p>
+&lt;p>作为一个半吊子的码农，这显然不能满足我的需求。&lt;/p>
+&lt;p>所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。&lt;/p>
+&lt;blockquote>
+&lt;p>以下的方案不一定完全适合你，你可能需要根据自己的实际需求进行适当更改。&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="核心内容">核心内容
+&lt;/h2>&lt;ul>
+&lt;li>数据中心，提供数据存储服务&lt;/li>
+&lt;li>家庭服务中心，提供常见的NAS服务&lt;/li>
+&lt;li>工作服务中心，提供工作上所需服务&lt;/li>
+&lt;/ul>
+&lt;h2 id="准备工作">准备工作
+&lt;/h2>&lt;ul>
+&lt;li>准备一台家用服务器（我个人用的是Gen8 1230v2 16G）
+&lt;ul>
+&lt;li>CPU需要支持VT-D和VT-X&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>准备1块SSD和至少2块以上的机械硬盘&lt;/li>
+&lt;li>准备一张HBA卡（IT模式的D2607-A11阵列卡）&lt;/li>
+&lt;li>安装ESXI6系统
+&lt;ul>
+&lt;li>系统建议单独安装在U盘/SD卡上&lt;/li>
+&lt;li>SSD连接在主板SATA接口上，机械硬盘连接在HBA卡上&lt;/li>
+&lt;li>将HBA卡配置为直通模式&lt;/li>
+&lt;li>将SSD挂载到ESXI中，新建存储为&lt;code>SSD_DataStore&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;div class="admonition question">
+&lt;div class="details-summary admonition-title">
+&lt;i class='icon fas fa-question-circle fa-fw'>&lt;/i>
+Question
+&lt;/div>
+&lt;div class="details-content">
+&lt;div class="admonition-content">
+&lt;p>Q: 为什么选用ESXI而不是Hyper-V?
+A: 如果只是用来搭建NAS服务，两者区别不大。但目前的这套方案，使用ESXI更为合适。&lt;/p>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;h2 id="数据中心">数据中心
+&lt;/h2>&lt;p>数据中心，主要提供数据存储服务，这里有两个数据中心：&lt;/p>
+&lt;ul>
+&lt;li>被ESXI管理的SSD
+&lt;ul>
+&lt;li>用于存储&lt;code>提供基础服务的虚拟机的文件&lt;/code>和&lt;code>交换文件&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>被FreeNAS管理的机械硬盘
+&lt;ul>
+&lt;li>主要提供NFS、CIFS、AFP这3种形式的数据服务&lt;/li>
+&lt;li>为ESXI提供部分存储空间，用于存储&lt;code>使用频率较低的虚拟机的文件&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="freenas安装与配置">FreeNAS安装与配置
+&lt;/h3>&lt;ul>
+&lt;li>创建FreeNAS虚拟机
+&lt;ul>
+&lt;li>&lt;strong>[存储位置为SSD_DataStore]&lt;/strong>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>创建ZFS卷
+&lt;ul>
+&lt;li>2个以上的机械硬盘&lt;/li>
+&lt;li>存储池类型为Mirror或RAIDZ&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>创建多个数据集
+&lt;ul>
+&lt;li>&lt;code>/vms&lt;/code>，提供给ESXI，开启NFS&lt;/li>
+&lt;li>&lt;code>/media&lt;/code>，用于家庭影音，开启NFS、CIFS共享&lt;/li>
+&lt;li>&lt;code>/share&lt;/code>，用于文件共享，开启NFS、CIFS共享&lt;/li>
+&lt;li>&lt;code>/tm&lt;/code>，用于TimeMachine，开启AFP共享&lt;/li>
+&lt;li>等&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>将vms挂载到ESXI中，新建存储为&lt;code>VMS_DataStore&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>FreeNAS的数据，一定要做好手动备份，毕竟号称有五重备份的GitLab也吃了大亏的:)&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="服务集群中心">服务集群中心
+&lt;/h2>&lt;p>服务集群中心，包括ESXI提供的虚拟机资源和Rancher提供的容器资源。&lt;/p>
+&lt;h3 id="rancher集群安装与配置">Rancher集群安装与配置
+&lt;/h3>&lt;ul>
+&lt;li>创建3台虚拟机（RancherOS、CoreOS、Ubuntu等系统任选）
+&lt;ul>
+&lt;li>&lt;strong>[存储位置为SSD_DataStore]&lt;/strong>&lt;/li>
+&lt;li>分别命名为master、node1和node2&lt;/li>
+&lt;li>分别安装docker&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>部署Rancher集群
+&lt;ul>
+&lt;li>在master主机上部署Rancher-Server&lt;/li>
+&lt;li>在master主机上部署Rancher-Agent，将master添加到server&lt;/li>
+&lt;li>在node1、node2主机上部署Rancher-Agent，将node1和node2添加到server&lt;/li>
+&lt;li>合理分配3个主机上的容器的部署&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>配置Rancher数据源
+&lt;ul>
+&lt;li>在数据中心创建&lt;code>/rancher&lt;/code>数据集&lt;/li>
+&lt;li>部署Rancher-NFS&lt;/li>
+&lt;li>使用Rancher-NFS服务，容器可实现数据持久化&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="基础建设服务">基础建设服务
+&lt;/h3>&lt;ul>
+&lt;li>智能家庭服务
+&lt;ul>
+&lt;li>Home-Assistant和Homebridge&lt;/li>
+&lt;li>容器方式部署&lt;/li>
+&lt;li>实现用网页端和IOS端对家里的服务或设备进行管理&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>透明代理服务
+&lt;ul>
+&lt;li>openwrt虚拟机，&lt;strong>[存储位置为SSD_DataStore]&lt;/strong>&lt;/li>
+&lt;li>具体部署方法在本站中搜索&lt;/li>
+&lt;li>设置主机的网关为openwrt地址，即可实现透明代理&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>公网映射服务
+&lt;ul>
+&lt;li>容器方式部署，ngrok、n2n和frp任选&lt;/li>
+&lt;li>需要一台公网主机&lt;/li>
+&lt;li>实现将内网服务映射到公网，方便远程访问&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>证书签发服务
+&lt;ul>
+&lt;li>容器方式部署&lt;/li>
+&lt;li>内网使用自签发证书&lt;/li>
+&lt;li>公网使用Let&amp;rsquo;s Encrypt服务签发证书&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>对于使用ngrok和n2n，个人有一些心得，有时间另开篇介绍&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="家庭类服务">家庭类服务
+&lt;/h3>&lt;p>一般包括同步、影音、网盘等服务，需要用到以下系统：&lt;/p>
+&lt;ul>
+&lt;li>Plex Media Server / Emby Server
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>管理影音文件&lt;/li>
+&lt;li>多设备同时看电影、追美剧&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Resilio Sync
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>多个平台之间文件同步&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Xware
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>迅雷官方远程下载服务&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>DSM6（群晖）
+&lt;ul>
+&lt;li>虚拟机，&lt;strong>[存储位置为SSD_DataStore]&lt;/strong>&lt;/li>
+&lt;li>和FreeNAS功能类似&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;blockquote>
+&lt;p>本方案中，因为已经搭建了FreeNAS，DSM6的功能已经被大大地弱化了，可以不装&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>Plex和Emby两个都是比较出名的家庭流媒应用，目前个人用Plex比较多&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="工作类服务">工作类服务
+&lt;/h3>&lt;p>一般包括代码版本控制、记事本、测试环境等服务：&lt;/p>
+&lt;ul>
+&lt;li>Leanote Server
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>开源的多平台云笔记&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Gogs Server
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>代码版本控制系统，和github类似&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Drone
+&lt;ul>
+&lt;li>容器&lt;/li>
+&lt;li>持续构建系统，方便测试代码或部署环境&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>各类数据库
+&lt;ul>
+&lt;li>优先容器（MongoDB不宜搭建在容器中，会发生错误，暂未解决）&lt;/li>
+&lt;li>多种数据库统一存储，统一管理&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="进阶">进阶
+&lt;/h2>&lt;p>由于各个服务之间联系不大，系统平台也比较多，管理起来实在不便。如果有开发能力的话，还是建议自己开发个系统来统一协调各个服务。比如使用微信端入口，对服务进行定期检查，消息通知，甚至是远程控制，未来还是很美好的:)&lt;/p>
+&lt;h2 id="最后">最后
+&lt;/h2>&lt;p>最后，这个方案其实还有很多的内容，本文只是列了一些提纲，具体在实际操作中必然会有很多问题，就拿Rancher来说，Rancher中容器如何配置、存储如何挂载就需要好好斟酌，当然这会有一个很长的试错过程。当然和去年相比，Rancher上的坑已经少了太多了，想当初把Rancher从v1.1一步步升到现在的1.5.x，中间经历了什么，想想都要哭了&lt;/p></description></item></channel></rss>

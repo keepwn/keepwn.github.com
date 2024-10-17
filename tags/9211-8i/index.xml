@@ -1,186 +1,167 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-    <channel>
-        <title>9211-8i on KeePwn&#39;s Notes</title>
-        <link>/tags/9211-8i/</link>
-        <description>Recent content in 9211-8i on KeePwn&#39;s Notes</description>
-        <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
-        <lastBuildDate>Wed, 16 Oct 2024 15:44:40 +0000</lastBuildDate><atom:link href="/tags/9211-8i/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>富士通D2607-A11刷IT模式</title>
-        <link>/posts/crossflashing-the-fujitsu-d2607/</link>
-        <pubDate>Fri, 02 Dec 2016 00:00:00 +0000</pubDate>
-        
-        <guid>/posts/crossflashing-the-fujitsu-d2607/</guid>
-        <description>&lt;h2 id=&#34;准备工具&#34;&gt;准备工具
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;一张富士通D2607-A11阵列卡&lt;/li&gt;
-&lt;li&gt;一个U盘&lt;/li&gt;
-&lt;li&gt;一台PC机（支持UEFI启动）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;准备工作&#34;&gt;准备工作
-&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;制作DOS启动盘&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;将U盘格式化成FAT32，刷入dos系统&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;下载刷机工具包&lt;a class=&#34;link&#34; href=&#34;/downloads/LSI-9211-8i-IT-MODE-TOOLS.zip&#34; &gt;&lt;strong&gt;点击下载&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;拷贝刷机所需工具&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;megarec软件&lt;/li&gt;
-&lt;li&gt;sas2flash软件&lt;/li&gt;
-&lt;li&gt;9211-8i固件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;拷贝efi shell支持文件&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;在U盘根目录下，创建&lt;code&gt;\efi\boot&lt;/code&gt;目录&lt;/li&gt;
-&lt;li&gt;复制shell_v1.efi到&lt;code&gt;\efi\boot&lt;/code&gt;目录，重命名为&lt;code&gt;bootx64.efi&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- more --&gt;
-&lt;h2 id=&#34;开始刷固件&#34;&gt;开始刷固件
-&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;插上D2607-A11阵列卡&lt;/li&gt;
-&lt;li&gt;启动PC，选择U盘引导，进入DOS命令行&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;备份阵列卡信息&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;dir
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;megarec -readsbr 0 sbrbak.bin
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;使用&lt;code&gt;xdd&lt;/code&gt;查看sbrbak.bin的数据，在&lt;code&gt;000000d0&lt;/code&gt;行&lt;code&gt;500X XXXX XXXX XXXX&lt;/code&gt;为阵列卡的地址&lt;/li&gt;
-&lt;li&gt;强烈建议进行这个操作，尽管我当时忘了&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;刷入sbr&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;刷入fj版sbr
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;megarec -writesbr 0 sbrfj.bin
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;li&gt;清空flash
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;megarec -cleanflash 0
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;重启PC，选择UEFI版U盘引导，进入efi shell&lt;/li&gt;
-&lt;li&gt;刷固件&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;刷入9211 8i固件&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;cd fs0 # 或fs1
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;sas2hax.efi -o -f 2118it.bin
-&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;sas2hax.efi -o -b mptsas2.rom
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;这里使用的shell.efi版本为v1，如果遇到以下报错:&lt;code&gt;InitShellApp: Application not started from Shell&lt;/code&gt;，你可能需要更换shell.efi版本&lt;/li&gt;
-&lt;li&gt;这里使用修改后的sas2hax.efi，而不是原版程序sas2flash.efi（D2607-A11无法验证通过）&lt;/li&gt;
-&lt;li&gt;在刷入固件的时候，可能会失败，重启系统后尝试重新刷入固件&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;更新SAS Address&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sas2flash -o -sasadd 500* **** **** ****
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;SAS Address以500开头&lt;/li&gt;
-&lt;li&gt;如果不慎丢失SAS Address，以&lt;code&gt;5000 1122 3344&lt;/code&gt;代替&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;重启电脑，进入DOS命令行，重新刷入sbr&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;刷入fj版sbr
-&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
-&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class=&#34;lntd&#34;&gt;
-&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;gt;megarec -writesbr 0 sbrfj.bin
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;&lt;blockquote&gt;
-&lt;p&gt;必须重刷一次sbr，否则只能用阵列卡的一个端口了&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol&gt;
-&lt;li&gt;重启电脑就能在启动信息中看到新的设备信息&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;额外的&#34;&gt;额外的
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;一开始装在GEN8上来刷LSI固件，尝试了多种方式都刷不成功，所以在刷之前最好准备一台支持UEFI的主机。&lt;/li&gt;
-&lt;li&gt;看了错误的教程，导致SAS Address丢失，只能随便填了串地址。就目前来看，似乎不会影响到阵列卡的使用&lt;/li&gt;
-&lt;li&gt;二手的D2607-A11，成色不咋地，有个接口有点变形，现在觉得有点后悔。配的挡板太高，想装在GEN8上只能把它拆了。&lt;/li&gt;
-&lt;li&gt;原接在GEN8主板SAS接口上的线缆连接到D2607-A11的接口上，这样就可以实现sata5的SSD+直通4硬盘的方案了。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;参考&#34;&gt;参考
-&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://marcan.st/2016/05/crossflashing-the-fujitsu-d2607/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://marcan.st/2016/05/crossflashing-the-fujitsu-d2607/&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.broadcom.com/products/storage/host-bus-adapters/sas-9211-8i#downloads&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.broadcom.com/products/storage/host-bus-adapters/sas-9211-8i#downloads&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.chiphell.com/thread-1629960-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://www.chiphell.com/thread-1629960-1-1.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;http://koolshare.cn/thread-64959-1-1.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;http://koolshare.cn/thread-64959-1-1.html&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/tianocore/edk2&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;https://github.com/tianocore/edk2&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-        
-    </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>9211-8i on KeePwn's Notes</title><link>https://www.keepwn.com/tags/9211-8i/</link><description>Recent content in 9211-8i on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 16 Oct 2024 15:44:40 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/tags/9211-8i/index.xml" rel="self" type="application/rss+xml"/><item><title>富士通D2607-A11刷IT模式</title><link>https://www.keepwn.com/posts/crossflashing-the-fujitsu-d2607/</link><pubDate>Fri, 02 Dec 2016 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/crossflashing-the-fujitsu-d2607/</guid><description>&lt;h2 id="准备工具">准备工具
+&lt;/h2>&lt;ul>
+&lt;li>一张富士通D2607-A11阵列卡&lt;/li>
+&lt;li>一个U盘&lt;/li>
+&lt;li>一台PC机（支持UEFI启动）&lt;/li>
+&lt;/ul>
+&lt;h2 id="准备工作">准备工作
+&lt;/h2>&lt;ol>
+&lt;li>制作DOS启动盘&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>将U盘格式化成FAT32，刷入dos系统&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>下载刷机工具包&lt;a class="link" href="https://www.keepwn.com/downloads/LSI-9211-8i-IT-MODE-TOOLS.zip" >&lt;strong>点击下载&lt;/strong>&lt;/a>&lt;/li>
+&lt;li>拷贝刷机所需工具&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>megarec软件&lt;/li>
+&lt;li>sas2flash软件&lt;/li>
+&lt;li>9211-8i固件&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>拷贝efi shell支持文件&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>在U盘根目录下，创建&lt;code>\efi\boot&lt;/code>目录&lt;/li>
+&lt;li>复制shell_v1.efi到&lt;code>\efi\boot&lt;/code>目录，重命名为&lt;code>bootx64.efi&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;!-- more -->
+&lt;h2 id="开始刷固件">开始刷固件
+&lt;/h2>&lt;ol>
+&lt;li>插上D2607-A11阵列卡&lt;/li>
+&lt;li>启动PC，选择U盘引导，进入DOS命令行&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>备份阵列卡信息&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;gt;dir
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt;megarec -readsbr 0 sbrbak.bin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;ul>
+&lt;li>使用&lt;code>xdd&lt;/code>查看sbrbak.bin的数据，在&lt;code>000000d0&lt;/code>行&lt;code>500X XXXX XXXX XXXX&lt;/code>为阵列卡的地址&lt;/li>
+&lt;li>强烈建议进行这个操作，尽管我当时忘了&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>刷入sbr&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>刷入fj版sbr
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;gt;megarec -writesbr 0 sbrfj.bin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>清空flash
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;gt;megarec -cleanflash 0
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>重启PC，选择UEFI版U盘引导，进入efi shell&lt;/li>
+&lt;li>刷固件&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>刷入9211 8i固件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;gt;cd fs0 # 或fs1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt;sas2hax.efi -o -f 2118it.bin
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt;sas2hax.efi -o -b mptsas2.rom
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;ul>
+&lt;li>这里使用的shell.efi版本为v1，如果遇到以下报错:&lt;code>InitShellApp: Application not started from Shell&lt;/code>，你可能需要更换shell.efi版本&lt;/li>
+&lt;li>这里使用修改后的sas2hax.efi，而不是原版程序sas2flash.efi（D2607-A11无法验证通过）&lt;/li>
+&lt;li>在刷入固件的时候，可能会失败，重启系统后尝试重新刷入固件&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;li>
+&lt;p>更新SAS Address&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">sas2flash -o -sasadd 500* **** **** ****
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;ul>
+&lt;li>SAS Address以500开头&lt;/li>
+&lt;li>如果不慎丢失SAS Address，以&lt;code>5000 1122 3344&lt;/code>代替&lt;/li>
+&lt;/ul>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>重启电脑，进入DOS命令行，重新刷入sbr&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>刷入fj版sbr
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;gt;megarec -writesbr 0 sbrfj.bin
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;blockquote>
+&lt;p>必须重刷一次sbr，否则只能用阵列卡的一个端口了&lt;/p>
+&lt;/blockquote>
+&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>重启电脑就能在启动信息中看到新的设备信息&lt;/li>
+&lt;/ol>
+&lt;h2 id="额外的">额外的
+&lt;/h2>&lt;ul>
+&lt;li>一开始装在GEN8上来刷LSI固件，尝试了多种方式都刷不成功，所以在刷之前最好准备一台支持UEFI的主机。&lt;/li>
+&lt;li>看了错误的教程，导致SAS Address丢失，只能随便填了串地址。就目前来看，似乎不会影响到阵列卡的使用&lt;/li>
+&lt;li>二手的D2607-A11，成色不咋地，有个接口有点变形，现在觉得有点后悔。配的挡板太高，想装在GEN8上只能把它拆了。&lt;/li>
+&lt;li>原接在GEN8主板SAS接口上的线缆连接到D2607-A11的接口上，这样就可以实现sata5的SSD+直通4硬盘的方案了。&lt;/li>
+&lt;/ul>
+&lt;h2 id="参考">参考
+&lt;/h2>&lt;ul>
+&lt;li>&lt;a class="link" href="https://marcan.st/2016/05/crossflashing-the-fujitsu-d2607/" target="_blank" rel="noopener"
+>https://marcan.st/2016/05/crossflashing-the-fujitsu-d2607/&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.broadcom.com/products/storage/host-bus-adapters/sas-9211-8i#downloads" target="_blank" rel="noopener"
+>https://www.broadcom.com/products/storage/host-bus-adapters/sas-9211-8i#downloads&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://www.chiphell.com/thread-1629960-1-1.html" target="_blank" rel="noopener"
+>https://www.chiphell.com/thread-1629960-1-1.html&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="http://koolshare.cn/thread-64959-1-1.html" target="_blank" rel="noopener"
+>http://koolshare.cn/thread-64959-1-1.html&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://github.com/tianocore/edk2" target="_blank" rel="noopener"
+>https://github.com/tianocore/edk2&lt;/a>&lt;/li>
+&lt;/ul></description></item></channel></rss>
