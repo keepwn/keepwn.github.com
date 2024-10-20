@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KeePwn's Notes</title><link>https://www.keepwn.com/</link><description>Recent content on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2024 15:21:10 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Security-Onion-2分布式实践之安装篇</title><link>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</link><pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</guid><description>&lt;img src="https://www.keepwn.com/images/banner-security-onion-2-distributed-practice-install.png" alt="Featured image of post Security-Onion-2分布式实践之安装篇" />&lt;h2 id="前言">前言
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>KeePwn's Notes</title><link>https://www.keepwn.com/</link><description>Recent content on KeePwn's Notes</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 17 Oct 2024 15:21:10 +0000</lastBuildDate><atom:link href="https://www.keepwn.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Security-Onion-2分布式实践之安装篇</title><link>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</link><pubDate>Sat, 20 Mar 2021 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/</guid><description>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/banner-security-onion-2-distributed-practice-install.png" alt="Featured image of post Security-Onion-2分布式实践之安装篇" />&lt;h2 id="前言">前言
 &lt;/h2>&lt;blockquote>
 &lt;p>Security Onion （以下称安全洋葱）是一款免费且开源的，用于威胁发现、企业安全监视和日志管理的 Linux 发行版本。
 目前，安全洋葱已经迭代至 2.X，与 1.X 版本不同，2.X 版本基于容器开发，实现了将各个组件和服务容器化，更易于使用者部署和定制。&lt;/p>
@@ -62,84 +62,174 @@
 &lt;/tbody>
 &lt;/table>
 &lt;p>架构大致如下：&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-distributed.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-distributed.webp"
+width="1044"
+height="1614"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-distributed_hu6576850059616948034.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-distributed_hu1976766234695311345.webp 1024w"
 loading="lazy"
 alt="so-distributed.webp"
+class="gallery-image"
+data-flex-grow="64"
+data-flex-basis="155px"
 >&lt;/p>
 &lt;h2 id="开始安装">开始安装
 &lt;/h2>&lt;h3 id="security-manager">Security-manager
 &lt;/h3>&lt;p>1.从 ISO 引导启动，设置完用户名和密码，回车后开始安装系统，安装完成后重启系统。&lt;/p>
 &lt;p>2.登录系统，输入用户名和密码，准备开始配置。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-1.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-1.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-1_hu14390587108983593455.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-1_hu10893297322997206075.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-1.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>3.选择安装类型为distributed&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-2-choose-install-type.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-2-choose-install-type.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-2-choose-install-type_hu5306828141386879391.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-2-choose-install-type_hu494661194507058856.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-2-choose-install-type.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>4.选择节点类型为manager&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-3-choose-node-type.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-3-choose-node-type.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-3-choose-node-type_hu11932093124275125251.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-3-choose-node-type_hu13732377266401926852.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-3-choose-node-type.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>5.选择安装环境为standard，这里需要注意 security-manager 这台主机需要能够联网。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-4-choose-install-condition.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-4-choose-install-condition.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-4-choose-install-condition_hu13854446965272622170.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-4-choose-install-condition_hu8732304625510056493.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-4-choose-install-condition.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>6.设置主机名&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-5-set-hostname.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-5-set-hostname.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-5-set-hostname_hu10619629711317195912.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-5-set-hostname_hu11079445151185480539.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-5-set-hostname.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>7.设置管理口，并配置静态地址（这里建议不要选择DHCP分配地址，会影响服务/节点之间的通信）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-6-choose-nic.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-6-choose-nic.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-6-choose-nic_hu5562690374904795597.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-6-choose-nic_hu12882782101439332945.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-6-choose-nic.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-7-set-static-address.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-7-set-static-address.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-7-set-static-address_hu18428156856379322519.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-7-set-static-address_hu12772274479705204741.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-7-set-static-address.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>8.选择系统补丁计划（默认），设置家庭网络（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-8-choose-os-path-schedule.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-8-choose-os-path-schedule.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-8-choose-os-path-schedule_hu17141714027607038363.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-8-choose-os-path-schedule_hu9283583471694514167.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-8-choose-os-path-schedule.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-9-set-home-network.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-9-set-home-network.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-9-set-home-network_hu8903470710821548176.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-9-set-home-network_hu950587991707018994.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-9-set-home-network.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>9.选择安装类型为高级，进行功能定制化&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-10-choose-manager-type.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-10-choose-manager-type.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-10-choose-manager-type_hu16262970616476553352.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-10-choose-manager-type_hu10169883057716419583.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-10-choose-manager-type.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>10.设置 ES 集群名称（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-11-set-es-cluser-name.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-11-set-es-cluser-name.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-11-set-es-cluser-name_hu8906854852214240196.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-11-set-es-cluser-name_hu17219985813756852092.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-11-set-es-cluser-name.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>11.选择元信息分析引擎（zeek or suricata）。考虑到 zeek 可定制化更强些，所以我选择的是 zeek 处理 metadata，suricata 处理 nids-alerts。事实上，两种方式均可，官方这里有讨论//TODO。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-12-choose-gen-metadata.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-12-choose-gen-metadata.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-12-choose-gen-metadata_hu7497062085016350199.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-12-choose-gen-metadata_hu14354028374957021702.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-12-choose-gen-metadata.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>12.选择需要发送的日志类型。&lt;/p>
 &lt;blockquote>
 &lt;p>请注意，这指的是需要被发送到 manager 节点的日志类型，不是 zeek 要处理的协议（这需要额外进行配置）&lt;/p>
 &lt;/blockquote>
 &lt;p>建议按照实际监测需求和节点存储容量进行权衡。有选择恐惧症的可以先按默认的来，后面可以再修改的:)。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-13-choose-logs-to-send.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-13-choose-logs-to-send.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-13-choose-logs-to-send_hu2164056832258113590.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-13-choose-logs-to-send_hu15171834537596022030.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-13-choose-logs-to-send.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>13.选择 IDS 规则集（默认）。你也可以选择高级订阅版。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-14-choose-ids-ruleset.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-14-choose-ids-ruleset.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-14-choose-ids-ruleset_hu750362993418592353.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-14-choose-ids-ruleset_hu7583102186244898169.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-14-choose-ids-ruleset.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>14.选择安装的组件列表（默认）。按需选择。&lt;/p>
 &lt;ul>
@@ -174,39 +264,81 @@ alt="so-manager-setup-14-choose-ids-ruleset.webp"
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-15-choose-components.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-15-choose-components.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-15-choose-components_hu2866248112239674496.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-15-choose-components_hu5244775254003503429.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-15-choose-components.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>15.为其他组件设置邮箱和密码&lt;/p>
 &lt;p>16.选择 WEB 界面的访问方式。我选择的是IP，也可以改为域名方式。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-16-choose-web-access.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-16-choose-web-access.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-16-choose-web-access_hu17054406131082301163.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-16-choose-web-access_hu15563034051305105785.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-16-choose-web-access.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>17.选择下载系统更新包的方式。建议选择&lt;code>通过 manager 节点下载&lt;/code>。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-17-choose-update-os-by-manager-proxy.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-17-choose-update-os-by-manager-proxy.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-17-choose-update-os-by-manager-proxy_hu12062204521983833352.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-17-choose-update-os-by-manager-proxy_hu1710905679948521840.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-17-choose-update-os-by-manager-proxy.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>18.设置 soremote 密码，后面用于添加其他节点。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-18-set-soremote-passwd.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-18-set-soremote-passwd.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-18-set-soremote-passwd_hu5896052475393659182.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-18-set-soremote-passwd_hu12412953461297222914.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-18-set-soremote-passwd.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>19.设置允许访问WEB界面的网段。建议只添加安全运维段的主机IP, 不在该网段的主机将无法访问WEB界面。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-19-set-so-allow.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-19-set-so-allow.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-19-set-so-allow_hu12504633548029521822.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-19-set-so-allow_hu18439034408115858639.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-19-set-so-allow.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>20.确定应用配置，等待完成安装。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-20.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-20.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-20_hu15397744509127007432.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-20_hu2980776156373421314.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-20.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-manager-setup-21.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-21.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-21_hu1046067143667869191.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-manager-setup-21_hu14867628767178817620.webp 1024w"
 loading="lazy"
 alt="so-manager-setup-21.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>21.配置防火墙规则，允许其他节点访问管理节点的 Salt 服务 （&lt;strong>重要&lt;/strong>）&lt;/p>
 &lt;blockquote>
@@ -227,57 +359,123 @@ sosetup.log中的报错日志类似：&lt;code>[ERROR ] 'mine.send': False&lt;/c
 &lt;/h3>&lt;p>1.完成基础的系统安装后，我们开始配置流量分析节点。&lt;/p>
 &lt;p>2.选择安装类型为 distributed&lt;/p>
 &lt;p>3.选择节点类型为 sensor&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-1-choose-install-type.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-1-choose-install-type.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-1-choose-install-type_hu18168220290289458325.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-1-choose-install-type_hu15875981526559449929.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-1-choose-install-type.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>4.设置主机名&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-2-set-hostname.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-2-set-hostname.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-2-set-hostname_hu1507295894250270765.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-2-set-hostname_hu1089994697468210461.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-2-set-hostname.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>5.选择管理口，并配置静态地址&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-3-choose-nic.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-3-choose-nic.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-3-choose-nic_hu12638414849526083888.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-3-choose-nic_hu538267273903326911.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-3-choose-nic.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>6.设置 manager 节点，并输入 soremote 密码，与 manager 节点完成连接。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-4-set-manager-hostname.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-4-set-manager-hostname.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-4-set-manager-hostname_hu9343147533713538933.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-4-set-manager-hostname_hu821597276624350016.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-4-set-manager-hostname.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-5-set-manager-ip.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-5-set-manager-ip.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-5-set-manager-ip_hu1884367973293701652.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-5-set-manager-ip_hu9477655240291512126.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-5-set-manager-ip.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-6-connect-to-manager.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-6-connect-to-manager.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-6-connect-to-manager_hu11422398264986189644.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-6-connect-to-manager_hu8749012711788746818.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-6-connect-to-manager.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>7.选择镜像口&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-7-choose-monitor-nic.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-7-choose-monitor-nic.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-7-choose-monitor-nic_hu17071652250183493507.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-7-choose-monitor-nic_hu16804477849100612706.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-7-choose-monitor-nic.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-8.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-8.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-8_hu9966625120922519769.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-8_hu16336528140618531469.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-8.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>8.选择系统补丁计划（默认），选择下载系统更新包的方式为 manager。&lt;/p>
 &lt;p>9.选择安装类型为高级，进行功能定制化。&lt;/p>
 &lt;p>10.进行 CPU 绑定（Zeek、Suricata）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-9-bind-cpu-zeek.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-9-bind-cpu-zeek.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-9-bind-cpu-zeek_hu12476611116973468030.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-9-bind-cpu-zeek_hu5425572847279270129.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-9-bind-cpu-zeek.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-10-bind-cpu-surucata.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-10-bind-cpu-surucata.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-10-bind-cpu-surucata_hu5325855206791545811.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-10-bind-cpu-surucata_hu5538192477276228354.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-10-bind-cpu-surucata.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>11.配置镜像口MTU（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-sensor-setup-11-mtu.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-11-mtu.webp"
+width="1664"
+height="1080"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-11-mtu_hu12099124786816853803.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-sensor-setup-11-mtu_hu2866188916507268794.webp 1024w"
 loading="lazy"
 alt="so-sensor-setup-11-mtu.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>12.等待安装完成。&lt;/p>
 &lt;h3 id="security-search">Security-search
@@ -290,75 +488,147 @@ alt="so-sensor-setup-11-mtu.webp"
 &lt;p>7.选择系统补丁计划（默认），选择下载系统更新包的方式为 manager。&lt;/p>
 &lt;p>8.选择安装类型为高级，进行功能定制化。&lt;/p>
 &lt;p>9.配置 ES 堆大小（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-1-set-es-heap-size.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-1-set-es-heap-size.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-1-set-es-heap-size_hu4664832709182791843.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-1-set-es-heap-size_hu13536475056572640768.webp 1024w"
 loading="lazy"
 alt="so-search-setup-1-set-es-heap-size.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>10.配置 Logstash 堆大小（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-2-set-logstash-heap-size.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-2-set-logstash-heap-size.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-2-set-logstash-heap-size_hu9401208031723271236.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-2-set-logstash-heap-size_hu2329884309031287431.webp 1024w"
 loading="lazy"
 alt="so-search-setup-2-set-logstash-heap-size.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>11.配置 Logstash pipeline 线程（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-3-set-logstash-pipeline-workers.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-3-set-logstash-pipeline-workers.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-3-set-logstash-pipeline-workers_hu13919850926671085264.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-3-set-logstash-pipeline-workers_hu1583944832350249762.webp 1024w"
 loading="lazy"
 alt="so-search-setup-3-set-logstash-pipeline-workers.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>12.配置 logstash pipeline 批处理大小（默认）&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-4-set-logstash-pipeline-batch-size.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-4-set-logstash-pipeline-batch-size.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-4-set-logstash-pipeline-batch-size_hu7527669717333625377.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-4-set-logstash-pipeline-batch-size_hu5220457635045714033.webp 1024w"
 loading="lazy"
 alt="so-search-setup-4-set-logstash-pipeline-batch-size.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>13.配置 logstash input 线程数（默认），如果发现存在消息积压（redis），可以适当调整以上几个参数。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-5-set-logstash-input-num.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-5-set-logstash-input-num.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-5-set-logstash-input-num_hu3533707742632275187.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-5-set-logstash-input-num_hu13992322147373801287.webp 1024w"
 loading="lazy"
 alt="so-search-setup-5-set-logstash-input-num.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>14.配置 ES 索引关闭时间（默认为 30 天）。关闭索引不会删除数据，如果需要查询历史数据可以再单独开启。如果内存足够的话，可以设置为 90 天。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-6-set-days-of-indices-open.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-6-set-days-of-indices-open.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-6-set-days-of-indices-open_hu2127256772183101375.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-6-set-days-of-indices-open_hu11203332269863253847.webp 1024w"
 loading="lazy"
 alt="so-search-setup-6-set-days-of-indices-open.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>15.配置 ES 存储大小，我配置的是 1948（2T-100G），可以择优调整。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/so-search-setup-7-set-es-size.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-7-set-es-size.webp"
+width="832"
+height="540"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-7-set-es-size_hu15065690066237022144.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/so-search-setup-7-set-es-size_hu6722667189295368774.webp 1024w"
 loading="lazy"
 alt="so-search-setup-7-set-es-size.webp"
+class="gallery-image"
+data-flex-grow="154"
+data-flex-basis="369px"
 >&lt;/p>
 &lt;p>16.等待安装完成。&lt;/p>
 &lt;h2 id="功能验证">功能验证
 &lt;/h2>&lt;p>1.打开 https://10.10.0.1 安全洋葱控制台并登陆&lt;/p>
 &lt;p>2.点击 Grid 标签，查看网格状态，检查节点是否已经全部上线。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/soc-web-grid.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-grid.webp"
+width="1904"
+height="719"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-grid_hu13517050942076460227.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-grid_hu15599970276340096868.webp 1024w"
 loading="lazy"
 alt="soc-web-grid.webp"
+class="gallery-image"
+data-flex-grow="264"
+data-flex-basis="635px"
 >&lt;/p>
 &lt;p>在这里，大家可以看到节点列表中还出现了一个陌生的节点类型 securityonion-fleet，这个是其实是独立部署的 Fleet 服务，由于需要管理的 osquery 客户端较多，容易影响性能，所以就把它从管理节点拆分出来了。&lt;/p>
 &lt;p>3.点击 Alerts 标签，检查是否可以正常。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/soc-web-alert.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-alert.webp"
+width="1908"
+height="942"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-alert_hu1118600507770562864.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-alert_hu1640692422785295850.webp 1024w"
 loading="lazy"
 alt="soc-web-alert.webp"
+class="gallery-image"
+data-flex-grow="202"
+data-flex-basis="486px"
 >&lt;/p>
 &lt;p>4.点击 Hunt 标签，检查是否正常。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/soc-web-hunt.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-hunt.webp"
+width="1908"
+height="942"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-hunt_hu10686797372045258808.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-web-hunt_hu18100325482463080479.webp 1024w"
 loading="lazy"
 alt="soc-web-hunt.webp"
+class="gallery-image"
+data-flex-grow="202"
+data-flex-basis="486px"
 >&lt;/p>
 &lt;p>5.点击 Grafana 标签，检查各个主机节点是否正常。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/soc-grafana.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-grafana.webp"
+width="1908"
+height="942"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-grafana_hu12553169120606693109.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-grafana_hu5570027791764285114.webp 1024w"
 loading="lazy"
 alt="soc-grafana.webp"
+class="gallery-image"
+data-flex-grow="202"
+data-flex-basis="486px"
 >&lt;/p>
 &lt;p>6.点击 Kiabana 标签，检查 ES 服务是否正常。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/soc-kibana.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-kibana.webp"
+width="1908"
+height="942"
+srcset="https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-kibana_hu1522686010981892835.webp 480w, https://www.keepwn.com/posts/security-onion-2-distributed-practice-install/images/soc-kibana_hu14938963625343229712.webp 1024w"
 loading="lazy"
 alt="soc-kibana.webp"
+class="gallery-image"
+data-flex-grow="202"
+data-flex-basis="486px"
 >&lt;/p>
 &lt;p>好了，如果服务一切正常的话，你可以开始打工人生活了:)&lt;/p>
 &lt;h2 id="参考链接">参考链接
 &lt;/h2>&lt;ul>
 &lt;li>&lt;a class="link" href="https://docs.securityonion.net/en/2.3/about.html" target="_blank" rel="noopener"
 >https://docs.securityonion.net/en/2.3/about.html&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>构建适合程序员的私有云</title><link>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</link><pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</guid><description>&lt;img src="https://www.keepwn.com/images/banner-build-home-cloud-center-for-IT.png" alt="Featured image of post 构建适合程序员的私有云" />&lt;h2 id="前言">前言
+&lt;/ul></description></item><item><title>构建适合程序员的私有云</title><link>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</link><pubDate>Sun, 09 Apr 2017 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/posts/build-home-cloud-center-for-it/</guid><description>&lt;img src="https://www.keepwn.com/posts/build-home-cloud-center-for-it/banner-build-home-cloud-center-for-IT.png" alt="Featured image of post 构建适合程序员的私有云" />&lt;h2 id="前言">前言
 &lt;/h2>&lt;p>如今网络上有很多关于如何自建NAS、搭建家庭私有云的教程，但基本都止步于文件共享和多媒体服务。&lt;/p>
 &lt;p>作为一个半吊子的码农，这显然不能满足我的需求。&lt;/p>
 &lt;p>所以，结合着自己需求搞了一套自己的私有云方案，在各种大坑小坑中坚持了近大半年后，发现该方案极大的提高了自己的工作效率。&lt;/p>
@@ -1868,17 +2138,29 @@ Offset Bytes Description
 16 4 Offset of start of central directory, relative to start of archive
 &lt;/code>&lt;/pre>
 &lt;p>在了解了zip基本格式后，我对winrar压缩生成的zip文件和用windows生成的zip文件进行了分析，它们的区别是winrar的zip文件在Extra field区段都进行了一些数据填充。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/img-20241015173502.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1.webp"
+width="714"
+height="604"
+srcset="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1_hu11053324624669041730.webp 480w, https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1_hu5097817684241380601.webp 1024w"
 loading="lazy"
 alt="winrar压缩生成的zip文件和用windows生成的zip文件Hex对比"
+class="gallery-image"
+data-flex-grow="118"
+data-flex-basis="283px"
 >&lt;/p>
 &lt;p>由于不清楚Extra field这部分的值会不会影响到winrar的校验，所以根据不同情况做了几个测试，当filename2长度改变时，并且对受filename2长度影响的所有字段（除Extra field）进行修改后，文件可以正常打开。测试结果证明Extra field的值并不会影响winrar打开zip文件。&lt;/p>
 &lt;p>这样一来，只要按照zip的格式，更改和filename2有关的所有字段，就可以写出一个利用脚本了。&lt;/p>
 &lt;p>等等，该文章中同时提到了，这个漏洞存在有一个限制：解压。如果你是以右键解压打开这个压缩包的话，那么只会使用filename1，和filename2无关，也就不存在这个漏洞了。作者在文章最后提到了可以利用LRO解决这个限制，那应该如何结合利用RLO呢？&lt;/p>
 &lt;p>用WinHex对正常zip文件、使用了字符反转的zip文件进行分析：&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/img-20241015173502-1.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2.webp"
+width="712"
+height="607"
+srcset="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2_hu8145645190606483187.webp 480w, https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2_hu1128110296244762151.webp 1024w"
 loading="lazy"
 alt="正常zip文件、使用了字符反转的zip文件对比"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="281px"
 >&lt;/p>
 &lt;p>通过对比分析可以看到，当使用含有RLO文件名的文件进行压缩时，压缩的格式有点区别，继续做了几个测试，发现winrar在Extra field添加的信息，不会影响到漏洞的利用。&lt;/p>
 &lt;p>据此可以将这两个漏洞完美的结合在一起，写成一个利用脚本。&lt;/p>
@@ -2681,9 +2963,15 @@ alt="正常zip文件、使用了字符反转的zip文件对比"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nike@NIKE-PC:~/Desktop$ mono FormsTest.exe
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>&lt;img src="https://www.keepwn.com/images/mono-in-ubuntu-formtest.webp#center"
+&lt;/div>&lt;p>&lt;img src="https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest.webp"
+width="390"
+height="174"
+srcset="https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest_hu3197234625243830370.webp 480w, https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest_hu11376906273572692455.webp 1024w"
 loading="lazy"
 alt="mono in ubuntu"
+class="gallery-image"
+data-flex-grow="224"
+data-flex-basis="537px"
 >&lt;/p>
 &lt;p>运行成功。&lt;/p></description></item><item><title>About</title><link>https://www.keepwn.com/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://www.keepwn.com/about/</guid><description>&lt;p>KEEPWN，从事网络安全方向，一个懂安全的码农、一个懂编程的白帽。&lt;/p>
 &lt;ul>

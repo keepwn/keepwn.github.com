@@ -1182,8 +1182,14 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">nike@NIKE-PC:~/Desktop$ mono FormsTest.exe
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>&lt;img src="https://www.keepwn.com/images/mono-in-ubuntu-formtest.webp#center"
+&lt;/div>&lt;p>&lt;img src="https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest.webp"
+width="390"
+height="174"
+srcset="https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest_hu3197234625243830370.webp 480w, https://www.keepwn.com/posts/ubuntu-installed-mono-environment-2/images/mono-in-ubuntu-formtest_hu11376906273572692455.webp 1024w"
 loading="lazy"
 alt="mono in ubuntu"
+class="gallery-image"
+data-flex-grow="224"
+data-flex-basis="537px"
 >&lt;/p>
 &lt;p>运行成功。&lt;/p></description></item></channel></rss>

@@ -38,17 +38,29 @@ Offset Bytes Description
 16 4 Offset of start of central directory, relative to start of archive
 &lt;/code>&lt;/pre>
 &lt;p>在了解了zip基本格式后，我对winrar压缩生成的zip文件和用windows生成的zip文件进行了分析，它们的区别是winrar的zip文件在Extra field区段都进行了一些数据填充。&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/img-20241015173502.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1.webp"
+width="714"
+height="604"
+srcset="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1_hu11053324624669041730.webp 480w, https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-1_hu5097817684241380601.webp 1024w"
 loading="lazy"
 alt="winrar压缩生成的zip文件和用windows生成的zip文件Hex对比"
+class="gallery-image"
+data-flex-grow="118"
+data-flex-basis="283px"
 >&lt;/p>
 &lt;p>由于不清楚Extra field这部分的值会不会影响到winrar的校验，所以根据不同情况做了几个测试，当filename2长度改变时，并且对受filename2长度影响的所有字段（除Extra field）进行修改后，文件可以正常打开。测试结果证明Extra field的值并不会影响winrar打开zip文件。&lt;/p>
 &lt;p>这样一来，只要按照zip的格式，更改和filename2有关的所有字段，就可以写出一个利用脚本了。&lt;/p>
 &lt;p>等等，该文章中同时提到了，这个漏洞存在有一个限制：解压。如果你是以右键解压打开这个压缩包的话，那么只会使用filename1，和filename2无关，也就不存在这个漏洞了。作者在文章最后提到了可以利用LRO解决这个限制，那应该如何结合利用RLO呢？&lt;/p>
 &lt;p>用WinHex对正常zip文件、使用了字符反转的zip文件进行分析：&lt;/p>
-&lt;p>&lt;img src="https://www.keepwn.com/images/img-20241015173502-1.webp"
+&lt;p>&lt;img src="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2.webp"
+width="712"
+height="607"
+srcset="https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2_hu8145645190606483187.webp 480w, https://www.keepwn.com/posts/file-spoofing-vulnerability-winrar4-x-scripting/images/2014-03-31-img-2_hu1128110296244762151.webp 1024w"
 loading="lazy"
 alt="正常zip文件、使用了字符反转的zip文件对比"
+class="gallery-image"
+data-flex-grow="117"
+data-flex-basis="281px"
 >&lt;/p>
 &lt;p>通过对比分析可以看到，当使用含有RLO文件名的文件进行压缩时，压缩的格式有点区别，继续做了几个测试，发现winrar在Extra field添加的信息，不会影响到漏洞的利用。&lt;/p>
 &lt;p>据此可以将这两个漏洞完美的结合在一起，写成一个利用脚本。&lt;/p>
